@@ -3,17 +3,17 @@
 class FooterView extends View {
 
     public function show() {
+        ob_start();
         ?>
 
-        <div style="padding-left: 5px; padding-right: 5px;">
-            <footer class="footer bg-base- text-base-content p-10" style="background-color: #4CB05C; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
-                <aside style="display: flex; align-items: center; gap: 20px;">
-                    <img src="/assets/png/Logo-footer.png" alt="Logo Ozero Footer" width="100" height="100">
-                    <img src="/assets/png/Ozero.png" alt="Logo Ozero Footer" width="100" height="100">
+        <div class="flex flex-row px-5 justify-center items-center">
+            <footer class="footer w-[95%] p-10 bg-primary shadow-lg shadow-black-950 text-base-content rounded-tl-[10px] rounded-tr-[10px] flex justify-between items-center font-supreme">
+                <aside class="flex items-center gap-5">
+                    <img src="/assets/png/Logo1.png" alt="Logo Ozero Footer" width="200" height="200">
                 </aside>
-                <nav style="display: flex; gap: 40px; align-items: center; justify-content: center; flex-grow: 1; text-align: center;">
-                    <a class="footer-link link link-hover">Contact</a>
-                    <a class="footer-link link link-hover">À propos</a>
+                <nav class="flex gap-10 items-center justify-center flex-grow text-center">
+                    <a class="footer-link link link-hover font-supreme font-semibold">Contact</a>
+                    <a class="footer-link link link-hover font-supreme font-semibold">À propos</a>
                 </nav>
             </footer>
         </div>
