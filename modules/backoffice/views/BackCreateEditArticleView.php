@@ -1,6 +1,7 @@
 <?php
 
-class BackCreateEditArticleView extends View {
+class BackCreateEditArticleView extends View
+{
     /**
      * @var ArticleEntity|null
      */
@@ -11,14 +12,18 @@ class BackCreateEditArticleView extends View {
      *
      * @param ArticleEntity|null $article Si un article est fourni, la vue sera en mode édition. Sinon, en mode création.
      */
-    public function __construct($article = null) {
+    public function __construct($article = null)
+    {
         $this->article = $article;
     }
 
-    public function show(): void {
+    public function show(): void
+    {
         $isEditing = $this->article !== null;
         ob_start();
-        ?>
+        var_dump($_SESSION);
+        var_dump($_COOKIE);
+?>
         <div class="container mx-auto p-4">
             <h1 class="text-2xl font-bold mb-4">
                 <?= $isEditing ? 'Modifier l\'article' : 'Créer un nouvel article' ?>
@@ -34,8 +39,8 @@ class BackCreateEditArticleView extends View {
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2" for="title">Titre</label>
                     <input type="text" name="title" id="title" class="input input-bordered w-full"
-                           value="<?= $isEditing ? htmlspecialchars($this->article->getTitle()) : '' ?>"
-                           required>
+                        value="<?= $isEditing ? htmlspecialchars($this->article->getTitle()) : '' ?>"
+                        required>
                 </div>
 
                 <!-- Type (Dropdown) -->
@@ -57,7 +62,7 @@ class BackCreateEditArticleView extends View {
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2" for="img">Image (URL)</label>
                     <input type="text" name="img" id="img" class="input input-bordered w-full"
-                           value="<?= $isEditing ? htmlspecialchars($this->article->getImg()) : '' ?>">
+                        value="<?= $isEditing ? htmlspecialchars($this->article->getImg()) : '' ?>">
                 </div>
 
                 <!-- Boutons d'action -->
@@ -73,13 +78,13 @@ class BackCreateEditArticleView extends View {
         <!-- Intégration de CKEditor 5 avec l'adaptateur d'upload d'image -->
         <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
 
-        <?php
+<?php
         $contentPage = ob_get_clean();
         (new BackOfficePageView(
-                $contentPage,
-                $isEditing ? "Modifier l'article" : "Créer un article",
-                "",
-                ['backoffice','createEditArticle']
+            $contentPage,
+            $isEditing ? "Modifier l'article" : "Créer un article",
+            "",
+            ['backoffice', 'createEditArticle']
         ))->show();
     }
 }

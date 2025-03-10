@@ -1,21 +1,27 @@
 <?php
 
-class ArticleController {
+class ArticleController
+{
     private $articleModel;
     private $article;
     private $articleId;
 
     public function __construct($articleId = null)
     {
+        // Toujours initialiser le modèle
+        $this->articleModel = new ArticleModel();
+
         if ($articleId) {
-            $this->articleModel = new ArticleModel();
             $this->article = $this->articleModel->getArticleById($articleId);
             $this->articleId = $articleId;
         }
     }
 
-    public function execute() {
-        $view = new ArticleView($this->article);
+    public function execute()
+    {
+        $articleModel = new ArticleModel();
+        $article = $articleModel->getArticleById($this->articleId);
+        $view = new ArticleView($article);
         $view->show();
     }
 
@@ -31,32 +37,46 @@ class ArticleController {
         $view->showDiy();
     }
 
-    public function create() {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            Utils::sendResponse('error', 'Méthode non autorisée');
-        }
+    public function create()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                Utils::sendResponse('error', 'Méthode non autorisée');
+                return;
+            }
 
-        if (!isset($_POST['title']) || !isset($_POST['content']) || !isset($_POST['author']) || !isset($_POST['type'])) {
-            Utils::sendResponse('error', 'Données invalides');
-        }
+            if (!isset($_POST['title']) || !isset($_POST['content']) || !isset($_POST['type'])) {
+                Utils::sendResponse('error', 'Données invalides');
+                return;
+            }
+            $jwtManager = new JWT();
+            $userId = $jwtManager->getUserIdFromJWT();
 
-        $article = new ArticleEntity();
-        $article->setTitle($_POST['title']);
-        $article->setContent($_POST['content']);
-        $article->setImg($_POST['img'] ?? null);
-        $article->setType($_POST['type'] ?? null);
+            if (!$jwtManager->getUserIdFromJWT()) {
+                Utils::sendResponse('error', 'Utilisateur non authentifié');
+                return;
+            };
+            $article = new ArticleEntity();
+            $article->setTitle($_POST['title']);
+            $article->setContent($_POST['content']);
+            $article->setImg($_POST['img'] ?? null);
+            $article->setType($_POST['type'] ?? null);
+            $article->setArticleDate(new DateTime());
+            $article->setAuthorId($jwtManager->getUserIdFromJWT());
 
-
-        if ($this->articleModel->addArticle($article)) {
-            Utils::sendResponse('success', 'Article créé avec succès', $article);
-            header('Location: /admin/articles');
-        } else {
-            Utils::sendResponse('error', "Erreur lors de la création de l'article");
-            header('Location: /admin/articles');
+            if ($this->articleModel->addArticle($article)) {
+                Utils::sendResponse('success', 'Article créé avec succès', $article);
+            } else {
+                Utils::sendResponse('error', "Erreur lors de la création de l'article");
+            }
+        } catch (Exception $e) {
+            error_log("Erreur dans ArticleController::create: " . $e->getMessage());
+            Utils::sendResponse('error', "Une erreur interne s'est produite");
         }
     }
 
-    public function update() {
+    public function update()
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             Utils::sendResponse('error', 'Méthode non autorisée');
         }
@@ -82,7 +102,8 @@ class ArticleController {
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
             Utils::sendResponse('error', 'Méthode non autorisée');
         }
@@ -107,7 +128,8 @@ class ArticleController {
      *
      * @return void
      */
-    public function uploadImage() {
+    public function uploadImage()
+    {
         // Vérifier que la méthode HTTP est POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             Utils::sendResponse('error', 'Méthode non autorisée');
