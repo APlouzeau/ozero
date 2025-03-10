@@ -1,10 +1,16 @@
 // Utils
 // Constants
 const API_ENDPOINTS = {
+  //PRODUCTS
   ADD_PRODUCT: '/admin/products/add',
   UPDATE_PRODUCT: '/admin/products/update',
   DELETE_PRODUCT: '/admin/products/delete',
-  DELETE_IMAGE: '/admin/products/deleteimage'
+  DELETE_IMAGE: '/admin/products/deleteimage',
+
+  //CATEGORY
+  ADD_CATEGORY: '/admin/categories/add',
+  UPDATE_CATEGORY: '/admin/categories/update',
+  DELETE_CATEGORY: '/admin/categories/delete',
 };
 
 // Utility functions

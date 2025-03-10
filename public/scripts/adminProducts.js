@@ -52,9 +52,11 @@ class ProductManager {
       description: button.getAttribute('data-description'),
       price: button.getAttribute('data-price'),
       stock: button.getAttribute('data-stock'),
-      images: button.getAttribute('data-images')
+      images: button.getAttribute('data-images'),
+      category: button.getAttribute('data-category')
     };
-
+    console.log(button.getAttribute('data-category'));
+    
     this.populateEditForm(productData);
   }
 
@@ -64,7 +66,8 @@ class ProductManager {
       'edit-product': productData.name,
       'edit-description': productData.description,
       'edit-price': productData.price,
-      'edit-stock': productData.stock
+      'edit-stock': productData.stock,
+      'edit-category': productData.category
     };
 
     Object.entries(formFields).forEach(([id, value]) => {

@@ -12,6 +12,11 @@ $router->addRoute('POST', '/admin/products/delete', 'ProductController#deletePro
 $router->addRoute('POST', '/admin/products/update', 'ProductController#updateProduct');
 $router->addRoute('POST', '/admin/products/deleteimage', 'ProductController#deleteImage');
 
+//Catégories
+$router->addRoute('POST', '/admin/categories/add', 'BackCategoryController#addCategory');
+$router->addRoute('POST', '/admin/categories/delete', 'BackCategoryController#deleteCategory');
+$router->addRoute('POST', '/admin/categories/update', 'BackCategoryController#updateCategory');
+
 // Utilisateurs
 $router->addRoute('POST', '/admin/users/add', 'UserController#addUser');
 $router->addRoute('POST', '/admin/users/update', 'BackUserEditProfileController#updateUserGeneralInfo');
