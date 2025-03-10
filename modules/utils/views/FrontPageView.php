@@ -21,7 +21,7 @@ class FrontPageView
         }
 ?>
         <!doctype html>
-        <html lang="fr">
+        <html lang="fr" class="font-supreme">
 
         <head>
             <meta charset="UTF-8">
@@ -31,16 +31,19 @@ class FrontPageView
             <?php foreach ($cssPaths as $cssPath): ?>
                 <link href="/<?= $cssPath ?>" rel="stylesheet" />
             <?php endforeach; ?>
-            <link rel="shortcut icon" href="/assets/yfavicon.ico" type="image/x-icon" />
+            <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+            <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+            <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
             <title><?= $this->title ?></title>
         </head>
-        <header>
-            <?= $navbar->show(); ?>
-        </header>
-
-        <body>
-            <main class="main">
-                <div class="postContainer">
+        
+        <body class="font-supreme bg-white">
+            <header>
+                <?= $navbar->show(); ?>
+            </header>
+            
+            <main class="main font-supreme bg-white">
+                <div class="postContainer font-supreme bg-white">
                     <?= $this->content; ?>
                 </div>
             </main>
@@ -48,10 +51,11 @@ class FrontPageView
             <?php foreach ($jsPaths as $jsPath): ?>
                 <script src="/<?= $jsPath ?>"></script>
             <?php endforeach; ?>
+            
+            <footer>
+                <?= $footer->show(); ?>
+            </footer>
         </body>
-        <footer>
-            <?= $footer->show(); ?>
-        </footer>
 
         </html>
 <?php

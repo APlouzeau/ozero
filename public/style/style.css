@@ -48,6 +48,12 @@ body {
     display: none;
 }
 
+.footer-link {
+    color: black;
+    text-decoration: underline;
+    padding: 0 15px;
+}
+
 @media (max-width: 767px) {
     #sidebarToggle {
         display: block;

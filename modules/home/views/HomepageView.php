@@ -2,135 +2,194 @@
 
 class HomepageView extends View
 {
-
     public function show()
     {
         ob_start();
 ?>
+        <div class="bg-white min-h-screen">
+            <!-- Section: Zéro déchet et Mode de vie -->
+            <div class="max-w-6xl mx-auto my-8 md:my-12 px-4">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Colonne 1: Le Zéro déchet -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg shadow-black-950 relative">
+                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 font-supreme">Le Zéro déchet, qu'est-ce que c'est ?</h2>
+                        <div class="flex">
+                            <div class="pr-4">
+                                <p class="text-sm md:text-base mb-4 font-supreme">
+                                    Le zéro déchet est une démarche visant à réduire la production de déchets pour protéger l'environnement. 
+                                    Elle repose sur la règle des 5R : refuser ce qui est inutile, 
+                                    réduire sa consommation, réutiliser au maximum, recycler correctement, et composter les déchets organiques.
+                                </p>
+                                <p class="text-sm md:text-base mb-4 font-supreme">
+                                    L'objectif est de limiter le gaspillage universel des ressources et de réduire la pollution. Cette démarche s'applique à des gestes simples comme acheter en vrac, utiliser des contenants réutilisables, etc.
+                                    C'est une approche progressive et accessible à tous.
+                                </p>
+                                <a href="#" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
+                            </div>
+                            <div class="absolute top-6 right-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
 
-        <!-- Hero Section -->
-        <div class="max-w-5xl mx-auto my-8 md:my-16 px-4 hero min-h-lg">
-            <div class="hero-content flex-col lg:flex-row">
-                <img
-                    src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp"
-                    class="max-w-sm rounded-lg shadow-2xl" />
-                <div>
-                    <h1 class="text-5xl font-bold">Box Office News!</h1>
-                    <p class="py-6">
-                        Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                        quasi. In deleniti eaque aut repudiandae et a id nisi.
-                    </p>
-                    <button class="btn btn-primary">Get Started</button>
+                    <!-- Colonne 2: Comment changer notre mode de vie -->
+                    <div class="bg-white p-6 rounded-lg shadow-lg shadow-black-950 relative">
+                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 font-supreme">Comment changer notre mode de vie ?</h2>
+                        <div class="flex">
+                            <div class="pr-4">
+                                <p class="text-sm md:text-base mb-4 font-supreme">
+                                    Le DIY ("Do It Yourself"), ou "faire soi-même", est une alternative écologique qui encourage la création plutôt que la consommation des objets du quotidien pour éviter la surconsommation et limiter les déchets.
+                                </p>
+                                <p class="text-sm md:text-base mb-4 font-supreme">
+                                    Cette démarche encourage une consommation plus responsable, tout en permettant de réaliser des économies significatives. En fabriquant nos propres produits, nous transformons des matériaux existants en ne recourant qu'à des recettes spécifiques de manière personnalisée.
+                                </p>
+                                <a href="#" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
+                            </div>
+                            <div class="absolute top-6 right-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 16v-4"></path>
+                                    <path d="M12 8h.01"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Notre catalogue -->
+            <div class="max-w-6xl mx-auto my-12 px-4">
+                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                    <div class="flex items-center">
+                        <span class="bg-primary text-white text-xs px-2 py-1 rounded mr-2 font-supreme">Achats éco-responsables</span>
+                        <h2 class="text-xl md:text-2xl font-semibold font-supreme">Notre catalogue</h2>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Produit 1 -->
+                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                    
+                    <!-- Produit 2 -->
+                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                    
+                    <!-- Produit 3 -->
+                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                    
+                    <!-- Produit 4 -->
+                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                    
+                    <!-- Produit 5 (visible uniquement sur desktop) -->
+                    <div class="hidden lg:block bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                    
+                    <!-- Produit 6 (visible uniquement sur desktop) -->
+                    <div class="hidden lg:block bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Articles en promotions -->
+            <div class="max-w-6xl mx-auto my-12 px-4">
+                <h2 class="text-xl md:text-2xl font-semibold mb-6 text-center font-supreme">Articles en promotions</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Article 1 -->
+                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                    
+                    <!-- Article 2 -->
+                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                    
+                    <!-- Article 3 -->
+                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                    
+                    <!-- Article 4 -->
+                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                        <div class="h-40 bg-gray-200"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Et ça change quoi ? -->
+            <div class="max-w-6xl mx-auto my-12 px-4 pb-12">
+                <h2 class="text-xl md:text-2xl font-semibold mb-8 text-center text-primary font-supreme">Et ça change quoi ?</h2>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Statistique 1 -->
+                    <div class="flex flex-col items-center">
+                        <div class="mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-2xl md:text-3xl font-bold text-primary font-supreme">12 KgCO2</h3>
+                            <p class="text-sm md:text-base mt-2 font-supreme">Ce sont les émissions de gaz à effet de serre évitées en adoptant une démarche zéro déchets</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistique 2 -->
+                    <div class="flex flex-col items-center">
+                        <div class="mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-2xl md:text-3xl font-bold text-primary font-supreme">142 Kg</h3>
+                            <p class="text-sm md:text-base mt-2 font-supreme">Quantité de déchets de nos produits</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistique 3 -->
+                    <div class="flex flex-col items-center">
+                        <div class="mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                                <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"></path>
+                                <path d="M12 7v8"></path>
+                                <path d="M8 9l4-2 4 2"></path>
+                                <path d="M8 17l4 2 4-2"></path>
+                                <path d="M8 13h8"></path>
+                            </svg>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-2xl md:text-3xl font-bold text-primary font-supreme">110</h3>
+                            <p class="text-sm md:text-base mt-2 font-supreme">C'est le nombre de bouteilles d'eau consommées chaque année en France, dont seulement 10% sont recyclées. Grâce à nous, c'est 110 de moins cette année</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button class="btn bg-primary hover:bg-primary/80 text-white font-supreme font-semibold">Voir plus de chiffres</button>
                 </div>
             </div>
         </div>
-
-        <!-- Section : Nos Produits -->
-        <div class="max-w-5xl mx-auto my-8 md:my-16 px-4">
-            <h2 class="text-4xl font-bold text-center mb-8">Nos Produits</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Produit 1 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?furniture" alt="Produit 1" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Produit 1</h3>
-                        <p class="text-gray-600">Description rapide du produit.</p>
-                        <button class="btn btn-primary">Voir plus</button>
-                    </div>
-                </div>
-                <!-- Produit 2 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?chair" alt="Produit 2" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Produit 2</h3>
-                        <p class="text-gray-600">Description rapide du produit.</p>
-                        <button class="btn btn-primary">Voir plus</button>
-                    </div>
-                </div>
-                <!-- Produit 3 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?table" alt="Produit 3" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Produit 3</h3>
-                        <p class="text-gray-600">Description rapide du produit.</p>
-                        <button class="btn btn-primary">Voir plus</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section : Pourquoi acheter chez nous -->
-        <div class="max-w-5xl mx-auto my-8 md:my-16 px-4">
-            <h2 class="text-4xl font-bold text-center mb-8">Why shop from us ?</h2>
-            <p class="text-center text-gray-600 mb-8">
-                At our furniture emporium, we offer an unrivaled blend of quality, style, and
-                convenience, making us the ultimate destination for your home furnishing needs.
-            </p>
-
-            <div class="grid md:grid-cols-4 gap-6">
-                <!-- Card 1 -->
-                <div class="card border p-6 shadow-md">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="rounded-full bg-purple-100 p-3">
-                            <span class="text-purple-500 text-2xl">⚡</span>
-                        </div>
-                    </div>
-                    <h3 class="text-lg font-semibold text-center">Premium Quality Furniture</h3>
-                    <p class="text-gray-600 text-center text-sm">
-                        Indulge in the luxury of premium quality furniture that transforms your
-                        living spaces into havens of comfort and style.
-                    </p>
-                    <a href="#" class="text-purple-500 font-bold text-center block mt-4">Learn more</a>
-                </div>
-                <!-- Card 2 -->
-                <div class="card border p-6 shadow-md">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="rounded-full bg-purple-100 p-3">
-                            <span class="text-purple-500 text-2xl">⚡</span>
-                        </div>
-                    </div>
-                    <h3 class="text-lg font-semibold text-center">Hassle-Free Shopping Experience</h3>
-                    <p class="text-gray-600 text-center text-sm">
-                        Enjoy a hassle-free shopping experience that puts you at the center of convenience.
-                    </p>
-                    <a href="#" class="text-purple-500 font-bold text-center block mt-4">Learn more</a>
-                </div>
-                <!-- Card 3 -->
-                <div class="card border p-6 shadow-md">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="rounded-full bg-purple-100 p-3">
-                            <span class="text-purple-500 text-2xl">⚡</span>
-                        </div>
-                    </div>
-                    <h3 class="text-lg font-semibold text-center">Affordable Best Prices</h3>
-                    <p class="text-gray-600 text-center text-sm">
-                        Discover affordability without compromise when you shop with us.
-                    </p>
-                    <a href="#" class="text-purple-500 font-bold text-center block mt-4">Learn more</a>
-                </div>
-                <!-- Card 4 -->
-                <div class="card border p-6 shadow-md">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="rounded-full bg-purple-100 p-3">
-                            <span class="text-purple-500 text-2xl">⚡</span>
-                        </div>
-                    </div>
-                    <h3 class="text-lg font-semibold text-center">Personalized Customer Support</h3>
-                    <p class="text-gray-600 text-center text-sm">
-                        Experience the difference of personalized customer support when you choose us.
-                    </p>
-                    <a href="#" class="text-purple-500 font-bold text-center block mt-4">Learn more</a>
-                </div>
-            </div>
-        </div>
-
-
 
 <?php
         $contentPage = ob_get_clean();
