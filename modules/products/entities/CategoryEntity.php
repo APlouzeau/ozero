@@ -3,13 +3,13 @@
 class CategoryEntity {
     // Propriétés correspondant aux colonnes de la table `categories`
     private ?int $categoryId;
-    private ?string $name;
+    private string $name;
     private ?int $parentCategoryId;
 
     // Constructeur
     public function __construct(
         ?int $categoryId = null,
-        ?string $name = null,
+        string $name,
         ?int $parentCategoryId = null
     ) {
         $this->categoryId = $categoryId;

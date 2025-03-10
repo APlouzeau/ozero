@@ -25,6 +25,7 @@ class ProductController
             $price = (float)$_POST['price'];
             $stock = (int)$_POST['stock'];
             $imagePaths = [];
+            $categoryId = (int)$_POST['categoryId'] ?? null;
 
 
             // Gestion de l'upload des images multiples
@@ -40,15 +41,20 @@ class ProductController
             $productId = $this->productModel->addProduct($product, $description, $price, '', $stock);
 
             if ($productId) {
-                $stripeAddProduct = \Stripe\Price::create([
-                    'product' => $productId,
-                    'unit_amount' => $price, // Montant en centimes (2000 = 20.00 USD)
-                    'currency' => 'eur',
-                ]);
+                // $stripeAddProduct = \Stripe\Price::create([
+                //     'product' => $productId,
+                //     'unit_amount' => $price, // Montant en centimes (2000 = 20.00 USD)
+                //     'currency' => 'eur',
+                // ]);
+
                 // Enregistre les images dans la table des images
                 foreach ($imagePaths as $path) {
                     $this->productModel->addProductImages($productId, $path);
                 }
+
+                // Ajoute la catégorie associée au produit
+                $this->productModel->addProductCategory($productId, $categoryId);
+
                 Utils::sendResponse('success', 'Produit ajouté avec succès.');
             } else {
                 Utils::sendResponse('error', 'Erreur lors de l\'ajout du produit.');
@@ -96,6 +102,7 @@ class ProductController
             $description = $_POST['description'] ?? null;
             $price = isset($_POST['price']) ? (float)$_POST['price'] : null;
             $stock = isset($_POST['stock']) ? (int)$_POST['stock'] : null;
+            $categoryId = isset($_POST['categoryId']) ? (int)$_POST['categoryId'] : null;
 
             // Vérifier que l'ID et le nom du produit sont bien envoyés
             if (!$productId || !$product) {
@@ -114,6 +121,15 @@ class ProductController
             $updated = $this->productModel->updateProduct($productId, $product, $description, $price, null, $stock);
 
             if ($updated) {
+                // Update de la catégorie
+                // Vérif que le produit a déjà une catégorie associée, sinon ajout
+                $idCategory = $this->productModel->getIdCategoryByProduct($productId);
+                if($idCategory){
+                    $this->productModel->updateProductCategory($productId, $categoryId);
+                }else{
+                    $this->productModel->addProductCategory($productId, $categoryId);
+                }
+
                 // Gestion des images si une nouvelle est envoyée
                 if (!empty($_FILES['images']['name'][0])) {
                     $imagePaths = $this->handleMultipleImageUpload($_FILES['images']);
