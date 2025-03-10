@@ -67,22 +67,24 @@ class ArticleModel
      */
     public function addArticle(ArticleEntity $articleEntity): bool
     {
-        $session = new SessionController();
         $title = $articleEntity->getTitle();
         $articleDate = $articleEntity->getArticleDate()
             ? $articleEntity->getArticleDate()->format('Y-m-d')
-            : (new \DateTime())->format('Y-m-d');        $content = $articleEntity->getContent();
+            : (new \DateTime())->format('Y-m-d');
+        $content = $articleEntity->getContent();
         $img = $articleEntity->getImg();
-        $authorId = $articleEntity->getAuthorId() ?? $session->getUserId();
+        $type = $articleEntity->getType();
+        $authorId = $articleEntity->getAuthorId();
 
-        $stmt = $this->db->prepare("INSERT INTO articles (title, articleDate, content, img, authorId) 
-            VALUES (:title, :articleDate, :content, :img, :authorId)");
+        $stmt = $this->db->prepare("INSERT INTO articles (title, articleDate, content, type, img, authorId) 
+            VALUES (:title, :articleDate, :content, :type, :img, :authorId)");
 
         return $stmt->execute([
             ':title'       => $title,
             ':articleDate' => $articleDate,
             ':content'     => $content,
             ':img'         => $img,
+            ':type'        => $type,
             ':authorId'    => $authorId
         ]);
     }
@@ -139,7 +141,7 @@ class ArticleModel
      * @param array $data
      * @return ArticleEntity
      */
-        private function mapToEntity(array $data): ArticleEntity
+    private function mapToEntity(array $data): ArticleEntity
     {
         $articleEntity = new ArticleEntity();
 
@@ -158,6 +160,4 @@ class ArticleModel
 
         return $articleEntity;
     }
-
 }
-?>

@@ -1,11 +1,13 @@
 <?php
 
-class BackArticleController {
+class BackArticleController
+{
 
     private ?ArticleEntity $article;
     private int $articleId;
 
-    public function __construct($articleId = null) {
+    public function __construct($articleId = null)
+    {
         if ($articleId !== null) {
             $articleModel = new ArticleModel();
             $this->article = $articleModel->getArticleById($articleId);
@@ -18,7 +20,11 @@ class BackArticleController {
      *
      * @return void
      */
-    public function execute() {
+    public function execute()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $view = new BackArticleView();
         $view->show();
     }
@@ -28,9 +34,9 @@ class BackArticleController {
      *
      * @return void
      */
-    public function create() {
-        $view = new BackCreateEditArticleView($this->article);
+    public function create()
+    {
+        $view = new BackCreateEditArticleView();
         $view->show();
     }
 }
-?>
