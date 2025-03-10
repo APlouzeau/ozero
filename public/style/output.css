@@ -2696,6 +2696,14 @@ html {
   padding-right: 0.438rem;
 }
 
+.badge-md {
+  height: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding-left: 0.563rem;
+  padding-right: 0.563rem;
+}
+
 .btn-sm {
   height: 2rem;
   min-height: 2rem;
@@ -3042,6 +3050,10 @@ html {
   top: 1.5rem;
 }
 
+.-top-6 {
+  top: -1.5rem;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -3126,6 +3138,10 @@ html {
   margin-bottom: 0.25rem;
 }
 
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
 .block {
   display: block;
 }
@@ -3198,8 +3214,17 @@ html {
   height: 100vh;
 }
 
+<<<<<<< HEAD
 .h-16 {
   height: 4rem;
+=======
+.h-24 {
+  height: 6rem;
+}
+
+.h-32 {
+  height: 8rem;
+>>>>>>> 00cdf41 (Add page DIY)
 }
 
 .min-h-screen {
@@ -3262,14 +3287,30 @@ html {
   width: 100%;
 }
 
+<<<<<<< HEAD
 .w-1\/4 {
   width: 25%;
+=======
+.w-1\/3 {
+  width: 33.333333%;
+>>>>>>> 00cdf41 (Add page DIY)
 }
 
-.w-16 {
-  width: 4rem;
+.w-2\/3 {
+  width: 66.666667%;
 }
 
+<<<<<<< HEAD
+=======
+.w-1\/6 {
+  width: 16.666667%;
+}
+
+.w-4\/6 {
+  width: 66.666667%;
+}
+
+>>>>>>> 00cdf41 (Add page DIY)
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -3300,6 +3341,10 @@ html {
 
 .max-w-sm {
   max-width: 24rem;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
 }
 
 .flex-1 {
@@ -3421,6 +3466,12 @@ html {
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
+.space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .overflow-auto {
   overflow: auto;
 }
@@ -3531,6 +3582,16 @@ html {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
+.bg-\[\#ff00ff\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 0 255 / var(--tw-bg-opacity, 1));
+}
+
+.bg-gray-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
 }
 
 .fill-current {
@@ -3775,6 +3836,7 @@ html {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+<<<<<<< HEAD
 .shadow-xl {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
@@ -3791,10 +3853,38 @@ html {
   transition-property: box-shadow;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+=======
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-black {
+  --tw-shadow-color: #000;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.shadow-black\/50 {
+  --tw-shadow-color: rgb(0 0 0 / 0.5);
+  --tw-shadow: var(--tw-shadow-colored);
+>>>>>>> 00cdf41 (Add page DIY)
 }
 
 .transition-transform {
   transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.transition-shadow {
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
