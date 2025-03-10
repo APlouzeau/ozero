@@ -1,0 +1,52 @@
+/* Importation des polices personnalisées */
+@import url('/assets/fonts/custom-fonts.css');
+
+/* Force le fond blanc sur tous les éléments principaux */
+body, html, main, .postContainer {
+    background-color: white !important;
+}
+
+/* Définition de l'ombre pour les boîtes */
+.shadow-box {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    transition: box-shadow 0.3s ease-in-out !important;
+}
+
+.shadow-box:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Ajoute des ombres aux conteneurs principaux */
+.rounded-lg:not(.btn):not(button), 
+.card:not(.btn):not(button), 
+.bg-white:not(.btn):not(button):not(body):not(html):not(main) {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Évite d'appliquer l'ombre aux boutons */
+.btn, button, [type="button"], [type="submit"], [type="reset"] {
+    box-shadow: none !important;
+}
+
+/* Application de Supreme comme police par défaut pour tout le site */
+body {
+    @apply font-supreme;
+}
+
+/* Exemple d'utilisation avec Tailwind */
+/* Vous pouvez utiliser les classes font-chillax et font-supreme dans vos éléments HTML */
+/* Par exemple: 
+   <h1 class="font-chillax">Titre avec Chillax</h1>
+   <p class="font-supreme">Texte avec Supreme</p>
+*/
+
+/* Vous pouvez également définir des styles spécifiques pour certains éléments */
+h1, h2 {
+    @apply font-chillax;
+}
+
+h3, h4 {
+    @apply font-supreme;
+} 
