@@ -1,0 +1,21 @@
+/* Exemple d'importation de police personnalisée */
+@font-face {
+  font-family: 'Chillax';
+  src: url('/assets/fonts/Chillax-Regular.woff2') format('woff2'),
+       url('/assets/fonts/Chillax-Regular.woff') format('woff'),
+       url('/assets/fonts/Chillax-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Vous pouvez ajouter d'autres variantes de la police ici */
+@font-face {
+  font-family: 'Supreme';
+  src: url('/assets/fonts/Supreme-Regular.woff2') format('woff2'),
+       url('/assets/fonts/Supreme-Regular.woff') format('woff'),
+       url('/assets/fonts/Supreme-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} 
