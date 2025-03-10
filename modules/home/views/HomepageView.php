@@ -27,7 +27,7 @@ class HomepageView extends View
                                 <a href="#" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
                             </div>
                             <div class="absolute top-6 right-6">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
                                     <path d="M3 6h18"></path>
                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                     <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
@@ -52,7 +52,7 @@ class HomepageView extends View
                                 <a href="#" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
                             </div>
                             <div class="absolute top-6 right-6">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <path d="M12 16v-4"></path>
                                     <path d="M12 8h.01"></path>
@@ -140,7 +140,7 @@ class HomepageView extends View
                     <!-- Statistique 1 -->
                     <div class="flex flex-col items-center">
                         <div class="mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
                                 <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
                             </svg>
                         </div>
@@ -153,7 +153,7 @@ class HomepageView extends View
                     <!-- Statistique 2 -->
                     <div class="flex flex-col items-center">
                         <div class="mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
                                 <path d="M3 6h18"></path>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
                                 <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -170,7 +170,7 @@ class HomepageView extends View
                     <!-- Statistique 3 -->
                     <div class="flex flex-col items-center">
                         <div class="mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
                                 <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"></path>
                                 <path d="M12 7v8"></path>
                                 <path d="M8 9l4-2 4 2"></path>

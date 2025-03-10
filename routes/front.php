@@ -2,7 +2,7 @@
 
 // Front Office
 $router->addRoute('GET', '/',  'HomepageController#execute');
-$router->addRoute('GET', '/diy',  'ArticleController#showDiy');
+$router->addRoute('GET', '/diy',  'DiyController#index');
 $router->addRoute('GET', '/blog',  'ArticleController#showBlog');
 $router->addRoute('GET', '/articles/{id}',  'ArticleController#execute');
 $router->addRoute('GET', '/login',  'AuthController#showLoginForm', '');
