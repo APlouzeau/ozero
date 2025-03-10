@@ -32,22 +32,23 @@ class BasketView extends View
                                 <th>
                                     <label>
                                         <?= $cart['product'] ?>
-                                        <input type="hidden" name="product" value=<?= $cart['product'] ?>>
+                                        <input type="hidden" class="product" name="product" value="<?= $cart['product'] ?>">
+                                        <input type="hidden" class="productId" name="productId" value="<?= $cart['productId'] ?>">
                                     </label>
                                 </th>
                                 <th>
                                     <label>
                                         <?= $cart['price'] ?> €
-                                        <input type="hidden" name="price" value=<?= $cart['price'] ?>>
+                                        <input type="hidden" class="price" name="price" value="<?= $cart['price'] ?>">
                                     </label>
                                 </th>
                                 <th>
                                     <label>
                                         <div class="flex">
-                                            <img src="/assets/png/plus.png" width="20" height="15" alt="ajouter un produit">
-                                            <?= $cart['quantity'] ?>
-                                            <input type="hidden" name="quantity" value=<?= $cart['quantity'] ?>>
-                                            <img src="/assets/png/moins.png" width="20" height="15" alt="retirer un produit">
+                                            <img src="/assets/png/plus.png" width="20" height="15" alt="ajouter un produit" class="add-one">
+                                            <p class="quantityShow"><?= $cart['quantity'] ?></p>
+                                            <input type="hidden" class="quantity" name="quantity" value="<?= $cart['quantity'] ?>">
+                                            <img src="/assets/png/moins.png" width="20" height="15" alt="retirer un produit" class="remove-one">
                                         </div>
                                     </label>
                                 </th>
@@ -69,7 +70,7 @@ class BasketView extends View
         </div>
     <?php
         $contentPage = ob_get_clean();
-        (new FrontPageView($contentPage, 'Panier', "Votre panier", ['debug']))->show();
+        (new FrontPageView($contentPage, 'Panier', "Votre panier", ['debug', 'basket']))->show();
     }
 
     public function shipping($user, $addresse)
