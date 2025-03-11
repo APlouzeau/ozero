@@ -75,10 +75,11 @@ class HomepageView extends View
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     <!-- Produit 1 -->
                     <?php
-                    for ($i = 0; $i < $productNumber; $i++) { ?>
+                    for ($i = 0; $i < $productNumber; $i++) {
+                    ?>
                         <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950">
                             <a href="/produit/<?= $products[$i]->getProductId() ?>">
-                                <img src="<?= $products[$i]->getImages() ?>" alt="<?= $products[$i]->getProduct() ?>" class="object-cover w-full h-full">
+                                <img src="<?= $products[$i]->getImages()[0] ?>" alt="<?= $products[$i]->getProduct() ?>" class="object-cover w-full h-full">
                             </a>
                         </div>
                     <?php } ?>

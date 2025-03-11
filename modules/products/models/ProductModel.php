@@ -45,7 +45,6 @@ class ProductModel
 
         $products = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $productEntities = [];
-
         foreach ($products as $product) {
             $productEntities[] = $this->mapToEntity($product);
         }
