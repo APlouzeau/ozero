@@ -16,7 +16,7 @@ class BasketController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-
+        var_dump($_POST);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             for ($i = 0; $i < count($_POST['productId']); $i++) {
                 $productId = $_POST['productId'][$i];

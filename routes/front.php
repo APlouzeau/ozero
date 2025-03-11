@@ -34,4 +34,4 @@ $router->addRoute('GET', '/commandes', 'UserController#getOrders');
 $router->addRoute('GET', '/commandes/{purchaseId}', 'UserController#getOrderDetails', 'AuthMiddleware');
 
 //Products
-$router->addRoute('GET', '/produit/{id}',  'ProductController#productPage');
+$router->addRoute('GET', '/produit/{id}',  'ProductController#showProduct');
