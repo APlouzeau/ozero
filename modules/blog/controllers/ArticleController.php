@@ -1,5 +1,7 @@
 <?php
 
+use Stripe\Terminal\Location;
+
 class ArticleController
 {
     private $articleModel;
@@ -39,6 +41,7 @@ class ArticleController
         $view->showDiy($articles);
     }
 
+
     public function create()
     {
         try {
@@ -66,7 +69,13 @@ class ArticleController
             $article->setArticleDate(new DateTime());
             $article->setAuthorId($jwtManager->getUserIdFromJWT());
 
-            if ($this->articleModel->addArticle($article)) {
+            $articleId = $this->articleModel->addArticle($article);
+            if ($articleId) {
+                // Association des produits à l'article
+                if (isset($_POST['selectedProducts'])) {
+                    $productIds = json_decode($_POST['selectedProducts'],true);
+                    $this->articleModel->associateProductsToArticle($articleId, $productIds);
+                }
                 Utils::sendResponse('success', 'Article créé avec succès', $article);
             } else {
                 Utils::sendResponse('error', "Erreur lors de la création de l'article");

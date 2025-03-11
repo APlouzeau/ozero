@@ -39,4 +39,15 @@ class BackArticleController
         $view = new BackCreateEditArticleView();
         $view->show();
     }
+
+    /**
+     * Affiche la vue de modification d'un article
+     * 
+     * @return void
+     */
+    public function edit()
+    {
+        $view = new BackCreateEditArticleView($this->article);
+        $view->show();
+    }
 }

@@ -27,6 +27,43 @@ class ProductController
         $productView->show($product);
     }
 
+    /**
+     * Endpoint pour récupérer tous les produits
+     * GET /products/search
+     * @return ProductsEntity[]
+     */
+    public function getAllProducts()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+                Utils::sendResponse('error', 'Méthode non autorisée');
+                return;
+            }
+            $products = $this->productModel->getAllProducts();
+            if (!$products) {
+                Utils::sendResponse('error', 'Aucun produit trouvé');
+                return;
+            }
+            //Formatage pour JSON
+            $productsData = [];
+            foreach ($products as $product) {
+                $productsData[] = [
+                    'productId' => $product->getProductId(),
+                    'product' => $product->getProduct(),
+                    'description' => $product->getDescription(),
+                    'price' => $product->getPrice(),
+                    'stock' => $product->getStock(),
+                    'img' => $product->getFirstImage(),
+                ];
+            }
+            // Envoi de la réponse JSON
+            Utils::sendResponse('success', 'Produits récupérés avec succès', $productsData);
+        } catch (Exception $e) {
+            error_log("Erreur dans ProductController::getAllProducts: " . $e->getMessage());
+            Utils::sendResponse('error', "Une erreur interne s'est produite");
+        }
+    }
+
     public function addProduct()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
