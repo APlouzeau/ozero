@@ -130,7 +130,7 @@ CREATE TABLE articles (
    title VARCHAR(100) NOT NULL,
    articleDate DATE NOT NULL,
    content TEXT NOT NULL,
-   img VARCHAR(100),
+   img VARCHAR(350),
    authorId INT NOT NULL,
    FOREIGN KEY (authorId) REFERENCES users(userId) ON DELETE CASCADE
 );

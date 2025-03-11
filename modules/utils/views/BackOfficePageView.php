@@ -44,7 +44,7 @@ class BackOfficePageView
                     <nav class="space-y-2">
                         <a href="/admin/users" class="block p-3 rounded bg-gray-700 hover:bg-gray-600">👤 Utilisateurs</a>
                         <a href="/admin/products" class="block p-3 rounded bg-gray-700 hover:bg-gray-600">📦 Produits</a>
-                        <a href="/admin/articles" class="block p-3 rounded bg-gray-700 hover:bg-gray-600">Blog & Diy</a>
+                        <a href="/admin/articles" class="block p-3 rounded bg-gray-700 hover:bg-gray-600">Tutos DIY</a>
                         <a href="/admin/categories" class="block p-3 rounded bg-gray-700 hover:bg-gray-600">📂 Catégories</a>
                         <a href="/admin/commandes" class="block p-3 rounded bg-gray-700 hover:bg-gray-600">🛒 Commandes</a>
                         <a href="/admin/payments" class="block p-3 rounded bg-gray-700 hover:bg-gray-600">💳 Paiements</a>

@@ -11,6 +11,9 @@ const API_ENDPOINTS = {
   ADD_CATEGORY: '/admin/categories/add',
   UPDATE_CATEGORY: '/admin/categories/update',
   DELETE_CATEGORY: '/admin/categories/delete',
+
+  //ARTICLE
+  DELETE_ARTICLE: '/admin/articles/delete',
 };
 
 // Utility functions

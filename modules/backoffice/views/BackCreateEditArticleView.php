@@ -21,8 +21,6 @@ class BackCreateEditArticleView extends View
     {
         $isEditing = $this->article !== null;
         ob_start();
-        var_dump($_SESSION);
-        var_dump($_COOKIE);
 ?>
         <div class="container mx-auto p-4">
             <h1 class="text-2xl font-bold mb-4">
@@ -63,6 +61,21 @@ class BackCreateEditArticleView extends View
                     <label class="block text-gray-700 mb-2" for="img">Image (URL)</label>
                     <input type="text" name="img" id="img" class="input input-bordered w-full"
                         value="<?= $isEditing ? htmlspecialchars($this->article->getImg()) : '' ?>">
+                </div>
+
+                <!-- Produits associés -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="products">Produits associés</label>
+                        <div class="flex gap-2 mb-2">
+                            <input type="text" id="productSearch" list="productsList" class="input input-bordered" 
+                                   placeholder="Chercher un produit..." autocomplete="off">
+                            <datalist id="productsList">
+                            </datalist>
+                            <button type="button" id="addSelectedProduct" class="btn btn-sm btn-primary">Ajouter</button>
+                        </div>
+                        <div id="productContainer" class="flex gap-4 mt-2">
+                        </div>
+                    <button type="button" id="addProductBtn" class="btn btn-primary mt-2">✚ Ajouter un produit</button>
                 </div>
 
                 <!-- Boutons d'action -->
