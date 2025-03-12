@@ -3622,6 +3622,10 @@ html {
   padding: 0px;
 }
 
+.p-8 {
+  padding: 2rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -3678,6 +3682,10 @@ html {
   padding-top: 0.5rem;
 }
 
+.pt-0 {
+  padding-top: 0px;
+}
+
 .text-left {
   text-align: left;
 }
@@ -3732,6 +3740,11 @@ html {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .font-bold {
