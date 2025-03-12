@@ -8,9 +8,7 @@ class ArticleView
 
     public function __construct(?ArticleEntity $article = null, array $associatedProducts = [])
     {
-        if ($article) {
-            $this->article = $article;
-        }
+        $this->article = $article;
         $this->associatedProducts = $associatedProducts;
     }
 
