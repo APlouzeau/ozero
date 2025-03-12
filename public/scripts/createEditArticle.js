@@ -12,6 +12,7 @@ class ArticleCreateEditdManager {
         //   this.initializeImageDeleteHandlers();
         });
       }
+    
 
     async initializeProductsListButton() {
         const productsContainer = document.getElementById("productsContainer");
@@ -84,8 +85,6 @@ class ArticleCreateEditdManager {
                 products.push(product.value);
             });
             formData.append('selectedProducts', JSON.stringify(products));
-            console.log(formData);
-            console.log(products);
             // Effectuer la requête Ajax
             await fetch(form.action, {
                 method: "POST",

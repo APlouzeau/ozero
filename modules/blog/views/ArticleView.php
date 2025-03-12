@@ -4,10 +4,15 @@ class ArticleView
 {
 
     private ?ArticleEntity $article;
-    public function __construct(?ArticleEntity $article = null)
+    private ?array $associatedProducts;
+
+    public function __construct(?ArticleEntity $article = null, ?array $associatedProducts = null)
     {
         if ($article) {
             $this->article = $article;
+        }
+        if ($associatedProducts) {
+            $this->associatedProducts = $associatedProducts;
         }
     }
 
@@ -21,18 +26,47 @@ class ArticleView
 
         <div class="max-w-4xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg">
             <main class="container mx-auto p-6">
-                <div class="max-w-4xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg">
+                <div class="max-w-4xl mx-auto p-6 bg-base-100 rounded-lg">
                     <figure class="w-full h-64 overflow-hidden rounded-lg">
                         <img src="<?= htmlspecialchars($this->article->getImg()) ?>" alt="<?= htmlspecialchars($this->article->getTitle()) ?>" class="w-full h-full object-cover">
                     </figure>
+                    <!-- Contenu de l'article -->
                     <div class="mt-6">
+                        <!-- Titre -->
                         <h1 class="text-4xl font-bold"><?= htmlspecialchars($this->article->getTitle()) ?></h1>
                         <p class="text-gray-500 mt-2">
                             Par <span class="font-semibold"><?= htmlspecialchars($this->article->getAuthorName()) ?></span> - <?= $this->article->getArticleDate()->format('d M Y') ?>
                         </p>
+                        <!-- Contenu (description) -->
                         <div class="mt-4 text-lg leading-relaxed">
                             <?= nl2br($this->article->getContent()) ?>
                         </div>
+                        <!-- Produits liés à l'article -->
+                         <div class="mt-6">
+                            <h2 class="text-2xl font-bold mt-6">Produits associés</h2>
+                            <?php if(count($this->associatedProducts) !== 0): ?>
+                                <div class="grid md:grid-cols-3 gap-3 mt-4">
+                                    <?php 
+                                    foreach ($this->associatedProducts as $productId){
+                                        $productModel = new ProductModel();
+                                        $productEntity = $productModel->getProductById($productId);
+                                    ?>
+                                        <div class="card bg-base-100 shadow-lg p-2 items-center">
+                                            <!-- <figure> -->
+                                            <img src="<?= htmlspecialchars($productEntity->getFirstImage()) ?>" 
+                                            alt="<?= htmlspecialchars($productEntity->getProduct()) ?>" 
+                                            class="rounded-lg h-40 w-40 object-cover">
+                                            <!-- </figure> -->
+                                            <div class="card-body text-center p-2">
+                                                <h3 class="text-xl font-semibold"><?= htmlspecialchars($productEntity->getProduct()) ?></h3>
+                                                <p class="text-gray-600"><?= substr($productEntity->getDescription(), 0, 50) . '...' ?></p>
+                                                <a href="/produit/<?= $productEntity->getProductId() ?>" class="btn btn-primary m-4">Voir le produit</a>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            <?php endif; ?>
+                         </div>
                     </div>
                     <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
                         <button class="btn btn-primary">Partager</button>

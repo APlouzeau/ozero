@@ -7,6 +7,7 @@ class ArticleController
     private $articleModel;
     private $article;
     private $articleId;
+    private $associatedProducts;
 
     public function __construct($articleId = null)
     {
@@ -16,14 +17,16 @@ class ArticleController
         if ($articleId) {
             $this->article = $this->articleModel->getArticleById($articleId);
             $this->articleId = $articleId;
+            $this->associatedProducts = $this->articleModel->getAssociatedProductsId($articleId);
         }
     }
 
     public function execute()
     {
-        $articleModel = new ArticleModel();
-        $article = $articleModel->getArticleById($this->articleId);
-        $view = new ArticleView($article);
+        // $articleModel = new ArticleModel();
+        // $article = $articleModel->getArticleById($this->articleId);
+        // $associatedProducts = $this->articleModel->getAssociatedProductsId($this->articleId);
+        $view = new ArticleView($this->article, $this->associatedProducts);
         $view->show();
     }
 

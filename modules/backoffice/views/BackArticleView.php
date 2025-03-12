@@ -10,7 +10,7 @@ class BackArticleView extends View {
         ?>
         <!-- Contenu principal -->
         <div class="flex flex-col gap-4 justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold">Gestion des articles DIY</h1>
+            <h1 class="text-3xl font-bold">Gestion des articles</h1>
             <a href="/admin/articles/create" class="btn btn-primary gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -29,6 +29,7 @@ class BackArticleView extends View {
                     <th class="text-sm font-bold">Auteur</th>
                     <th class="text-sm font-bold">Date de publication</th>
                     <th class="text-sm font-bold">Statut</th>
+                    <th class="text-sm font-bold">Type</th>
                     <th class="text-sm font-bold">Actions</th>
                 </tr>
                 </thead>
@@ -46,6 +47,7 @@ class BackArticleView extends View {
                                 <span class="badge badge-warning">Brouillon</span>
                             <?php endif; ?>
                         </td>
+                        <td><?= htmlspecialchars($article->getType()) ?></td>
                         <td class="flex gap-2">
                             <a href="/admin/articles/edit/<?= $article->getArticleId() ?>" class="btn btn-sm btn-info">
                                 Modifier
