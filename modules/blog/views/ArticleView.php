@@ -8,12 +8,8 @@ class ArticleView
 
     public function __construct(?ArticleEntity $article = null, ?array $associatedProducts = null)
     {
-        if ($article) {
-            $this->article = $article;
-        }
-        if ($associatedProducts) {
-            $this->associatedProducts = $associatedProducts;
-        }
+        $this->article = $article;
+        $this->associatedProducts = $associatedProducts;
     }
 
     public function show()
