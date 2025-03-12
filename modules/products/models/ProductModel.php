@@ -158,7 +158,7 @@ class ProductModel
         $stmt->bindValue(':productId', $productId, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         return $result ? (int)$result['categoryId'] : null;
     }
 
@@ -306,5 +306,35 @@ class ProductModel
         $stmt->bindValue(':productId', $productId, PDO::PARAM_INT);
 
         return $stmt->execute();
+    }
+
+    /**  Récupère toutes les catégories liées à tous les produits liés à un article.*
+     * @param int $articleId
+     * @return array*/
+    public function getCategoriesByArticleId(int $articleId): array
+    {
+        $sql = "SELECT DISTINCT c.name 
+            FROM categories c
+            INNER JOIN productCategory pc ON c.categoryId = pc.categoryId
+            INNER JOIN products p ON pc.productId = p.productId
+            INNER JOIN productByArticle pa ON p.productId = pa.productId
+            WHERE pa.articleId = :articleId";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function filterProductsByCategory(): array
+    {
+        $sql = "SELECT * 
+                FROM products p
+                INNER JOIN productCategory pc ON p.productId = pc.productId";
+        $stmt = $this->db->query($sql);
+        $stmt->execute();
+        $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $data;
     }
 }

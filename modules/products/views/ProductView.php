@@ -37,7 +37,7 @@ class ProductView extends View
         (new FrontPageView($contentPage, 'Panier', "Votre panier", ['debug',]))->show();
     }
 
-    public function showCatalog($products, $categories)
+    public function showCatalog($products, $categories, $productsByCategorys)
     {
         ob_start(); ?>
 
@@ -81,12 +81,25 @@ class ProductView extends View
                 </div>
             </div>
 
+            <?php
+            $selectedCategory = isset($_GET['category']) ? $_GET['category'] : 'all';
+            $viewMode = isset($_GET['view']) ? $_GET['view'] : 'grid';
+
+            // Filtrer les produits par catégorie
+            $filteredProducts = array_filter($productsByCategorys, function ($product) use ($selectedCategory) {
+                var_dump($product['categoryId']);
+                return $selectedCategory === 'all' || $product['categoryId'] === $selectedCategory;
+            });
+            ?>
+
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl md:text-2xl font-semibold font-supreme">
-                    <?= $selectedCategory === 'all' ? 'Tous les Tutos' : $categories[$selectedCategory] ?>
+                    <?php 
+                    var_dump($categories);
+                    $selectedCategory === 'all' ? 'Tous les Produits' : $categories[$selectedCategory] ?>
                 </h2>
                 <div class="flex items-center">
-                    <span class="mr-2 font-supreme">Trier les Tutos :</span>
+                    <span class="mr-2 font-supreme">Trier les produits :</span>
                     <div class="flex space-x-2">
                         <a href="?category=<?= $selectedCategory ?>&view=grid" class="<?= (!isset($_GET['view']) || $_GET['view'] === 'grid') ? 'bg-gray-200' : '' ?> p-2 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
