@@ -181,13 +181,14 @@ class ArticleView
     public function showDiy($articles)
     {
 
-        //Catégories disponibles
         $categories = [
             'all' => 'Tous les Tutos',
             'jardin' => 'Jardin & Nature',
             'cosmetiques' => 'Cosmétiques Naturels',
             'entretien' => 'Maison & Entretien',
-            'energie' => 'Énergie & Upcycling'
+            'energie' => 'Énergie & Upcycling',
+            'alimentation' => 'Alimentation & Cuisine',
+            'mode' => 'Mode & Accessoires'
         ];
 
         ob_start();
@@ -220,12 +221,20 @@ class ArticleView
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
                     <?php foreach ($categories as $key => $category): ?>
                         <?php if ($key !== 'all'): ?>
                             <a href="?category=<?= $key ?>" class="bg-white p-4 rounded-lg shadow-box text-center hover:shadow-lg transition-shadow">
                                 <div class="h-32 bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
-                                    <!-- Placeholder pour l'image de catégorie -->
+                                    <?php 
+                                    // Utiliser les images correspondantes aux catégories
+                                    $imageName = $key;
+                                    // Correction pour "cosmetiques" car le fichier s'appelle "cosmetique.png"
+                                    if ($key === 'cosmetiques') {
+                                        $imageName = 'cosmetique';
+                                    }
+                                    ?>
+                                    <img src="/assets/png/<?= $imageName ?>.png" alt="<?= $category ?>" class="h-full object-contain p-2">
                                 </div>
                                 <h3 class="font-semibold font-supreme"><?= $category ?></h3>
                             </a>

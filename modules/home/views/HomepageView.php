@@ -24,7 +24,7 @@ class HomepageView extends View
                                     L'objectif est de limiter le gaspillage universel des ressources et de réduire la pollution. Cette démarche s'applique à des gestes simples comme acheter en vrac, utiliser des contenants réutilisables, etc.
                                     C'est une approche progressive et accessible à tous.
                                 </p>
-                                <a href="#" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
+                                <a href="/blog" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
                             </div>
                             <div class="absolute top-6 right-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
@@ -49,7 +49,7 @@ class HomepageView extends View
                                 <p class="text-sm md:text-base mb-4 font-supreme">
                                     Cette démarche encourage une consommation plus responsable, tout en permettant de réaliser des économies significatives. En fabriquant nos propres produits, nous transformons des matériaux existants en ne recourant qu'à des recettes spécifiques de manière personnalisée.
                                 </p>
-                                <a href="#" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
+                                <a href="/blog" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
                             </div>
                             <div class="absolute top-6 right-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
