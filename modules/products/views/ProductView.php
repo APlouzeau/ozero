@@ -16,6 +16,7 @@ class ProductView extends View
                         <p class="text-center"><?= $product->getDescription() ?></p>
                         <p class="text-center"><?= $product->getPrice() ?> €</p>
                         <p class="text-center"><?= $product->getStock() ?> en stock</p>
+
                         <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="w-80 h-80 mx-auto">
                         <div class="card-actions justify-center">
                             <form action="/panier/add" method="post">
