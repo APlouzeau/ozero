@@ -16,13 +16,14 @@ class BasketController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        var_dump($_POST);
+        $productsModel = new ProductModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             for ($i = 0; $i < count($_POST['productId']); $i++) {
                 $productId = $_POST['productId'][$i];
                 $product = $_POST['product'][$i];
                 $price = $_POST['price'][$i];
                 $quantity = $_POST['quantity'][$i];
+                $image = $productsModel->getProductById($productId);
                 if (isset($_SESSION['cart'][$productId])) {
                     $_SESSION['cart'][$productId]['quantity'] += $quantity;
                 } else {
@@ -30,7 +31,8 @@ class BasketController
                         'productId' => $productId,
                         'product' => $product,
                         'price' => $price,
-                        'quantity' => $quantity
+                        'quantity' => $quantity,
+                        'image' => $image->getImages()[0]
                     ];
                 }
             }
