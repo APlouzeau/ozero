@@ -8,12 +8,8 @@ class ArticleView
 
     public function __construct(?ArticleEntity $article = null, ?array $associatedProducts = null)
     {
-        if ($article) {
-            $this->article = $article;
-        }
-        if ($associatedProducts) {
-            $this->associatedProducts = $associatedProducts;
-        }
+        $this->article = $article;
+        $this->associatedProducts = $associatedProducts;
     }
 
     public function show()
@@ -39,7 +35,7 @@ class ArticleView
                         </p>
                         <!-- Contenu (description) -->
                         <div class="mt-4 text-lg leading-relaxed">
-                            <?= nl2br($this->article->getContent()) ?>
+                            <?= html_entity_decode($this->article->getContent()) ?>
                         </div>
                         <!-- Produits liés à l'article -->
                          <div class="mt-6">
@@ -77,10 +73,10 @@ class ArticleView
         </div>
     <?php
         $contentPage = ob_get_clean();
-        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog', 'écologie']))->show();
+        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog']))->show();
     }
 
-    public function showBlog()
+    public function showBlog($articleBlog)
     {
         ob_start();
     ?>
@@ -89,93 +85,34 @@ class ArticleView
         <div class="max-w-5xl mx-auto my-8 md:my-16 px-4 hero min-h-2xl">
             <div class="hero-content flex-col lg:flex-row">
                 <img
-                    src="https://source.unsplash.com/600x400/?blog,writing"
+                    src="https://plus.unsplash.com/premium_photo-1663952767504-12f8170f3835?q=80&w=3175&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     class="max-w-sm rounded-lg shadow-2xl" />
                 <div>
-                    <h1 class="text-5xl font-bold">Articles de Blog</h1>
+                    <h1 class="text-5xl font-bold">La démarche zéro déchets, qu'est ce que c'est ?</h1>
                     <p class="py-6">
-                        Explorez nos articles de blog pour découvrir des conseils, des astuces et des idées pour un mode de vie plus écologique.
+                        Explorez ce blog pour découvrir des conseils, des astuces et des idées pour un mode de vie plus écologique.
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- Section : Articles de Blog -->
+
+        <!-- Section : Article de Blog -->
         <div class="max-w-5xl mx-auto my-8 md:my-16 px-4">
-            <h2 class="text-4xl font-bold text-center mb-8">Derniers Articles</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Article 1 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?blog,eco" alt="Éco-conseils" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">10 Conseils pour un Mode de Vie Écologique</h3>
-                        <p class="text-gray-600">Découvrez des astuces simples pour réduire votre empreinte écologique au quotidien.</p>
-                        <button class="btn btn-primary">Lire plus</button>
-                    </div>
-                </div>
-                <!-- Article 2 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?blog,energy" alt="Énergie renouvelable" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Les Avantages des Énergies Renouvelables</h3>
-                        <p class="text-gray-600">Apprenez comment les énergies renouvelables peuvent transformer notre avenir.</p>
-                        <button class="btn btn-primary">Lire plus</button>
-                    </div>
-                </div>
-                <!-- Article 3 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?blog,garden" alt="Jardinage écologique" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Jardinage Écologique : Par où Commencer ?</h3>
-                        <p class="text-gray-600">Des conseils pour créer un jardin respectueux de l'environnement.</p>
-                        <button class="btn btn-primary">Lire plus</button>
-                    </div>
-                </div>
-                <!-- Article 4 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?blog,recycle" alt="Recyclage" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Le Guide Ultime du Recyclage</h3>
-                        <p class="text-gray-600">Tout ce que vous devez savoir pour recycler efficacement.</p>
-                        <button class="btn btn-primary">Lire plus</button>
-                    </div>
-                </div>
-                <!-- Article 5 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?blog,vegan" alt="Veganisme" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Pourquoi Adopter un Régime Végétalien ?</h3>
-                        <p class="text-gray-600">Les bienfaits du végétalisme pour la santé et la planète.</p>
-                        <button class="btn btn-primary">Lire plus</button>
-                    </div>
-                </div>
-                <!-- Article 6 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?blog,transport" alt="Transport écologique" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Les Transports Écologiques : Une Nécessité</h3>
-                        <p class="text-gray-600">Comment réduire votre impact environnemental grâce à des choix de transport plus verts.</p>
-                        <button class="btn btn-primary">Lire plus</button>
-                    </div>
+            <div class="p-8 pt-0 bg-base-100 shadow-xl rounded-lg">
+                <div class="">
+                    <h1 class="text-2xl font-bold"><?= htmlspecialchars($articleBlog->getTitle()) ?></h1>
+                    <img src="<?= htmlspecialchars($articleBlog->getImg()) ?>" alt="<?= htmlspecialchars($articleBlog->getTitle()) ?>" 
+                    class="w-full h-64 mt-6 mb-6 object-cover rounded-lg">
+                    <div id="blog-content"><?= htmlspecialchars_decode($articleBlog->getContent()) ?></div>
+
                 </div>
             </div>
         </div>
 
     <?php
         $contentPage = ob_get_clean();
-        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog', 'écologie']))->show();
+        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog']))->show();
     }
 
     public function showDiy($articles)
@@ -315,9 +252,6 @@ class ArticleView
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", []))->show();
     }
-
-
-
 }
 
 ?>
