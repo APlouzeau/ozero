@@ -7,9 +7,16 @@ class ArticleView
     private ?array $associatedProducts;
 
     public function __construct(?ArticleEntity $article = null, ?array $associatedProducts = null)
+    private ?array $associatedProducts;
+
+    public function __construct(?ArticleEntity $article = null, ?array $associatedProducts = null)
     {
-        $this->article = $article;
-        $this->associatedProducts = $associatedProducts;
+        if ($article) {
+            $this->article = $article;
+        }
+        if ($associatedProducts) {
+            $this->associatedProducts = $associatedProducts;
+        }
     }
 
     public function show()
@@ -23,19 +30,23 @@ class ArticleView
         <div class="max-w-4xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg">
             <main class="container mx-auto p-6">
                 <div class="max-w-4xl mx-auto p-6 bg-base-100 rounded-lg">
+                <div class="max-w-4xl mx-auto p-6 bg-base-100 rounded-lg">
                     <figure class="w-full h-64 overflow-hidden rounded-lg">
                         <img src="<?= htmlspecialchars($this->article->getImg()) ?>" alt="<?= htmlspecialchars($this->article->getTitle()) ?>" class="w-full h-full object-cover">
                     </figure>
                     <!-- Contenu de l'article -->
+                    <!-- Contenu de l'article -->
                     <div class="mt-6">
+                        <!-- Titre -->
                         <!-- Titre -->
                         <h1 class="text-4xl font-bold"><?= htmlspecialchars($this->article->getTitle()) ?></h1>
                         <p class="text-gray-500 mt-2">
                             Par <span class="font-semibold"><?= htmlspecialchars($this->article->getAuthorName()) ?></span> - <?= $this->article->getArticleDate()->format('d M Y') ?>
                         </p>
                         <!-- Contenu (description) -->
+                        <!-- Contenu (description) -->
                         <div class="mt-4 text-lg leading-relaxed">
-                            <?= html_entity_decode($this->article->getContent()) ?>
+                            <?= nl2br($this->article->getContent()) ?>
                         </div>
                         <!-- Produits liés à l'article -->
                          <div class="mt-6">
