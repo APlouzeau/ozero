@@ -77,9 +77,15 @@ class HomepageView extends View
                     <?php
                     for ($i = 0; $i < $productNumber; $i++) {
                     ?>
-                        <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950">
+                        <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950 relative group">
                             <a href="/produit/<?= $products[$i]->getProductId() ?>">
                                 <img src="<?= $products[$i]->getImages()[0] ?>" alt="<?= $products[$i]->getProduct() ?>" class="object-cover w-full h-full">
+                                <!-- Overlay avec les détails du produit -->
+                                <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <h3 class="font-semibold text-sm md:text-base font-supreme truncate"><?= $products[$i]->getProduct() ?></h3>
+                                    <p class="text-xs md:text-sm font-supreme line-clamp-2 my-1"><?= $products[$i]->getDescription() ?></p>
+                                    <p class="font-bold text-sm md:text-base font-supreme"><?= $products[$i]->getPrice() ?> €</p>
+                                </div>
                             </a>
                         </div>
                     <?php } ?>
