@@ -45,6 +45,27 @@ class ArticleModel
     }
 
     /**
+     * Récupère l'article de blog si il existe
+     * @return ArticleEntity|null
+     */
+    public function getBlogArticle(): ?ArticleEntity
+    {
+        $stmt = $this->db->prepare("
+        SELECT a.*, u.firstName, u.lastName, CONCAT(u.firstName, ' ', u.lastName) AS authorName 
+        FROM articles a
+        LEFT JOIN users u ON a.authorId = u.userId
+        WHERE a.type = 'blog'
+    ");
+        $stmt->execute();
+
+        $article = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if ($article) {
+            return $this->mapToEntity($article);
+        }
+        return null;
+    }
+
+    /**
      * Récupère tous les articles
      *
      * @return ArticleEntity[]
@@ -242,4 +263,27 @@ class ArticleModel
 
         return $articleEntity;
     }
+
+    /**
+     * Récupère toutes les catégories liées à tous les produits liés à un article.
+     *
+     * @param int $articleId
+     * @return array
+     */
+    public function getCategoriesByArticleId(int $articleId): array
+    {
+        $sql = "SELECT DISTINCT c.name 
+                FROM categories c
+                INNER JOIN productCategory pc ON c.categoryId = pc.categoryId
+                INNER JOIN products p ON pc.productId = p.productId
+                INNER JOIN productByArticle pa ON p.productId = pa.productId
+                WHERE pa.articleId = :articleId";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 }
