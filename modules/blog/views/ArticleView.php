@@ -315,12 +315,6 @@ class ArticleView
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", []))->show();
     }
-
-
-
-
-
-
 }
 
 ?>
