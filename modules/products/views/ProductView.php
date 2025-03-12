@@ -87,16 +87,15 @@ class ProductView extends View
 
             // Filtrer les produits par catégorie
             $filteredProducts = array_filter($productsByCategorys, function ($product) use ($selectedCategory) {
-                var_dump($product['categoryId']);
                 return $selectedCategory === 'all' || $product['categoryId'] === $selectedCategory;
             });
             ?>
 
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl md:text-2xl font-semibold font-supreme">
-                    <?php 
-                    var_dump($categories);
-                    $selectedCategory === 'all' ? 'Tous les Produits' : $categories[$selectedCategory] ?>
+                    <?php
+                    $selectedCategory === 'all' ? 'Tous les Produits' : $categories[$selectedCategory];
+                    ?>
                 </h2>
                 <div class="flex items-center">
                     <span class="mr-2 font-supreme">Trier les produits :</span>
@@ -120,12 +119,30 @@ class ProductView extends View
                             </svg>
                         </a>
                     </div>
+
                 </div>
             </div>
 
             <?php if ($viewMode === 'grid'): ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-
+                    <?php
+                    foreach ($productsByCategorys as $product) {
+                        if ($product['categoryId'] == $selectedCategory) {
+                    ?>
+                            <div class="bg-white rounded-lg shadow-box overflow-hidden flex mb-4">
+                                <div class="w-1/6 bg-gray-200">
+                                    <?php if (!empty($product['image_path'])) { ?>
+                                        <img src="<?= $product['image_path'] ?>" alt="<?= $product['product'] ?>" class="w-full h-full object-cover">
+                                    <?php } ?>
+                                </div>
+                                <div class="w-4/6 p-4">
+                                    <h3 class="text-lg font-semibold mb-2 font-supreme"><?= $product['product'] ?></h3>
+                                    <p class="text-sm text-gray-600 font-supreme"><?= $product['description'] ?></p>
+                                </div>
+                                <a href="/produit/<?= $product['productId'] ?>" class="btn btn-primary">Lire plus</a>
+                            </div>
+                    <?php }
+                    }; ?>
                 </div>
             <?php else: ?>
                 <div class="mb-12">
