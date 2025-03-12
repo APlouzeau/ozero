@@ -96,101 +96,101 @@ VALUES
 ('Tuyau d\'arrosage extensible', 'Tuyau extensible jusqu\'à 30m avec raccords et pistolet', 39.99, 35, NOW()),
 ('Arroseur oscillant', 'Arroseur couvrant jusqu\'à 200m² avec 18 jets réglables', 29.99, 20, NOW());
 
--- Insertion des images dans la table products_image
-INSERT IGNORE INTO products_image (productId, imageUrl)
+-- Insertion des images dans la table productsImages
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1598559555673-a656cc53e119'
 FROM products p WHERE p.product = 'Pelle de jardinage';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1627913363993-95b23378265e'
 FROM products p WHERE p.product = 'Râteau de jardin';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1620277513755-942a1afafeb0'
 FROM products p WHERE p.product = 'Sécateur professionnel';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1566842937050-9168853f5de9'
 FROM products p WHERE p.product = 'Set d\'outils de jardinage';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1564944833379-5f16f7c4a435'
 FROM products p WHERE p.product = 'Tondeuse électrique';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1598196333388-6322da38f337'
 FROM products p WHERE p.product = 'Taille-haie sans fil';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1594978360392-84d6ca0c1aac'
 FROM products p WHERE p.product = 'Débroussailleuse à fil';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b'
 FROM products p WHERE p.product = 'Monstera Deliciosa';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1600411192893-079e1bdbf213'
 FROM products p WHERE p.product = 'Ficus Lyrata';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a'
 FROM products p WHERE p.product = 'Cactus assortis';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1496861083958-175bb1bd5702'
 FROM products p WHERE p.product = 'Rosier grimpant';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1523528283115-9bf9b1699245'
 FROM products p WHERE p.product = 'Lavande';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1515005318787-cc68052b38f3'
 FROM products p WHERE p.product = 'Olivier en pot';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1595515106864-077d45f18114'
 FROM products p WHERE p.product = 'Table de jardin en teck';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1589162371358-11d27dea7b05'
 FROM products p WHERE p.product = 'Chaise longue pliante';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1519046498897-16ed3c92d0b7'
 FROM products p WHERE p.product = 'Parasol inclinable';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1507919981044-3b672b208db9'
 FROM products p WHERE p.product = 'Lanterne solaire';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1534857650871-f4532a45c39a'
 FROM products p WHERE p.product = 'Fontaine de jardin';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1523575708161-9e6i3o8l8sw'
 FROM products p WHERE p.product = 'Statuette de jardin';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1597857506137-1176e566398e'
 FROM products p WHERE p.product = 'Tuyau d\'arrosage extensible';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1596483698147-7fdd8a761cd3'
 FROM products p WHERE p.product = 'Arroseur oscillant';
 
 -- Ajout d'images supplémentaires pour quelques produits
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1555680202-c86f0e12f086'
 FROM products p WHERE p.product = 'Pelle de jardinage';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1570368294249-567b1d205582'
 FROM products p WHERE p.product = 'Monstera Deliciosa';
 
-INSERT IGNORE INTO products_image (productId, imageUrl)
+INSERT IGNORE INTO productsImages (productId, image_path)
 SELECT p.productId, 'https://images.unsplash.com/photo-1604762524889-3e2fcc145683'
 FROM products p WHERE p.product = 'Table de jardin en teck';
 
