@@ -74,6 +74,9 @@ class ProductView extends View
                     foreach ($categories as $categorie) {
                     ?>
                         <a href="?category=<?= $categorie->getCategoryId() ?>" class="bg-white p-4 rounded-lg shadow-box text-center hover:shadow-lg transition-shadow">
+                    foreach ($categories as $categorie) {
+                    ?>
+                        <a href="?category=<?= $categorie->getCategoryId() ?>" class="bg-white p-4 rounded-lg shadow-box text-center hover:shadow-lg transition-shadow">
                             <div class="h-32 bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
                                 <!-- Placeholder pour l'image de catégorie -->
                             </div>
@@ -102,12 +105,15 @@ class ProductView extends View
                     <span class="mr-2 font-supreme">Trier les produits :</span>
                     <div class="flex space-x-2">
                         <div class="gridButton p-2 rounded">
+                        <div class="gridButton p-2 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="7" height="7"></rect>
                                 <rect x="14" y="3" width="7" height="7"></rect>
                                 <rect x="14" y="14" width="7" height="7"></rect>
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg>
+                        </div>
+                        <div class="listButton p-2 rounded">
                         </div>
                         <div class="listButton p-2 rounded">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -119,63 +125,42 @@ class ProductView extends View
                                 <line x1="3" y1="18" x2="3.01" y2="18"></line>
                             </svg>
                         </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
-            <div class="flex">
-                <div class=" flex flex-col w-full m-4">
-                    <h3>Filtres</h3>
-                    <div class="w-full max-w-xs">
-                        <label for="price">Prix (€)</label>
-                        <input type="range" min="0" max="<?= getMaxPrice($productsByCategorys) ?>" value="<?= getMaxPrice($productsByCategorys) ?>" class="range" step="<?= getMaxPrice($productsByCategorys) / 5 ?>" id="rangePrice" />
-                        <div class="flex justify-between px-2.5 mt-2 text-xs">
-                            <?php $i = 0;
-                            while ($i < 5) { ?>
-                                <span>|</span>
-                            <?php $i++;
-                            } ?>
-                        </div>
-                        <div class="flex justify-between px-2.5 mt-2 text-xs">
-                            <?php $i = 0;
-                            $total = round(getMaxPrice($productsByCategorys) / 5);
-                            while ($i < 5) { ?>
-                                <span><?= $total += round(getMaxPrice($productsByCategorys) / 5) ?></span>
-                            <?php $i++;
-                            } ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="view grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                    <?php
-                    foreach ($productsByCategorys as $product) {
-                        if ($product['categoryId'] == $selectedCategory) {
-                    ?>
-                            <div class="bg-white rounded-lg shadow-box overflow-hidden flex mb-4">
-                                <div class="w-1/6 bg-gray-200">
-                                    <?php if (!empty($product['image_path'])) { ?>
-                                        <img src="<?= $product['image_path'] ?>" alt="<?= $product['product'] ?>" class="w-full h-full object-cover">
-                                    <?php } ?>
-                                </div>
-                                <div class="w-4/6 p-4">
-                                    <h3 class="text-lg font-semibold mb-2 font-supreme"><?= $product['product'] ?></h3>
-                                    <p class="text-sm text-gray-600 font-supreme"><?= $product['description'] ?></p>
-                                    <p class=""><?= $product['price'] ?> €</p>
-                                </div>
-                                <a href="/produit/<?= $product['productId'] ?>" class="btn btn-primary">Lire plus</a>
+
+            <div class="view grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+                <?php
+                foreach ($productsByCategorys as $product) {
+                    if ($product['categoryId'] == $selectedCategory) {
+                ?>
+                        <div class="bg-white rounded-lg shadow-box overflow-hidden flex mb-4">
+                            <div class="w-1/6 bg-gray-200">
+                                <?php if (!empty($product['image_path'])) { ?>
+                                    <img src="<?= $product['image_path'] ?>" alt="<?= $product['product'] ?>" class="w-full h-full object-cover">
+                                <?php } ?>
                             </div>
-                    <?php }
-                    }; ?>
-                </div>
+                            <div class="w-4/6 p-4">
+                                <h3 class="text-lg font-semibold mb-2 font-supreme"><?= $product['product'] ?></h3>
+                                <p class="text-sm text-gray-600 font-supreme"><?= $product['description'] ?></p>
+                            </div>
+                            <a href="/produit/<?= $product['productId'] ?>" class="btn btn-primary">Lire plus</a>
+                        </div>
+                <?php }
+                }; ?>
             </div>
             <div class="mb-12">
 
+            </div>
             </div>
         </div>
         </div>
 
 <?php
         $contentPage = ob_get_clean();
+        (new FrontPageView($contentPage, 'Panier', "Votre panier", ['debug', 'catalog']))->show();
         (new FrontPageView($contentPage, 'Panier', "Votre panier", ['debug', 'catalog']))->show();
     }
 }
