@@ -169,10 +169,6 @@ class HomepageView extends View
                         </div>
                     </div>
                 </div>
-
-                <div class="text-center mt-8">
-                    <button class="btn bg-primary hover:bg-primary/80 text-white font-supreme font-semibold">Voir plus de chiffres</button>
-                </div>
             </div>
         </div>
 
