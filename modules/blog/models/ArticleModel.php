@@ -34,6 +34,17 @@ class ArticleModel
     }
 
     /**
+     * Vérifie si un article de type Blog existe déjà
+     * @return bool
+     */
+    public function doBlogExist(): bool
+    {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM articles WHERE type = 'blog'");
+        $stmt->execute();
+        return (bool) $stmt->fetchColumn();
+    }
+
+    /**
      * Récupère tous les articles
      *
      * @return ArticleEntity[]
@@ -44,7 +55,6 @@ class ArticleModel
         SELECT a.*, u.firstName, u.lastName 
         FROM articles a
         LEFT JOIN users u ON a.authorId = u.userId
-        WHERE a.type = 'diy'
     ");
         $stmt->execute();
 
