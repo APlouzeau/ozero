@@ -25,7 +25,7 @@ class BasketView extends View
                             <tr>
                                 <th>
                                     <label>
-                                        <?= $cart['image'] ?>
+                                        <img src="<?= $cart['image'] ?>" alt="<?= $cart['product'] ?>"></img>
                                         <input type="hidden" name="product" value=<?= $cart['image'] ?>>
                                     </label>
                                 </th>
@@ -45,10 +45,10 @@ class BasketView extends View
                                 <th>
                                     <label>
                                         <div class="flex">
-                                            <img src="/assets/png/plus.png" width="20" height="15" alt="ajouter un produit" class="add-one">
+                                            <img src="/assets/png/moins.png" width="20" height="15" alt="retirer un produit" class="remove-one">
                                             <p class="quantityShow"><?= $cart['quantity'] ?></p>
                                             <input type="hidden" class="quantity" name="quantity" value="<?= $cart['quantity'] ?>">
-                                            <img src="/assets/png/moins.png" width="20" height="15" alt="retirer un produit" class="remove-one">
+                                            <img src="/assets/png/plus.png" width="20" height="15" alt="ajouter un produit" class="add-one">
                                         </div>
                                     </label>
                                 </th>
