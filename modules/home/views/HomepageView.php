@@ -2,7 +2,7 @@
 
 class HomepageView extends View
 {
-    public function show()
+    public function show($products, $productNumber)
     {
         ob_start();
 ?>
@@ -16,8 +16,8 @@ class HomepageView extends View
                         <div class="flex">
                             <div class="pr-4">
                                 <p class="text-sm md:text-base mb-4 font-supreme">
-                                    Le zéro déchet est une démarche visant à réduire la production de déchets pour protéger l'environnement. 
-                                    Elle repose sur la règle des 5R : refuser ce qui est inutile, 
+                                    Le zéro déchet est une démarche visant à réduire la production de déchets pour protéger l'environnement.
+                                    Elle repose sur la règle des 5R : refuser ce qui est inutile,
                                     réduire sa consommation, réutiliser au maximum, recycler correctement, et composter les déchets organiques.
                                 </p>
                                 <p class="text-sm md:text-base mb-4 font-supreme">
@@ -71,60 +71,45 @@ class HomepageView extends View
                         <h2 class="text-xl md:text-2xl font-semibold font-supreme">Notre catalogue</h2>
                     </div>
                 </div>
-                
+
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     <!-- Produit 1 -->
-                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
-                    
+                    <?php
+                    for ($i = 0; $i < $productNumber; $i++) {
+                    ?>
+                        <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950">
+                            <a href="/produit/<?= $products[$i]->getProductId() ?>">
+                                <img src="<?= $products[$i]->getImages()[0] ?>" alt="<?= $products[$i]->getProduct() ?>" class="object-cover w-full h-full">
+                            </a>
+                        </div>
+                    <?php } ?>
                     <!-- Produit 2 -->
-                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
+                    <!-- <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
                         <div class="h-40 bg-gray-200"></div>
-                    </div>
-                    
-                    <!-- Produit 3 -->
-                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
-                    
-                    <!-- Produit 4 -->
-                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
-                    
-                    <!-- Produit 5 (visible uniquement sur desktop) -->
-                    <div class="hidden lg:block bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
-                    
-                    <!-- Produit 6 (visible uniquement sur desktop) -->
-                    <div class="hidden lg:block bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
             <!-- Section: Articles en promotions -->
             <div class="max-w-6xl mx-auto my-12 px-4">
                 <h2 class="text-xl md:text-2xl font-semibold mb-6 text-center font-supreme">Articles en promotions</h2>
-                
+
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                     <!-- Article 1 -->
                     <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
                         <div class="h-40 bg-gray-200"></div>
                     </div>
-                    
+
                     <!-- Article 2 -->
                     <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
                         <div class="h-40 bg-gray-200"></div>
                     </div>
-                    
+
                     <!-- Article 3 -->
                     <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
                         <div class="h-40 bg-gray-200"></div>
                     </div>
-                    
+
                     <!-- Article 4 -->
                     <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
                         <div class="h-40 bg-gray-200"></div>
@@ -135,7 +120,7 @@ class HomepageView extends View
             <!-- Section: Et ça change quoi ? -->
             <div class="max-w-6xl mx-auto my-12 px-4 pb-12">
                 <h2 class="text-xl md:text-2xl font-semibold mb-8 text-center text-primary font-supreme">Et ça change quoi ?</h2>
-                
+
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- Statistique 1 -->
                     <div class="flex flex-col items-center">
@@ -149,7 +134,7 @@ class HomepageView extends View
                             <p class="text-sm md:text-base mt-2 font-supreme">Ce sont les émissions de gaz à effet de serre évitées en adoptant une démarche zéro déchets</p>
                         </div>
                     </div>
-                    
+
                     <!-- Statistique 2 -->
                     <div class="flex flex-col items-center">
                         <div class="mb-4">
@@ -166,7 +151,7 @@ class HomepageView extends View
                             <p class="text-sm md:text-base mt-2 font-supreme">Quantité de déchets de nos produits</p>
                         </div>
                     </div>
-                    
+
                     <!-- Statistique 3 -->
                     <div class="flex flex-col items-center">
                         <div class="mb-4">
@@ -184,7 +169,7 @@ class HomepageView extends View
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="text-center mt-8">
                     <button class="btn bg-primary hover:bg-primary/80 text-white font-supreme font-semibold">Voir plus de chiffres</button>
                 </div>

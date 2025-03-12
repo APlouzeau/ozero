@@ -40,12 +40,11 @@ class ProductModel
      */
     public function getAllProducts(): array
     {
-        $stmt = $this->db->prepare("SELECT * FROM products");
+        $stmt = $this->db->prepare("SELECT * FROM products ORDER BY createdAt DESC");
         $stmt->execute();
 
         $products = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $productEntities = [];
-
         foreach ($products as $product) {
             $productEntities[] = $this->mapToEntity($product);
         }
@@ -276,7 +275,8 @@ class ProductModel
     }
 
     // Vérifier si l'image est associée au produit
-    public function isImageAssociatedWithProduct($productId, $imagePath) {
+    public function isImageAssociatedWithProduct($productId, $imagePath)
+    {
         // Requête pour vérifier si l'image appartient bien au produit
         $sql = "SELECT COUNT(*) FROM productsImages WHERE productId = :productId AND image_path = :image_path";
 

@@ -4,10 +4,27 @@ class ProductController
 {
 
     protected $productModel;
+    private $productId;
+    private $product;
 
-    public function __construct()
+    public function __construct($productId = null)
     {
         $this->productModel = new ProductModel();
+        if ($productId) {
+            $this->product = $this->productModel->getProductById($productId);
+            $this->productId = $productId;
+        }
+    }
+
+    public function showProduct($productId)
+    {
+        $productModel = new ProductModel();
+        $url = $_SERVER['REQUEST_URI'];
+        preg_match('/\/produit\/(\d+)/', $url, $matches);
+        $productId = $matches[1] ?? null;
+        $product = $productModel->getProductById($productId);
+        $productView = new ProductView();
+        $productView->show($product);
     }
 
     /**
