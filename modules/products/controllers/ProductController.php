@@ -301,7 +301,6 @@ class ProductController
         $categoryModel = new CategoryModel();
         $categories = $categoryModel->getAllCategories();
         $productsByCategorys = $productModel->filterProductsByCategory();
-        var_dump($categories);
         $products = $productModel->getAllProducts();
         $productView = new ProductView();
         $productView->showCatalog($products, $categories, $productsByCategorys);

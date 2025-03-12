@@ -329,9 +329,14 @@ class ProductModel
 
     public function filterProductsByCategory(): array
     {
-        $sql = "SELECT * 
-                FROM products p
-                INNER JOIN productCategory pc ON p.productId = pc.productId";
+        $sql = "SELECT p.*, pc.categoryId, 
+            (SELECT pi.image_path FROM productsImages pi 
+             WHERE pi.productId = p.productId 
+             ORDER BY pi.id ASC 
+             LIMIT 1) as image_path
+            FROM products p
+            INNER JOIN productCategory pc ON p.productId = pc.productId
+            GROUP BY p.productId, pc.categoryId";
         $stmt = $this->db->query($sql);
         $stmt->execute();
         $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
