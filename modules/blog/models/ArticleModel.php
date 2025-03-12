@@ -116,6 +116,52 @@ class ArticleModel
     }
 
     /**
+     * Update l'association des produits à un article
+     * @param int $articleId
+     * @param array $productIds
+     * @return bool
+     */
+    public function updateAssociationProductsToArticle(int $articleId, array $productIds): bool
+    {
+        // Suppression de toutes les associations existantes
+        $stmt = $this->db->prepare("DELETE FROM productByArticle WHERE articleId = :articleId");
+        $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Ajout des nouvelles associations
+        $stmt = $this->db->prepare("INSERT INTO productByArticle (productId, articleId) VALUES (:productId, :articleId)");
+
+        try {
+            foreach ($productIds as $productId) {
+                $stmt->execute([
+                    ':productId' => $productId,
+                    ':articleId' => $articleId
+                ]);
+            }
+            return true;
+        } catch (\PDOException $e) {
+            // En cas d'erreur, on ne fait rien
+            return false;
+        }
+    }
+    
+
+    /**
+     * Récupère les produits associés à un article
+     *
+     * @param int $articleId
+     * @return array
+     */
+    public function getAssociatedProductsId(int $articleId): array
+    {
+        $stmt = $this->db->prepare("SELECT productId FROM productByArticle WHERE articleId = :articleId");
+        $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
+    /**
      * Met à jour un article
      *
      * @param ArticleEntity $articleEntity
