@@ -35,8 +35,10 @@ class ArticleController
 
     public function showDiy()
     {
+        $articleModel = new ArticleModel();
+        $articles = $articleModel->getArticles();
         $view = new ArticleView();
-        $view->showDiy();
+        $view->showDiy($articles);
     }
 
 

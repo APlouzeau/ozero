@@ -44,6 +44,7 @@ class ArticleModel
         SELECT a.*, u.firstName, u.lastName 
         FROM articles a
         LEFT JOIN users u ON a.authorId = u.userId
+        WHERE a.type = 'diy'
     ");
         $stmt->execute();
 

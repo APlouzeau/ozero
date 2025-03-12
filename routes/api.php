@@ -35,5 +35,7 @@ $router->addRoute('GET', '/panier/checkoutsession', 'CheckoutController#getCheck
 $router->addRoute('GET', '/panier/checkoutsessionsuccess', 'CheckoutController#getCheckoutSuccess');
 $router->addRoute('POST', '/panier/confirmation', 'BasketController#confirmation');
 $router->addRoute('POST', '/panier/add', 'BasketController#addTocart');
+$router->addRoute('POST', '/panier/addOne', 'BasketController#addOneTocart');
+$router->addRoute('POST', '/panier/removeOne', 'BasketController#removeOneTocart');
 $router->addRoute('POST', '/panier/checkConnect', 'BasketController#checkConnect');
 $router->addRoute('POST', '/panier/confirmationBeforePayment', 'CheckoutController#postConfirmationBeforePayment');

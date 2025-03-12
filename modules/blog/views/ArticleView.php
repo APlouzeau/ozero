@@ -1,20 +1,23 @@
 <?php
 
-class ArticleView {
+class ArticleView
+{
 
     private ?ArticleEntity $article;
-    public function __construct(?ArticleEntity $article = null) {
+    public function __construct(?ArticleEntity $article = null)
+    {
         if ($article) {
             $this->article = $article;
         }
     }
 
-    public function show() {
+    public function show()
+    {
         if (!$this->article) {
             return "<p class='text-center text-error text-xl'>Article non trouvé.</p>";
         }
         ob_start();
-        ?>
+?>
 
         <div class="max-w-4xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg">
             <main class="container mx-auto p-6">
@@ -33,19 +36,20 @@ class ArticleView {
                     </div>
                     <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
                         <button class="btn btn-primary">Partager</button>
-                        <a href="/blog" class="btn btn-outline">Retour</a>
+                        <a href="/diy" class="btn btn-outline">Retour</a>
                     </div>
                 </div>
             </main>
         </div>
-        <?php
+    <?php
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog', 'écologie']))->show();
     }
 
-    public function showBlog() {
+    public function showBlog()
+    {
         ob_start();
-        ?>
+    ?>
 
         <!-- Hero Section -->
         <div class="max-w-5xl mx-auto my-8 md:my-16 px-4 hero min-h-2xl">
@@ -135,14 +139,15 @@ class ArticleView {
             </div>
         </div>
 
-        <?php
+    <?php
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog', 'écologie']))->show();
     }
 
-    public function showDiy() {
+    public function showDiy($articles)
+    {
         ob_start();
-        ?>
+    ?>
 
         <!-- Hero Section -->
         <div class="max-w-5xl mx-auto my-8 md:my-16 px-4 hero min-h-lg">
@@ -165,44 +170,25 @@ class ArticleView {
             <h2 class="text-4xl font-bold text-center mb-8">Articles DIY</h2>
             <div class="grid md:grid-cols-3 gap-6">
                 <!-- Article 1 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?handmade,soap" alt="Savon maison" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Fabriquer son savon naturel</h3>
-                        <p class="text-gray-600">Une recette simple et naturelle pour créer votre propre savon bio.</p>
-                        <button class="btn btn-primary">Lire plus</button>
+                <?php foreach ($articles as $article) : ?>
+                    <div class="card bg-base-100 shadow-lg p-4">
+                        <figure>
+                            <img src="<?= htmlspecialchars($article->getImg()) ?>" alt="<?= htmlspecialchars($article->getTitle()) ?>" class="rounded-lg
+                        ">
+                        </figure>
+                        <div class="card-body text-center">
+                            <h3 class="text-xl font-semibold"><?= htmlspecialchars($article->getTitle()) ?></h3>
+                            <p class="text-gray-600"><?= $article->getContent() ?></p>
+                            <a href="/articles/<?= $article->getArticleId() ?>" class="btn btn-primary">Lire plus</a>
+                        </div>
                     </div>
-                </div>
-                <!-- Article 2 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?recycle,wood" alt="Meubles recyclés" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Recycler du bois pour des meubles</h3>
-                        <p class="text-gray-600">Apprenez à donner une seconde vie au bois pour créer vos meubles uniques.</p>
-                        <button class="btn btn-primary">Lire plus</button>
-                    </div>
-                </div>
-                <!-- Article 3 -->
-                <div class="card bg-base-100 shadow-lg p-4">
-                    <figure>
-                        <img src="https://source.unsplash.com/300x200/?homemade,cleaning" alt="Produits ménagers" class="rounded-lg">
-                    </figure>
-                    <div class="card-body text-center">
-                        <h3 class="text-xl font-semibold">Faire ses produits ménagers écologiques</h3>
-                        <p class="text-gray-600">Des alternatives naturelles pour un nettoyage écologique et efficace.</p>
-                        <button class="btn btn-primary">Lire plus</button>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
 
-        <?php
+<?php
         $contentPage = ob_get_clean();
-        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog', 'écologie']))->show();
+        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", []))->show();
     }
 }
 
