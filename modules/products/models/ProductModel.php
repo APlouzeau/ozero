@@ -131,6 +131,70 @@ class ProductModel
     }
 
     /**
+     * Ajoute une catégorie à un produit
+     * @param int $productId
+     * @param int $categoryId
+     * @return bool
+     */
+    public function addProductCategory(int $productId, int $categoryId): bool
+    {
+        $sql = "INSERT INTO productCategory (productId, categoryId) VALUES (:productId, :categoryId)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':productId', $productId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Récupère la catégorie associée au produit
+     * @param int $productId
+     * @return int|null
+     */
+    public function getIdCategoryByProduct(int $productId): ?int
+    {
+        $sql = "SELECT categoryId FROM productCategory WHERE productId = :productId";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':productId', $productId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result ? (int)$result['categoryId'] : null;
+    }
+
+    /**
+     * Supprime une catégorie d'un produit
+     * @param int $productId
+     * @param int $categoryId
+     * @return bool
+     */
+    public function deleteProductCategory(int $productId, int $categoryId): bool
+    {
+        $sql = "DELETE FROM productCategory WHERE productId = :productId AND categoryId = :categoryId";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':productId', $productId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Update la catégorie d'un produit
+     * @param int $productId
+     * @param int $categoryId
+     * @return bool
+     */
+    public function updateProductCategory(int $productId, int $categoryId): bool
+    {
+        $sql = "UPDATE productCategory SET categoryId = :categoryId WHERE productId = :productId";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':productId', $productId, PDO::PARAM_INT);
+        $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    /**
      * Convertit les résultats de la base de données en objet ProductEntity
      *
      * @param array $data

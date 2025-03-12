@@ -53,15 +53,16 @@ class CategoryModel
      *
      * @param string $name
      * @param int|null $parentCategoryId
-     * @return bool
+     * @return int|null
      */
-    public function addCategory(string $name, ?int $parentCategoryId = null): bool
+    public function addCategory(string $name, ?int $parentCategoryId = null): int|null
     {
         $stmt = $this->db->prepare("INSERT INTO categories (name, parentCategoryId) VALUES (:name, :parentCategoryId)");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':parentCategoryId', $parentCategoryId, \PDO::PARAM_INT);
 
-        return $stmt->execute();
+        $stmt->execute();
+        return (int) $this->db->lastInsertId();
     }
 
     /**

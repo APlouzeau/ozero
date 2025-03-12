@@ -5,6 +5,7 @@ $router->addRoute('GET', '/',  'HomepageController#execute');
 $router->addRoute('GET', '/diy',  'ArticleController#showDiy');
 $router->addRoute('GET', '/blog',  'ArticleController#showBlog');
 $router->addRoute('GET', '/articles/{id}',  'ArticleController#execute');
+$router->addRoute('GET', '/products/search',  'ProductController#getAllProducts');
 $router->addRoute('GET', '/login',  'AuthController#showLoginForm', '');
 $router->addRoute('GET', '/register',  'AuthController#showRegisterForm', '');
 $router->addRoute('GET', '/profile',  'UserController#Profile', '');
@@ -18,7 +19,7 @@ $router->addRoute('GET', '/admin/categories',  'BackCategoryController#execute')
 $router->addRoute('GET', '/admin/products',  'BackProductController#execute');
 $router->addRoute('GET', '/admin/articles',  'BackArticleController#execute');
 $router->addRoute('GET', '/admin/articles/create',  'BackArticleController#create');
-$router->addRoute('GET', '/admin/articles/edit/{id}',  'BackArticleController#create');
+$router->addRoute('GET', '/admin/articles/edit/{id}',  'BackArticleController#edit');
 $router->addRoute('GET', '/admin/commandes',  'BackOrderController#showAllOrders');
 
 //Basket

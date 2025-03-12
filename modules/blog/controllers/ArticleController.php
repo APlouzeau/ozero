@@ -1,5 +1,7 @@
 <?php
 
+use Stripe\Terminal\Location;
+
 class ArticleController
 {
     private $articleModel;
@@ -39,6 +41,7 @@ class ArticleController
         $view->showDiy($articles);
     }
 
+
     public function create()
     {
         try {
@@ -66,7 +69,13 @@ class ArticleController
             $article->setArticleDate(new DateTime());
             $article->setAuthorId($jwtManager->getUserIdFromJWT());
 
-            if ($this->articleModel->addArticle($article)) {
+            $articleId = $this->articleModel->addArticle($article);
+            if ($articleId) {
+                // Association des produits à l'article
+                if (isset($_POST['selectedProducts'])) {
+                    $productIds = json_decode($_POST['selectedProducts'],true);
+                    $this->articleModel->associateProductsToArticle($articleId, $productIds);
+                }
                 Utils::sendResponse('success', 'Article créé avec succès', $article);
             } else {
                 Utils::sendResponse('error', "Erreur lors de la création de l'article");
@@ -98,6 +107,11 @@ class ArticleController
         $article->setType($_POST['type'] ?? null);
 
         if ($this->articleModel->updateArticle($article)) {
+            //Mise à jour des produits associés
+            if (isset($_POST['selectedProducts'])) {
+                $productIds = json_decode($_POST['selectedProducts'],true);
+                $this->articleModel->updateAssociationProductsToArticle($this->articleId, $productIds);
+            }
             Utils::sendResponse('success', "Article mis à jour avec succès", $article);
         } else {
             Utils::sendResponse('error', "Erreur lors de la mise à jour de l'article");
@@ -106,16 +120,18 @@ class ArticleController
 
     public function delete()
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             Utils::sendResponse('error', 'Méthode non autorisée');
         }
+        $data = json_decode(file_get_contents('php://input'), true);
+        $articleId = $data['articleId'];
 
-        $article = $this->articleModel->getArticleById($this->articleId); // Utilisation du modèle pour récupérer l'article
+        $article = $this->articleModel->getArticleById($articleId); // Utilisation du modèle pour récupérer l'article
         if (!$article) {
             Utils::sendResponse('error', 'Article non trouvé');
         }
 
-        if ($this->articleModel->deleteArticle($this->articleId)) {
+        if ($this->articleModel->deleteArticle($articleId)) {
             Utils::sendResponse('success', 'Article supprimé avec succès');
         } else {
             Utils::sendResponse('error', "Erreur lors de la suppression de l'article");

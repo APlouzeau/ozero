@@ -4,24 +4,27 @@ class BackCreateEditArticleView extends View
 {
     /**
      * @var ArticleEntity|null
+     * @var array|null
      */
     private ?ArticleEntity $article;
+    private ?array $associatedProducts;
 
     /**
      * Constructeur.
      *
      * @param ArticleEntity|null $article Si un article est fourni, la vue sera en mode édition. Sinon, en mode création.
      */
-    public function __construct($article = null)
+    public function __construct($article = null, $associatedProducts = [])
     {
         $this->article = $article;
+        $this->associatedProducts = $associatedProducts;
     }
 
     public function show(): void
     {
         $isEditing = $this->article !== null;
+        $productModel = new ProductModel();
         ob_start();
-
 ?>
         <div class="container mx-auto p-4">
             <h1 class="text-2xl font-bold mb-4">
@@ -62,6 +65,34 @@ class BackCreateEditArticleView extends View
                     <label class="block text-gray-700 mb-2" for="img">Image (URL)</label>
                     <input type="text" name="img" id="img" class="input input-bordered w-full"
                         value="<?= $isEditing ? htmlspecialchars($this->article->getImg()) : '' ?>">
+                </div>
+
+                <!-- Produits associés -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="products">Produits associés</label>
+                        <div class="flex gap-2 mb-2">
+                            <input type="text" id="productSearch" list="productsList" class="input input-bordered" 
+                                   placeholder="Chercher un produit..." autocomplete="off">
+                            <datalist id="productsList">
+                            </datalist>
+                            <button type="button" id="addSelectedProduct" class="btn btn-sm btn-primary">Ajouter</button>
+                        </div>
+                        <div id="productContainer" class="flex gap-4 mt-2">
+                            <?php if ($isEditing && count($this->associatedProducts) !== 0): ?>
+                                <?php foreach ($this->associatedProducts as $productId): 
+                                    $productEntity = $productModel->getProductbyId($productId); ?>
+                                    <div class="flex flex-col w-1/4 items-center justify-center p-2 border rounded mb-1">
+                                        <img src="<?= htmlspecialchars($productEntity->getFirstImage()) ?>" 
+                                        alt="<?= htmlspecialchars($productEntity->getProduct()) ?>" 
+                                        class="w-16 h-16 rounded-md mr-2">
+                                        <span><?= htmlspecialchars($productEntity->getProduct()) ?></span>
+                                        <input type="hidden" name="selectedProducts[]" value="<?= htmlspecialchars($productEntity->getProductId()) ?>">
+                                        <button type="button" class="remove-product btn btn-sm btn-error">×</button>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    <button type="button" id="addProductBtn" class="btn btn-primary mt-2">✚ Ajouter un produit</button>
                 </div>
 
                 <!-- Boutons d'action -->

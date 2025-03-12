@@ -31,11 +31,12 @@ class BackCategoryView extends View {
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($categories as $category): ?>
+                <?php foreach ($categories as $category): 
+                    $categoryModel = new CategoryModel(); ?>
                     <tr>
                         <td><?= htmlspecialchars($category->getCategoryId()) ?></td>
                         <td><?= htmlspecialchars($category->getName()) ?></td>
-                        <td><?= $category->getParentCategoryId() ? htmlspecialchars($category->getParentCategoryId()) : 'Aucune' ?></td>
+                        <td><?= $category->getParentCategoryId() ? htmlspecialchars($categoryModel->getCategoryById($category->getParentCategoryId())->getName()) : 'Aucune' ?></td>
                         <td class="flex gap-2">
                             <label for="edit-category-modal"
                                    class="btn btn-sm btn-info"
@@ -74,7 +75,7 @@ class BackCategoryView extends View {
         <div class="modal">
             <div class="modal-box w-11/12 max-w-5xl">
                 <h3 class="font-bold text-lg mb-6">Nouvelle catégorie</h3>
-                <form method="POST" action="/admin/categories/create">
+                <form id="category-form" method="POST" action="/admin/categories/create" enctype="multipart/form-data">
                     <div class="form-control">
                         <label class="label">
                             <span class="label-text">Nom de la catégorie</span>
@@ -111,7 +112,7 @@ class BackCategoryView extends View {
         <div class="modal">
             <div class="modal-box w-11/12 max-w-5xl">
                 <h3 class="font-bold text-lg mb-6">Modifier la catégorie</h3>
-                <form method="POST" action="/admin/categories/update">
+                <form id="edit-category-form" method="POST" action="/admin/categories/update">
                     <input type="hidden" name="categoryId" id="edit-category-id">
 
                     <div class="form-control">

@@ -27,6 +27,43 @@ class ProductController
         $productView->show($product);
     }
 
+    /**
+     * Endpoint pour récupérer tous les produits
+     * GET /products/search
+     * @return ProductsEntity[]
+     */
+    public function getAllProducts()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+                Utils::sendResponse('error', 'Méthode non autorisée');
+                return;
+            }
+            $products = $this->productModel->getAllProducts();
+            if (!$products) {
+                Utils::sendResponse('error', 'Aucun produit trouvé');
+                return;
+            }
+            //Formatage pour JSON
+            $productsData = [];
+            foreach ($products as $product) {
+                $productsData[] = [
+                    'productId' => $product->getProductId(),
+                    'product' => $product->getProduct(),
+                    'description' => $product->getDescription(),
+                    'price' => $product->getPrice(),
+                    'stock' => $product->getStock(),
+                    'img' => $product->getFirstImage(),
+                ];
+            }
+            // Envoi de la réponse JSON
+            Utils::sendResponse('success', 'Produits récupérés avec succès', $productsData);
+        } catch (Exception $e) {
+            error_log("Erreur dans ProductController::getAllProducts: " . $e->getMessage());
+            Utils::sendResponse('error', "Une erreur interne s'est produite");
+        }
+    }
+
     public function addProduct()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -42,6 +79,7 @@ class ProductController
             $price = (float)$_POST['price'];
             $stock = (int)$_POST['stock'];
             $imagePaths = [];
+            $categoryId = (int)$_POST['categoryId'] ?? null;
 
 
             // Gestion de l'upload des images multiples
@@ -57,15 +95,20 @@ class ProductController
             $productId = $this->productModel->addProduct($product, $description, $price, '', $stock);
 
             if ($productId) {
-                $stripeAddProduct = \Stripe\Price::create([
-                    'product' => $productId,
-                    'unit_amount' => $price, // Montant en centimes (2000 = 20.00 USD)
-                    'currency' => 'eur',
-                ]);
+                // $stripeAddProduct = \Stripe\Price::create([
+                //     'product' => $productId,
+                //     'unit_amount' => $price, // Montant en centimes (2000 = 20.00 USD)
+                //     'currency' => 'eur',
+                // ]);
+
                 // Enregistre les images dans la table des images
                 foreach ($imagePaths as $path) {
                     $this->productModel->addProductImages($productId, $path);
                 }
+
+                // Ajoute la catégorie associée au produit
+                $this->productModel->addProductCategory($productId, $categoryId);
+
                 Utils::sendResponse('success', 'Produit ajouté avec succès.');
             } else {
                 Utils::sendResponse('error', 'Erreur lors de l\'ajout du produit.');
@@ -113,6 +156,7 @@ class ProductController
             $description = $_POST['description'] ?? null;
             $price = isset($_POST['price']) ? (float)$_POST['price'] : null;
             $stock = isset($_POST['stock']) ? (int)$_POST['stock'] : null;
+            $categoryId = isset($_POST['categoryId']) ? (int)$_POST['categoryId'] : null;
 
             // Vérifier que l'ID et le nom du produit sont bien envoyés
             if (!$productId || !$product) {
@@ -131,6 +175,15 @@ class ProductController
             $updated = $this->productModel->updateProduct($productId, $product, $description, $price, null, $stock);
 
             if ($updated) {
+                // Update de la catégorie
+                // Vérif que le produit a déjà une catégorie associée, sinon ajout
+                $idCategory = $this->productModel->getIdCategoryByProduct($productId);
+                if($idCategory){
+                    $this->productModel->updateProductCategory($productId, $categoryId);
+                }else{
+                    $this->productModel->addProductCategory($productId, $categoryId);
+                }
+
                 // Gestion des images si une nouvelle est envoyée
                 if (!empty($_FILES['images']['name'][0])) {
                     $imagePaths = $this->handleMultipleImageUpload($_FILES['images']);

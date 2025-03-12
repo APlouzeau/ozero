@@ -34,7 +34,8 @@ class BackProductView extends View {
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($products as $product): ?>
+                <?php foreach ($products as $product): 
+                    $productModel = new ProductModel()?>
                     <tr>
                         <td><?= htmlspecialchars($product->getProductId()) ?></td>
                         <td>
@@ -52,7 +53,8 @@ class BackProductView extends View {
                                    data-description="<?= htmlspecialchars($product->getDescription()) ?>"
                                    data-price="<?= htmlspecialchars($product->getPrice()) ?>"
                                    data-stock="<?= htmlspecialchars($product->getStock()) ?>"
-                                   data-images="<?= htmlspecialchars(json_encode($product->getImages()), ENT_QUOTES, 'UTF-8') ?>">                                Modifier
+                                   data-images="<?= htmlspecialchars(json_encode($product->getImages()), ENT_QUOTES, 'UTF-8') ?>"
+                                   data-category="<?= htmlspecialchars($productModel->getIdCategoryByProduct($product->getProductId())) ?>">                                Modifier
                             </label>
 
                             <button class="btn btn-sm btn-error"
@@ -77,6 +79,8 @@ class BackProductView extends View {
     }
 
     private function renderAddModal() {
+        $categoryModel = new CategoryModel();
+        $categories = $categoryModel->getAllCategories();
         ?>
         <input type="checkbox" id="add-product-modal" class="modal-toggle" />
         <div class="modal">
@@ -118,6 +122,18 @@ class BackProductView extends View {
                         <input type="file" class="input input-bordered" name="images[]" multiple required>
                     </div>
 
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Catégorie</span>
+                        </label>
+                        <select name="categoryId" class="select select-bordered w-full">
+                            <option value="">Aucune</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category->getCategoryId() ?>"><?= htmlspecialchars($category->getName()) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
                     <div class="modal-action">
                         <button type="submit" class="btn btn-primary">Créer le produit</button>
                         <label for="add-product-modal" class="btn">Annuler</label>
@@ -129,6 +145,8 @@ class BackProductView extends View {
     }
 
     private function renderEditModal() {
+        $categoryModel = new CategoryModel();
+        $categories = $categoryModel->getAllCategories();
         ?>
         <input type="checkbox" id="edit-product-modal" class="modal-toggle" />
         <div class="modal">
@@ -173,6 +191,18 @@ class BackProductView extends View {
                             <!-- Les images existantes seront ajoutées ici -->
                         </div>
                         <input type="file" name="images[]" class="input input-bordered mt-4" accept="image/*" multiple>
+                    </div>
+
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Catégorie</span>
+                        </label>
+                        <select name="categoryId" id="edit-category" class="select select-bordered w-full">
+                            <option value="">Aucune</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category->getCategoryId() ?>"><?= htmlspecialchars($category->getName()) ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <div class="modal-action">

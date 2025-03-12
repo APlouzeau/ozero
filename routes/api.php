@@ -12,6 +12,11 @@ $router->addRoute('POST', '/admin/products/delete', 'ProductController#deletePro
 $router->addRoute('POST', '/admin/products/update', 'ProductController#updateProduct');
 $router->addRoute('POST', '/admin/products/deleteimage', 'ProductController#deleteImage');
 
+//Catégories
+$router->addRoute('POST', '/admin/categories/add', 'BackCategoryController#addCategory');
+$router->addRoute('POST', '/admin/categories/delete', 'BackCategoryController#deleteCategory');
+$router->addRoute('POST', '/admin/categories/update', 'BackCategoryController#updateCategory');
+
 // Utilisateurs
 $router->addRoute('POST', '/admin/users/add', 'UserController#addUser');
 $router->addRoute('POST', '/admin/users/update', 'BackUserEditProfileController#updateUserGeneralInfo');
@@ -22,6 +27,7 @@ $router->addRoute('POST', '/admin/users/create', 'BackUserController#createUser'
 $router->addRoute('POST', '/admin/articles/uploadimage', 'ArticleController#uploadImage');
 $router->addRoute('POST', '/admin/articles/create', 'ArticleController#create');
 $router->addRoute('POST', '/admin/articles/update/{id}', 'ArticleController#update');
+$router->addRoute('POST', '/admin/articles/delete', 'ArticleController#delete');
 
 // Panier
 $router->addRoute('POST', '/panier/checkoutsession', 'CheckoutController#postCheckoutSession');

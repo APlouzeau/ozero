@@ -61,12 +61,12 @@ class ArticleModel
 
 
     /**
-     * Ajoute un article à la base de données
+     * Ajoute un article à la base de données et retourne l'id généré
      *
      * @param ArticleEntity $articleEntity
-     * @return bool
+     * @return int|null
      */
-    public function addArticle(ArticleEntity $articleEntity): bool
+    public function addArticle(ArticleEntity $articleEntity): int|null
     {
         $title = $articleEntity->getTitle();
         $articleDate = $articleEntity->getArticleDate()
@@ -80,7 +80,7 @@ class ArticleModel
         $stmt = $this->db->prepare("INSERT INTO articles (title, articleDate, content, type, img, authorId) 
             VALUES (:title, :articleDate, :content, :type, :img, :authorId)");
 
-        return $stmt->execute([
+        $stmt->execute([
             ':title'       => $title,
             ':articleDate' => $articleDate,
             ':content'     => $content,
@@ -88,6 +88,77 @@ class ArticleModel
             ':type'        => $type,
             ':authorId'    => $authorId
         ]);
+        return (int) $this->db->lastInsertId();
+    }
+
+    /**
+     * Associe des produits à un article
+     * @param int $articleId
+     * @param array $productIds
+     * @return bool
+     */
+    public function associateProductsToArticle(int $articleId, array $productIds): bool
+    {
+        $stmt = $this->db->prepare("INSERT INTO productByArticle (productId, articleId) VALUES (:productId, :articleId)");
+
+        try {
+            foreach ($productIds as $productId) {
+                $stmt->execute([
+                    ':productId' => $productId,
+                    ':articleId' => $articleId
+                ]);
+            }
+            return true;
+        } catch (\PDOException $e) {
+            // En cas d'erreur, on ne fait rien
+            return false;
+        }
+    }
+
+    /**
+     * Update l'association des produits à un article
+     * @param int $articleId
+     * @param array $productIds
+     * @return bool
+     */
+    public function updateAssociationProductsToArticle(int $articleId, array $productIds): bool
+    {
+        // Suppression de toutes les associations existantes
+        $stmt = $this->db->prepare("DELETE FROM productByArticle WHERE articleId = :articleId");
+        $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Ajout des nouvelles associations
+        $stmt = $this->db->prepare("INSERT INTO productByArticle (productId, articleId) VALUES (:productId, :articleId)");
+
+        try {
+            foreach ($productIds as $productId) {
+                $stmt->execute([
+                    ':productId' => $productId,
+                    ':articleId' => $articleId
+                ]);
+            }
+            return true;
+        } catch (\PDOException $e) {
+            // En cas d'erreur, on ne fait rien
+            return false;
+        }
+    }
+    
+
+    /**
+     * Récupère les produits associés à un article
+     *
+     * @param int $articleId
+     * @return array
+     */
+    public function getAssociatedProductsId(int $articleId): array
+    {
+        $stmt = $this->db->prepare("SELECT productId FROM productByArticle WHERE articleId = :articleId");
+        $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
 
     /**
