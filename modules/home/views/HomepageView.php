@@ -77,9 +77,15 @@ class HomepageView extends View
                     <?php
                     for ($i = 0; $i < $productNumber; $i++) {
                     ?>
-                        <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950">
+                        <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950 relative group">
                             <a href="/produit/<?= $products[$i]->getProductId() ?>">
                                 <img src="<?= $products[$i]->getImages()[0] ?>" alt="<?= $products[$i]->getProduct() ?>" class="object-cover w-full h-full">
+                                <!-- Overlay avec les détails du produit -->
+                                <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <h3 class="font-semibold text-sm md:text-base font-supreme truncate text-white"><?= $products[$i]->getProduct() ?></h3>
+                                    <p class="text-xs md:text-sm font-supreme line-clamp-2 my-1 text-white"><?= $products[$i]->getDescription() ?></p>
+                                    <p class="font-bold text-sm md:text-base font-supreme text-white"><?= $products[$i]->getPrice() ?> €</p>
+                                </div>
                             </a>
                         </div>
                     <?php } ?>
@@ -95,25 +101,76 @@ class HomepageView extends View
                 <h2 class="text-xl md:text-2xl font-semibold mb-6 text-center font-supreme">Articles en promotions</h2>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                    <!-- Article 1 -->
-                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
-
-                    <!-- Article 2 -->
-                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
-
-                    <!-- Article 3 -->
-                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
-
-                    <!-- Article 4 -->
-                    <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden">
-                        <div class="h-40 bg-gray-200"></div>
-                    </div>
+                    <?php
+                    // Utiliser des produits différents de ceux déjà affichés dans le catalogue
+                    // On commence à l'index après le dernier produit affiché dans le catalogue
+                    $startIndex = $productNumber;
+                    $remainingProducts = count($products) - $startIndex;
+                    $promoCount = min($remainingProducts, 4);
+                    
+                    // Promotions en dur
+                    $promotions = [15, 20, 25, 30];
+                    
+                    for ($i = 0; $i < $promoCount; $i++) {
+                        $productIndex = $startIndex + $i;
+                        if ($productIndex < count($products)) {
+                            $product = $products[$productIndex];
+                            $promotion = $promotions[$i % count($promotions)];
+                            $originalPrice = $product->getPrice();
+                            $promoPrice = $originalPrice * (1 - $promotion / 100);
+                    ?>
+                        <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950 relative group">
+                            <a href="/produit/<?= $product->getProductId() ?>">
+                                <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="object-cover w-full h-full">
+                                <!-- Badge promotion -->
+                                <div class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-bold">
+                                    -<?= $promotion ?>%
+                                </div>
+                                <!-- Overlay avec les détails du produit -->
+                                <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <h3 class="font-semibold text-sm md:text-base font-supreme truncate text-white"><?= $product->getProduct() ?></h3>
+                                    <p class="text-xs md:text-sm font-supreme line-clamp-2 my-1 text-white"><?= $product->getDescription() ?></p>
+                                    <div class="flex items-center gap-2">
+                                        <p class="text-sm font-supreme line-through text-white opacity-70"><?= number_format($originalPrice, 2) ?> €</p>
+                                        <p class="font-bold text-sm md:text-base font-supreme text-red-600"><?= number_format($promoPrice, 2) ?> €</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <?php
+                        }
+                    }
+                    
+                    // Si on n'a pas assez de produits, on affiche des placeholders
+                    for ($i = $promoCount; $i < 4; $i++) {
+                        $randomPromo = rand(10, 50);
+                        $originalPrice = rand(15, 50);
+                        $promoPrice = $originalPrice * (1 - $randomPromo / 100);
+                    ?>
+                        <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden relative group">
+                            <div class="h-40 bg-gray-200 flex items-center justify-center">
+                                <!-- Image placeholder -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                </svg>
+                            </div>
+                            <!-- Badge promotion -->
+                            <div class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-bold">
+                                -<?= $randomPromo ?>%
+                            </div>
+                            <!-- Overlay avec les détails du produit -->
+                            <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <h3 class="font-semibold text-sm md:text-base font-supreme truncate text-white">Produit bientôt en promotion</h3>
+                                <p class="text-xs md:text-sm font-supreme line-clamp-2 my-1 text-white">Ce produit sera bientôt disponible avec une promotion exceptionnelle.</p>
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm font-supreme line-through text-white opacity-70"><?= number_format($originalPrice, 2) ?> €</p>
+                                    <p class="font-bold text-sm md:text-base font-supreme text-red-600"><?= number_format($promoPrice, 2) ?> €</p>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
 
@@ -168,10 +225,6 @@ class HomepageView extends View
                             <p class="text-sm md:text-base mt-2 font-supreme">C'est le nombre de bouteilles d'eau consommées chaque année en France, dont seulement 10% sont recyclées. Grâce à nous, c'est 110 de moins cette année</p>
                         </div>
                     </div>
-                </div>
-
-                <div class="text-center mt-8">
-                    <button class="btn bg-primary hover:bg-primary/80 text-white font-supreme font-semibold">Voir plus de chiffres</button>
                 </div>
             </div>
         </div>
