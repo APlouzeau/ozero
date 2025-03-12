@@ -300,8 +300,10 @@ class ProductController
         $productModel = new ProductModel();
         $categoryModel = new CategoryModel();
         $categories = $categoryModel->getAllCategories();
+        $productsByCategorys = $productModel->filterProductsByCategory();
+        var_dump($categories);
         $products = $productModel->getAllProducts();
         $productView = new ProductView();
-        $productView->showCatalog($products, $categories);
+        $productView->showCatalog($products, $categories, $productsByCategorys);
     }
 }
