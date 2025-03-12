@@ -178,9 +178,9 @@ class ProductController
                 // Update de la catégorie
                 // Vérif que le produit a déjà une catégorie associée, sinon ajout
                 $idCategory = $this->productModel->getIdCategoryByProduct($productId);
-                if($idCategory){
+                if ($idCategory) {
                     $this->productModel->updateProductCategory($productId, $categoryId);
-                }else{
+                } else {
                     $this->productModel->addProductCategory($productId, $categoryId);
                 }
 
@@ -293,5 +293,16 @@ class ProductController
             }
         }
         return $imagePaths;
+    }
+
+    public function showCatalog()
+    {
+        $productModel = new ProductModel();
+        $categoryModel = new CategoryModel();
+        $categories = $categoryModel->getAllCategories();
+        $productsByCategorys = $productModel->filterProductsByCategory();
+        $products = $productModel->getAllProducts();
+        $productView = new ProductView();
+        $productView->showCatalog($products, $categories, $productsByCategorys);
     }
 }
