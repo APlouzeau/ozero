@@ -45,6 +45,27 @@ class ArticleModel
     }
 
     /**
+     * Récupère l'article de blog si il existe
+     * @return ArticleEntity|null
+     */
+    public function getBlogArticle(): ?ArticleEntity
+    {
+        $stmt = $this->db->prepare("
+        SELECT a.*, u.firstName, u.lastName, CONCAT(u.firstName, ' ', u.lastName) AS authorName 
+        FROM articles a
+        LEFT JOIN users u ON a.authorId = u.userId
+        WHERE a.type = 'blog'
+    ");
+        $stmt->execute();
+
+        $article = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if ($article) {
+            return $this->mapToEntity($article);
+        }
+        return null;
+    }
+
+    /**
      * Récupère tous les articles
      *
      * @return ArticleEntity[]

@@ -25,9 +25,6 @@ class ArticleController
 
     public function execute()
     {
-        // $articleModel = new ArticleModel();
-        // $article = $articleModel->getArticleById($this->articleId);
-        // $associatedProducts = $this->articleModel->getAssociatedProductsId($this->articleId);
         $view = new ArticleView($this->article, $this->associatedProducts);
         $view->show();
     }

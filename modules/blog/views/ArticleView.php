@@ -11,12 +11,8 @@ class ArticleView
 
     public function __construct(?ArticleEntity $article = null, ?array $associatedProducts = null)
     {
-        if ($article) {
-            $this->article = $article;
-        }
-        if ($associatedProducts) {
-            $this->associatedProducts = $associatedProducts;
-        }
+        $this->article = $article;
+        $this->associatedProducts = $associatedProducts;
     }
 
     public function show()
@@ -46,7 +42,7 @@ class ArticleView
                         <!-- Contenu (description) -->
                         <!-- Contenu (description) -->
                         <div class="mt-4 text-lg leading-relaxed">
-                            <?= nl2br($this->article->getContent()) ?>
+                            <?= html_entity_decode($this->article->getContent()) ?>
                         </div>
                         <!-- Produits liés à l'article -->
                          <div class="mt-6">
@@ -336,9 +332,6 @@ class ArticleView
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", []))->show();
     }
-
-
-
 }
 
 ?>

@@ -9,6 +9,7 @@ class BackCreateEditArticleView extends View
     private ?ArticleEntity $article;
     private ?array $associatedProducts;
     private bool $doBlogExist;
+    private bool $isArticleABlog;
 
     /**
      * Constructeur.
@@ -21,6 +22,13 @@ class BackCreateEditArticleView extends View
         $this->associatedProducts = $associatedProducts;
         $articleModel = new ArticleModel();
         $this->doBlogExist = $articleModel->doBlogExist();
+
+        $type = $this->article->getType();
+        if($type == 'blog'){
+            $this->isArticleABlog = true;
+        } else {
+            $this->isArticleABlog = false;
+        }
     }
 
     public function show(): void
@@ -35,7 +43,6 @@ class BackCreateEditArticleView extends View
             </h1>
             <div id="flashMessageContainer"></div>
             <form method="POST" action="<?= $isEditing ? ('/admin/articles/update/' . $this->article->getArticleId()) : '/admin/articles/create' ?>">
-                <input type="hidden" name="doBlogExist" id="doBlogExist" value="<?= $this->doBlogExist ? 'true' : 'false' ?>">
                 <?php if ($isEditing): ?>
                     <!-- Champ caché pour l'ID de l'article en cas d'édition -->
                     <input type="hidden" name="articleId" value="<?= htmlspecialchars($this->article->getArticleId()) ?>">
@@ -54,9 +61,9 @@ class BackCreateEditArticleView extends View
                     <label class="block text-gray-700 mb-2" for="type">Type d'article</label>
                     <select name="type" id="type" class="select select-bordered w-full">
                         <option value="diy" id="diy" <?= ($isEditing && $this->article->getType() === 'diy') ? 'selected' : '' ?>>DIY</option>
-                        <option value="blog" id="blog" <?= ($this->doBlogExist ? 'disabled' : '')?> <?= ($isEditing && $this->article->getType() === 'blog') ? 'selected' : '' ?>>Blog</option>
+                        <option value="blog" id="blog" <?= ($this->doBlogExist && !$this->isArticleABlog ? 'disabled' : '')?> <?= ($isEditing && $this->article->getType() === 'blog') ? 'selected' : '' ?>>Blog</option>
                     </select>
-                    <?= $this->doBlogExist ? '<p class="text-sm pt-2 text-gray-500">Vous ne pouvez pas créer un article de type "Blog" car un article de ce type existe déjà.</p>' : '' ?>
+                    <?= $this->doBlogExist && !$this->isArticleABlog ? '<p id="msg-blog" class="text-sm pt-2 text-gray-500">Vous ne pouvez pas créer un article de type "Blog" car un article de ce type existe déjà.</p>' : '' ?>
                 </div>
 
                 <!-- Contenu avec CKEditor 5 -->
