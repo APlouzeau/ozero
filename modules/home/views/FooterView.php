@@ -12,8 +12,8 @@ class FooterView extends View {
                     <img src="/assets/png/Logo1.png" alt="Logo Ozero Footer" width="150" height="150">
                 </aside>
                 <nav class="flex gap-10 items-center justify-center flex-grow text-center">
-                    <a id="contact-link" class="footer-link link link-hover font-supreme font-semibold cursor-pointer">Contact</a>
-                    <a class="footer-link link link-hover font-supreme font-semibold">À propos</a>
+                    <a id="contact-link" class="text-lg font-supreme font-semibold cursor-pointer hover:text-opacity-80 transition-colors uppercase text-black no-underline">Contact</a>
+                    <a class="text-lg font-supreme font-semibold hover:text-opacity-80 transition-colors uppercase text-black no-underline">À propos</a>
                 </nav>
             </footer>
         </div>
