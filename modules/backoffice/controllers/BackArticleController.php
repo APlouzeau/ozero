@@ -5,6 +5,7 @@ class BackArticleController
 
     private ?ArticleEntity $article;
     private int $articleId;
+    private ?array $associatedProducts;
 
     public function __construct($articleId = null)
     {
@@ -12,6 +13,8 @@ class BackArticleController
             $articleModel = new ArticleModel();
             $this->article = $articleModel->getArticleById($articleId);
             $this->articleId = $articleId;
+            // Récupération des produits associés à l'article
+            $this->associatedProducts = $articleModel->getAssociatedProductsId($articleId);
         }
     }
 
@@ -47,7 +50,7 @@ class BackArticleController
      */
     public function edit()
     {
-        $view = new BackCreateEditArticleView($this->article);
+        $view = new BackCreateEditArticleView($this->article, $this->associatedProducts);
         $view->show();
     }
 }

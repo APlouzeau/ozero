@@ -27,7 +27,7 @@ $router->addRoute('POST', '/admin/users/create', 'BackUserController#createUser'
 $router->addRoute('POST', '/admin/articles/uploadimage', 'ArticleController#uploadImage');
 $router->addRoute('POST', '/admin/articles/create', 'ArticleController#create');
 $router->addRoute('POST', '/admin/articles/update/{id}', 'ArticleController#update');
-$router->addRoute('DELETE', '/admin/articles/delete', 'ArticleController#delete');
+$router->addRoute('POST', '/admin/articles/delete', 'ArticleController#delete');
 
 // Panier
 $router->addRoute('POST', '/panier/checkoutsession', 'CheckoutController#postCheckoutSession');

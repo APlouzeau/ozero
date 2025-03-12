@@ -70,7 +70,7 @@ class BackArticleView extends View {
         <?php
         $contentPage = ob_get_clean();
         (new BackOfficePageView($contentPage, 'Administration des articles', "Gestion des articles de blog.",
-        ['backoffice', 'createEditArticle']))->show();
+        ['backoffice', 'deleteArticle']))->show();
     }
 
     private function renderDeleteModal() {
@@ -80,11 +80,11 @@ class BackArticleView extends View {
             <div class="modal-box">
                 <h3 class="font-bold text-lg">Confirmer la suppression</h3>
                 <p class="py-4">Êtes-vous sûr de vouloir supprimer définitivement cet article ?</p>
-                <form method="POST" action="/admin/article/delete" id="delete-form">
+                <form method="POST" action="/admin/articles/delete" id="delete-form">
                     <input type="hidden" name="articleId" id="delete-article-id">
                     <div class="modal-action">
                         <button type="submit" class="btn btn-error">Supprimer</button>
-                        <label for="delete-product-modal" class="btn">Annuler</label>
+                        <label for="delete-article-modal" class="btn">Annuler</label>
                     </div>
                 </form>
             </div>

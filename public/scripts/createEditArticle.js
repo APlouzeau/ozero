@@ -1,4 +1,4 @@
-class ArticleManager {
+class ArticleCreateEditdManager {
 
     constructor() {
         this.bindEvents();
@@ -6,17 +6,10 @@ class ArticleManager {
     
       bindEvents() {
         document.addEventListener('DOMContentLoaded', () => {
-          this.initializeDeleteButtons();
           this.initializeProductsListButton();
           this.handleSubmitForm();
         //   this.initializeFormHandlers();
         //   this.initializeImageDeleteHandlers();
-        });
-      }
-    
-      initializeDeleteButtons() {
-        document.querySelectorAll('.btn-error[data-article-id]').forEach(button => {
-          button.addEventListener('click', () => this.handleDeleteModal(button));
         });
       }
 
@@ -92,6 +85,7 @@ class ArticleManager {
             });
             formData.append('selectedProducts', JSON.stringify(products));
             console.log(formData);
+            console.log(products);
             // Effectuer la requête Ajax
             await fetch(form.action, {
                 method: "POST",
@@ -132,36 +126,9 @@ class ArticleManager {
                 });
         });
     }
-
-    async handleDeleteProduct(event) {
-        event.preventDefault();
-        try {
-          const articleId = document.getElementById('delete-article-id').value;
-          const response = await ApiService.fetchJson(API_ENDPOINTS.DELETE_ARTICLE, {
-            method: 'POST',
-            body: JSON.stringify({ articleId })
-          });
-    
-          if (response.status === 'success') {
-            closeAllModals();
-            showFlashMessage(response);
-            location.reload();
-          } else {
-            showFlashMessage({
-              status: 'error',
-              message: response.message || 'Une erreur est survenue lors de la suppression de l\'article.'
-            });
-          }
-        } catch (error) {
-          showFlashMessage({
-            status: 'error',
-            message: error.message
-          });
-        }
-    }
 }
 
-const articleManager = new ArticleManager();
+const manager = new ArticleCreateEditdManager();
 
 class MyUploadAdapter {
     constructor(loader) {
