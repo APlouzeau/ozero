@@ -15,9 +15,8 @@ class HomepageController
         $products = $productModel->getAllProducts();
         $productNumber = 0;
         count($products) < 8 ? $productNumber = count($products) : $productNumber = 8;
-        var_dump($products[0]->getImages()[0]);
         $productZero = $products[0]->getImages();
-        var_dump($productZero[0]);
+
         $view = new HomepageView();
         $view->show($products, $productNumber);
     }

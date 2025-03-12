@@ -27,21 +27,7 @@ class TestAddBasketView extends View
                                     <input type="number" class="form-control" id="quantity0" name="quantity[]" required>
                                 </div>
                             </div>
-                            <div class="item">
-                                <div class="form-group">
-                                    <label for="product"><?= $productList[1]->getProduct() ?></label>
-                                    <input type="hidden" class="form-control" name="productId[]" value="<?= $productList[1]->getProductId() ?>">
-                                    <input type="hidden" class="form-control" name="product[]" value="<?= $productList[1]->getProduct() ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="price"><?= $productList[1]->getPrice() ?></label>
-                                    <input type="hidden" class="form-control" id="price1" name="price[]" value="<?= $productList[1]->getPrice() ?>" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantity">Quantity</label>
-                                    <input type="number" class="form-control" id="quantity1" name="quantity[]" required>
-                                </div>
-                            </div>
+                           
                         </div>
 
 

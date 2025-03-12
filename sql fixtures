@@ -98,11 +98,11 @@ VALUES
 
 -- Insertion des images dans la table productsImages
 INSERT IGNORE INTO productsImages (productId, image_path)
-SELECT p.productId, 'https://images.unsplash.com/photo-1598559555673-a656cc53e119'
+SELECT p.productId, 'https://media.istockphoto.com/id/905832142/fr/photo/pelle-sur-fond-blanc-de-jardin.jpg?s=2048x2048&w=is&k=20&c=8aV64U21GUfWb-5ITcnpQwq46i46meC0XtflXkwRCgE='
 FROM products p WHERE p.product = 'Pelle de jardinage';
 
 INSERT IGNORE INTO productsImages (productId, image_path)
-SELECT p.productId, 'https://images.unsplash.com/photo-1627913363993-95b23378265e'
+SELECT p.productId, 'https://cdn.pixabay.com/photo/2016/04/01/11/28/garden-1300347_1280.png'
 FROM products p WHERE p.product = 'Râteau de jardin';
 
 INSERT IGNORE INTO productsImages (productId, image_path)
