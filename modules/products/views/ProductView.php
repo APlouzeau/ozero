@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../../utils/functions.php';
 class ProductView extends View
 {
     public function show($product)
@@ -39,7 +39,8 @@ class ProductView extends View
 
     public function showCatalog($products, $categories, $productsByCategorys)
     {
-        ob_start(); ?>
+        ob_start();
+    ?>
 
         <div class="bg-white min-h-screen">
             <!-- Section: Qu'est-ce que le DIY -->
@@ -122,26 +123,50 @@ class ProductView extends View
 
                 </div>
             </div>
-
-            <div class="view grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                <?php
-                foreach ($productsByCategorys as $product) {
-                    if ($product['categoryId'] == $selectedCategory) {
-                ?>
-                        <div class="bg-white rounded-lg shadow-box overflow-hidden flex mb-4">
-                            <div class="w-1/6 bg-gray-200">
-                                <?php if (!empty($product['image_path'])) { ?>
-                                    <img src="<?= $product['image_path'] ?>" alt="<?= $product['product'] ?>" class="w-full h-full object-cover">
-                                <?php } ?>
-                            </div>
-                            <div class="w-4/6 p-4">
-                                <h3 class="text-lg font-semibold mb-2 font-supreme"><?= $product['product'] ?></h3>
-                                <p class="text-sm text-gray-600 font-supreme"><?= $product['description'] ?></p>
-                            </div>
-                            <a href="/produit/<?= $product['productId'] ?>" class="btn btn-primary">Lire plus</a>
+            <div class="flex">
+                <div class=" flex flex-col w-full m-4">
+                    <h3>Filtres</h3>
+                    <div class="w-full max-w-xs">
+                        <label for="price">Prix (€)</label>
+                        <input type="range" min="0" max="<?= getMaxPrice($productsByCategorys) ?>" value="<?= getMaxPrice($productsByCategorys) ?>" class="range" step="<?= getMaxPrice($productsByCategorys) / 5 ?>" id="rangePrice" />
+                        <div class="flex justify-between px-2.5 mt-2 text-xs">
+                            <?php $i = 0;
+                            while ($i < 5) { ?>
+                                <span>|</span>
+                            <?php $i++;
+                            } ?>
                         </div>
-                <?php }
-                }; ?>
+                        <div class="flex justify-between px-2.5 mt-2 text-xs">
+                            <?php $i = 0;
+                            $total = round(getMaxPrice($productsByCategorys) / 5);
+                            while ($i < 5) { ?>
+                                <span><?= $total += round(getMaxPrice($productsByCategorys) / 5) ?></span>
+                            <?php $i++;
+                            } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="view grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+                    <?php
+                    foreach ($productsByCategorys as $product) {
+                        if ($product['categoryId'] == $selectedCategory) {
+                    ?>
+                            <div class="bg-white rounded-lg shadow-box overflow-hidden flex mb-4">
+                                <div class="w-1/6 bg-gray-200">
+                                    <?php if (!empty($product['image_path'])) { ?>
+                                        <img src="<?= $product['image_path'] ?>" alt="<?= $product['product'] ?>" class="w-full h-full object-cover">
+                                    <?php } ?>
+                                </div>
+                                <div class="w-4/6 p-4">
+                                    <h3 class="text-lg font-semibold mb-2 font-supreme"><?= $product['product'] ?></h3>
+                                    <p class="text-sm text-gray-600 font-supreme"><?= $product['description'] ?></p>
+                                    <p class=""><?= $product['price'] ?> €</p>
+                                </div>
+                                <a href="/produit/<?= $product['productId'] ?>" class="btn btn-primary">Lire plus</a>
+                            </div>
+                    <?php }
+                    }; ?>
+                </div>
             </div>
             <div class="mb-12">
 
