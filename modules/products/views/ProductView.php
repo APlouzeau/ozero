@@ -8,6 +8,40 @@ class ProductView extends View
 ?>
         <div class="bg-white min-h-screen py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Styles pour l'animation du bouton -->
+                <style>
+                    @keyframes checkmark {
+                        0% {
+                            transform: scale(0);
+                            opacity: 0;
+                        }
+                        50% {
+                            transform: scale(1.2);
+                        }
+                        100% {
+                            transform: scale(1);
+                            opacity: 1;
+                        }
+                    }
+                    
+                    @keyframes bounce {
+                        0%, 100% {
+                            transform: translateY(0);
+                        }
+                        50% {
+                            transform: translateY(-5px);
+                        }
+                    }
+                    
+                    .cart-success-animation {
+                        animation: bounce 0.6s ease-in-out;
+                    }
+                    
+                    .checkmark-animation {
+                        animation: checkmark 0.3s ease-in-out forwards;
+                    }
+                </style>
+
                 <!-- Fil d'Ariane -->
                 <nav class="flex mb-8 text-sm text-gray-500">
                     <a href="/" class="hover:text-green-600">Accueil</a>
@@ -105,7 +139,13 @@ class ProductView extends View
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                                         </svg>
-                                        Ajouter au panier
+                                        <span class="add-text">Ajouter</span>
+                                        <span class="added-text hidden">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                            </svg>
+                                            Ajouté!
+                                        </span>
                                     </button>
                                     <button type="button" class="p-3 rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -162,6 +202,35 @@ class ProductView extends View
                 const quantityInput = document.getElementById('quantity');
                 const formQuantityInput = document.getElementById('form-quantity');
                 
+                // Animation du bouton d'ajout au panier
+                const addToCartButton = document.querySelector('form[action="/panier/add"] button[type="submit"]');
+                if (addToCartButton) {
+                    addToCartButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        const form = this.closest('form');
+                        const addText = this.querySelector('.add-text');
+                        const addedText = this.querySelector('.added-text');
+                        
+                        if (addText && addedText) {
+                            // Cacher le texte normal et afficher le texte "Ajouté!"
+                            addText.classList.add('hidden');
+                            addedText.classList.remove('hidden');
+                            
+                            // Appliquer les animations
+                            this.classList.add('bg-green-700', 'cart-success-animation');
+                            addedText.querySelector('svg').classList.add('checkmark-animation');
+                            
+                            // Soumettre le formulaire après un délai
+                            setTimeout(() => {
+                                form.submit();
+                            }, 800);
+                        } else {
+                            form.submit();
+                        }
+                    });
+                }
+                
                 // Stocker l'ID du produit consulté dans le localStorage
                 localStorage.setItem('lastViewedProductId', '<?= $product->getProductId() ?>');
                 
@@ -215,6 +284,40 @@ class ProductView extends View
     ?>
         <div class="bg-white min-h-screen">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Styles pour l'animation du bouton -->
+                <style>
+                    @keyframes checkmark {
+                        0% {
+                            transform: scale(0);
+                            opacity: 0;
+                        }
+                        50% {
+                            transform: scale(1.2);
+                        }
+                        100% {
+                            transform: scale(1);
+                            opacity: 1;
+                        }
+                    }
+                    
+                    @keyframes bounce {
+                        0%, 100% {
+                            transform: translateY(0);
+                        }
+                        50% {
+                            transform: translateY(-5px);
+                        }
+                    }
+                    
+                    .cart-success-animation {
+                        animation: bounce 0.6s ease-in-out;
+                    }
+                    
+                    .checkmark-animation {
+                        animation: checkmark 0.3s ease-in-out forwards;
+                    }
+                </style>
+                
                 <!-- En-tête de la page -->
                 <div class="mb-8">
                     <h1 class="text-3xl font-bold text-gray-900 mb-2">Catalogue de produits</h1>
@@ -359,7 +462,13 @@ class ProductView extends View
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-white" viewBox="0 0 20 20" fill="currentColor">
                                                             <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                                                         </svg>
-                                                        Ajouter
+                                                        <span class="add-text">Ajouter</span>
+                                                        <span class="added-text hidden">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="White">
+                                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                            </svg>
+                                                            Ajouté!
+                                                        </span>
                                                     </button>
                                                 </form>
                                             </div>
@@ -401,6 +510,38 @@ class ProductView extends View
                 const sortOptions = document.getElementById('sort-options');
                 const gridViewBtn = document.getElementById('grid-view');
                 const listViewBtn = document.getElementById('list-view');
+                
+                // Animation des boutons d'ajout au panier
+                const addToCartButtons = document.querySelectorAll('button[type="submit"]');
+                
+                addToCartButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        // Empêcher la soumission immédiate du formulaire
+                        e.preventDefault();
+                        
+                        const form = this.closest('form');
+                        const addText = this.querySelector('.add-text');
+                        const addedText = this.querySelector('.added-text');
+                        
+                        // Remplacer le texte et l'icône
+                        if (addText && addedText) {
+                            addText.classList.add('hidden');
+                            addedText.classList.remove('hidden');
+                            
+                            // Appliquer les animations
+                            this.classList.add('bg-green-700', 'cart-success-animation');
+                            addedText.querySelector('svg').classList.add('checkmark-animation');
+                            
+                            // Soumettre le formulaire après un délai
+                            setTimeout(() => {
+                                form.submit();
+                            }, 800);
+                        } else {
+                            // Si les éléments de texte n'existent pas, soumettre directement
+                            form.submit();
+                        }
+                    });
+                });
                 
                 let maxPrice = <?= getMaxPrice($productsByCategorys) ?>;
                 let currentView = 'grid';

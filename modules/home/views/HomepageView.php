@@ -68,7 +68,7 @@ class HomepageView extends View
                 <div class="bg-gray-50 p-4 rounded-lg mb-6">
                     <div class="flex items-center">
                         <span class="bg-primary text-white text-xs px-2 py-1 rounded mr-2 font-supreme">Achats éco-responsables</span>
-                        <h2 class="text-xl md:text-2xl font-semibold font-supreme">Notre catalogue</h2>
+                        <a href="/catalogue" class="text-xl md:text-2xl font-semibold font-supreme hover:text-primary transition-colors">Notre catalogue</a>
                     </div>
                 </div>
 
@@ -188,7 +188,7 @@ class HomepageView extends View
                         </div>
                         <div class="text-center">
                             <h3 class="text-2xl md:text-3xl font-bold text-primary font-supreme">12 KgCO2</h3>
-                            <p class="text-sm md:text-base mt-2 font-supreme">Ce sont les émissions de gaz à effet de serre évitées en adoptant une démarche zéro déchets</p>
+                            <p class="text-sm md:text-base mt-2 font-supreme">Ce sont les émissions de gaz à effet de serre évitées par personne et par mois en adoptant une démarche zéro déchet dans votre quotidien. Cela représente l'équivalent d'un trajet de 55km en voiture.</p>
                         </div>
                     </div>
 
@@ -205,7 +205,7 @@ class HomepageView extends View
                         </div>
                         <div class="text-center">
                             <h3 class="text-2xl md:text-3xl font-bold text-primary font-supreme">142 Kg</h3>
-                            <p class="text-sm md:text-base mt-2 font-supreme">Quantité de déchets de nos produits</p>
+                            <p class="text-sm md:text-base mt-2 font-supreme">Quantité de déchets évités par an grâce à l'utilisation de nos produits réutilisables et durables</p>
                         </div>
                     </div>
 
@@ -221,11 +221,18 @@ class HomepageView extends View
                             </svg>
                         </div>
                         <div class="text-center">
-                            <h3 class="text-2xl md:text-3xl font-bold text-primary font-supreme">110</h3>
-                            <p class="text-sm md:text-base mt-2 font-supreme">C'est le nombre de bouteilles d'eau consommées chaque année en France, dont seulement 10% sont recyclées. Grâce à nous, c'est 110 de moins cette année</p>
+                            <h3 class="text-2xl md:text-3xl font-bold text-primary font-supreme">133</h3>
+                            <p class="text-sm md:text-base mt-2 font-supreme">C'est le nombre de bouteilles d'eau consommées chaque année, par personne en France, dont seulement 10% sont recyclées. Grâce à nous, ces bouteilles gagnent une seconde vie et restent utiles pour vous comme pour l'environnement.</p>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Bouton Sensibilisation -->
+            <div class="max-w-6xl mx-auto my-12 px-4 text-center">
+                <a href="/blog" class="inline-block px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary/90 transition-colors font-supreme text-lg">
+                    Sensibilisation Zéro-déchet
+                </a>
             </div>
         </div>
 
