@@ -108,18 +108,13 @@ class BackOrderView extends View
                                 <tr class="border-b">
                                     <td class="px-6 py-4">
                                         <div class="flex items-center">
-                                            <img src="<?= $this->getProductImage($product) ?>" 
-                                                 alt="<?= htmlspecialchars(is_array($product) ? ($product['name'] ?? 'Produit') : $product->getName()) ?>" 
-                                                 class="w-16 h-16 object-cover rounded mr-4">
-                                            <span><?= htmlspecialchars(is_array($product) ? ($product['name'] ?? 'Produit') : $product->getName()) ?></span>
+                                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded mr-3">#<?= htmlspecialchars($product['productId']) ?></span>
+                                            <span><?= htmlspecialchars($product['name'] ?? 'Produit') ?></span>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4"><?= number_format(is_array($product) ? ($product['unitPrice'] ?? $product['price'] ?? 0) : $product->getPrice(), 2) ?> €</td>
-                                    <td class="px-6 py-4"><?= htmlspecialchars(is_array($product) ? ($product['quantity'] ?? 1) : $product->getQuantity()) ?></td>
-                                    <td class="px-6 py-4"><?= number_format(
-                                        (is_array($product) ? ($product['unitPrice'] ?? $product['price'] ?? 0) : $product->getPrice()) * 
-                                        (is_array($product) ? ($product['quantity'] ?? 1) : $product->getQuantity()), 
-                                        2) ?> €</td>
+                                    <td class="px-6 py-4"><?= number_format($product['unitPrice'], 2) ?> €</td>
+                                    <td class="px-6 py-4"><?= htmlspecialchars($product['quantity']) ?></td>
+                                    <td class="px-6 py-4"><?= number_format($product['unitPrice'] * $product['quantity'], 2) ?> €</td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -160,29 +155,5 @@ class BackOrderView extends View
             'Annulée' => 'bg-red-100 text-red-800',
             default => 'bg-gray-100 text-gray-800'
         };
-    }
-
-    private function getProductImage($product)
-    {
-        // Si c'est un objet avec une méthode getImages
-        if (is_object($product) && method_exists($product, 'getImages')) {
-            $images = $product->getImages();
-            if (!empty($images)) {
-                return htmlspecialchars($images[0]);
-            }
-        } 
-        // Si c'est un tableau avec une clé image_path
-        else if (is_array($product) && isset($product['image_path'])) {
-            return htmlspecialchars($product['image_path']);
-        }
-        // Si c'est un tableau avec une clé images
-        else if (is_array($product) && isset($product['images'])) {
-            $images = $product['images'];
-            if (!empty($images)) {
-                return htmlspecialchars($images[0]);
-            }
-        }
-        
-        return '/public/images/default-product.png';
     }
 }
