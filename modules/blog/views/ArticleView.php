@@ -130,20 +130,21 @@ class ArticleView
         ];
 
         ob_start();
-    ?>
-
-        <!-- Hero Section -->
-        <div class="max-w-5xl mx-auto my-8 md:my-16 px-4 hero min-h-lg">
-            <div class="hero-content flex-col lg:flex-row">
-                <img
-                    src="https://source.unsplash.com/600x400/?eco,nature"
-                    class="max-w-sm rounded-lg shadow-2xl" />
-                <div>
-                    <h1 class="text-5xl font-bold">DIY Écologiques</h1>
-                    <p class="py-6">
-                        Découvrez nos guides pour fabriquer vous-même des objets écologiques et réduire votre impact environnemental !
-                    </p>
-                    <button class="btn btn-primary">Explorer</button>
+?>
+        <div class="bg-white min-h-screen">
+            <!-- Section: Qu'est-ce que le DIY -->
+            <div class="max-w-6xl mx-auto my-8 md:my-12 px-4">
+                <h1 class="text-2xl md:text-3xl font-semibold text-primary mb-6 text-center font-supreme">Le DIY, qu'est ce que c'est ?</h1>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg shadow-black-950 mb-12">
+                    <div class="max-w-3xl mx-auto">
+                        <p class="text-sm md:text-base mb-4 font-supreme">
+                            Ici, nous vous proposons des <span class="font-bold text-primary">kits DIY</span> (conçus pour vous aider à fabriquer vos propres solutions écologiques), réduire votre empreinte carbone et adopter un <span class="font-bold">mode de vie plus responsable</span>.
+                        </p>
+                        <p class="text-sm md:text-base mb-4 font-supreme">
+                            Nos coffrets contiennent tout le matériel et les instructions nécessaires pour vous guider dans la <span class="font-bold">fabrication de vos produits du quotidien</span>, tout en privilégiant des matériaux <span class="font-bold">durables et respectueux</span> de l'environnement.
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -256,8 +257,7 @@ class ArticleView
                 </div>
             </div>
         </div>
-
-<?php
+        <?php
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['diy']))->show();
     }
