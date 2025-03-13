@@ -61,4 +61,13 @@ class PurchaseModel
         }
         return $purchasesList;
     }
+
+    public function getPurchaseByIdAdmin($purchaseId): ?PurchaseEntity
+    {
+        $stmt = $this->db->prepare('SELECT * FROM purchases WHERE purchaseId = :purchaseId');
+        $stmt->bindValue(':purchaseId', $purchaseId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        return $result ? new PurchaseEntity($result) : null;
+    }
 }
