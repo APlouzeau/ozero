@@ -59,3 +59,19 @@ class ArticleManager {
 }
 
 const articleManager = new ArticleManager();
+
+function confirmDelete(articleId) {
+    document.getElementById('delete-article-id').value = articleId;
+    document.getElementById('delete-article-modal').checked = true;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Ajouter des écouteurs d'événements à tous les boutons de suppression
+    const deleteButtons = document.querySelectorAll('[data-article-id]');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const articleId = this.getAttribute('data-article-id');
+            confirmDelete(articleId);
+        });
+    });
+});
