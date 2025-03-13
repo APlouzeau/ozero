@@ -23,7 +23,7 @@ class BackCreateEditArticleView extends View
         $articleModel = new ArticleModel();
         $this->doBlogExist = $articleModel->doBlogExist();
 
-        $type = $this->article->getType();
+        $type = $this->article ? $this->article->getType() : null;
         if($type == 'blog'){
             $this->isArticleABlog = true;
         } else {
@@ -60,8 +60,8 @@ class BackCreateEditArticleView extends View
                 <div class="mb-4">
                     <label class="block text-gray-700 mb-2" for="type">Type d'article</label>
                     <select name="type" id="type" class="select select-bordered w-full">
-                        <option value="diy" id="diy" <?= ($isEditing && $this->article->getType() === 'diy') ? 'selected' : '' ?>>DIY</option>
-                        <option value="blog" id="blog" <?= ($this->doBlogExist && !$this->isArticleABlog ? 'disabled' : '')?> <?= ($isEditing && $this->article->getType() === 'blog') ? 'selected' : '' ?>>Blog</option>
+                        <option value="diy" id="diy" <?= ($isEditing && !$this->isArticleABlog) ? 'selected' : '' ?>>DIY</option>
+                        <option value="blog" id="blog" <?= ($this->doBlogExist && !$this->isArticleABlog ? 'disabled' : '')?> <?= ($isEditing && $this->isArticleABlog) ? 'selected' : '' ?>>Blog</option>
                     </select>
                     <?= $this->doBlogExist && !$this->isArticleABlog ? '<p id="msg-blog" class="text-sm pt-2 text-gray-500">Vous ne pouvez pas créer un article de type "Blog" car un article de ce type existe déjà.</p>' : '' ?>
                 </div>

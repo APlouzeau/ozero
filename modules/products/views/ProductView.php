@@ -6,32 +6,45 @@ class ProductView extends View
     {
         ob_start();
 ?>
-        <div>
-            <h1 class="text-5xl font-bold text-center">Fiche produit</h1>
-            <div class="flex justify-center">
+        <div class="items-center justify-center mx-auto p-10">
+            <h1 class="text-5xl font-bold text-center pb-6">Fiche produit</h1>
+            <div class="flex justify-center items-center gap-4">
                 <!-- image du produit -->
                 <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="w-80 mx-auto">
-                <p class="text-center"><?= $product->getDescription() ?></p>
-
-                <div class="card w-96 bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <h2 class="card-title
-                text-2xl font-bold text-center"><?= $product->getProduct() ?></h2>
-                        <p class="text-center"><?= $product->getPrice() ?> €</p>
-                        <p class="text-center"><?= $product->getStock() ?> en stock</p>
-
-                        <div class="card-actions justify-center">
-                            <form action="/panier/add" method="post">
-                                <input type="hidden" name="product[]" value="<?= $product->getProduct() ?>">
-                                <input type="hidden" name="price[]" value="<?= $product->getPrice() ?>">
-                                <input type="hidden" name="productId[]" value="<?= $product->getProductId() ?>">
-                                <input type="hidden" name="quantity[]" value="1">
-                                <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-                            </form>
+                <!-- description -->
+                <div class="items-center justify-center w-1/3">
+                    <p class=""><?= htmlspecialchars_decode($product->getDescription()) ?></p>
+                </div>
+                <!-- note, titre, prix, stock -->
+                <div class="flex flex-col items-center w-1/3 gap-4">
+                    <div class="flex flex-row items-center justify-center gap-4">
+                        <p>5,0</p>
+                        <div class="flex flex-row gap-0">
+                            <?php for ($i = 0; $i < 5; $i++): ?>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 0l2.928 6.028L20 6.972 14.828 11.072l1.172 5.928L10 14.828l-6 2.172L5.172 11.072 0 6.972l7.072-.944L10 0z" clip-rule="evenodd" />
+                                </svg>
+                            <?php endfor; ?>
                         </div>
+                        <p>(10 avis)</p>
+                    </div>
+                    <h2 class="text-4xl font-bold text-center"><?= $product->getProduct() ?></h2>
+                    <p class="text-center">Prix : <?= $product->getPrice() ?> €</p>
+                    <p class="text-center"><?= $product->getStock() ?> en stock</p>
+                    <!-- bouton ajout panier -->
+                    <div class="justify-center">
+                        <form action="/panier/add" method="post">
+                            <input type="hidden" name="product[]" value="<?= $product->getProduct() ?>">
+                            <input type="hidden" name="price[]" value="<?= $product->getPrice() ?>">
+                            <input type="hidden" name="productId[]" value="<?= $product->getProductId() ?>">
+                            <input type="hidden" name="quantity[]" value="1">
+                            <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+                        </form>
                     </div>
                 </div>
+                
 
+                
             </div>
         </div>
     <?php
