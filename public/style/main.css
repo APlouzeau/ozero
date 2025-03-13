@@ -33,6 +33,7 @@ body, html, main, .postContainer {
 /* Application de Supreme comme police par défaut pour tout le site */
 body {
     @apply font-supreme;
+    min-height: 100vh !important;
 }
 
 /* Exemple d'utilisation avec Tailwind */
