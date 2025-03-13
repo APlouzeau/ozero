@@ -37,7 +37,8 @@ class ArticleController
     public function showDiy()
     {
         $articleModel = new ArticleModel();
-        $articles = $articleModel->getArticles();
+        $types = ['diy'];
+        $articles = $articleModel->getArticles($types);
         $view = new ArticleView();
         $view->showDiy($articles);
     }
