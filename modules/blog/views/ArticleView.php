@@ -284,7 +284,7 @@ class ArticleView
                                         <?php endif; ?>
                                         <?php if (!empty($categories)):
                                             foreach ($categories as $category): ?>
-                                                <span class="absolute top-2 right-2 bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                                <span class="absolute top-2 right-2 bg-white/80 text-primary text-xs font-medium px-2.5 py-0.5 rounded-full">
                                                     <?= htmlspecialchars($category['name'] ?? $category->getName() ?? 'Non catégorisé') ?>
                                                 </span>
                                         <?php break; // Show only the first category
