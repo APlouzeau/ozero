@@ -19,93 +19,114 @@ class ArticleView
         }
         ob_start();
 ?>
-
-        <div class="max-w-4xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg flex gap-6">
-            <!-- Bloc images -->
-            <div class="flex gap-4">
-                <div class="flex flex-col gap-2 h-72"> <!-- Assure que la hauteur de la colonne est égale à la grande image -->
-                    <div class="w-24 h-24 bg-gray-300"></div>
-                    <div class="w-24 h-24 bg-gray-300"></div>
-                    <div class="w-24 h-24 bg-gray-300"></div>
+        <div class="max-w-5xl mx-auto my-12 px-4 sm:px-6 lg:px-8">
+            <main>
+                <!-- En-tête de l'article avec image -->
+                <div class="relative rounded-xl overflow-hidden shadow-2xl mb-10">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+                    <img src="<?= htmlspecialchars($this->article->getImg()) ?>" alt="<?= htmlspecialchars($this->article->getTitle()) ?>" class="w-full h-[400px] object-cover object-center">
+                    <div class="absolute bottom-0 left-0 right-0 p-8 z-20">
+                        <div class="inline-block px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full mb-4">Tutoriel DIY</div>
+                        <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight mb-2"><?= htmlspecialchars($this->article->getTitle()) ?></h1>
+                        <div class="flex items-center text-white/90 text-sm">
+                            <span class="mr-4">Par <span class="font-medium"><?= htmlspecialchars($this->article->getAuthorName()) ?></span></span>
+                            <span class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="white">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                                </svg>
+                                <?= $this->article->getArticleDate()->format('d M Y') ?>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-72 h-72 bg-gray-300">
-                    <img src="<?= htmlspecialchars($this->article->getImg()) ?>" alt="<?= htmlspecialchars($this->article->getTitle()) ?>" class="w-full h-full object-cover">
-                </div> <!-- Image principale carrée -->
-            </div>
 
-            <!-- Contenu article -->
-            <div class="flex-1 flex flex-col justify-between">
-                <div>
-                    <h2 class="text-2xl font-bold"><?= htmlspecialchars($this->article->getTitle()) ?></h2>
-                    <p class="text-gray-600 mt-2"><?= substr($this->article->getContent(), 0, 50) . '...' ?></p>
-                </div>
-
-                <!-- Section avec quantité, prix et bouton alignés à droite -->
-                <div class="flex justify-end items-center gap-4 mt-4">
-                    <!-- Sélection quantité -->
-                    <select id="quantity" class="select select-bordered w-20">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    
-                    <!-- Prix -->
-                    <span id="price" class="text-green-600 text-xl font-bold">10€</span>
-                    
-                    <!-- Bouton lien -->
-                    <button class="btn btn-primary text-white w-32">Lien vers l'article</button>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Section Articles associés -->
-        <div class="mt-8">
-            <h3 class="text-xl font-semibold">Produits associés :</h3>
-            <div class="flex flex-wrap gap-4 mt-4">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                    <!-- Produit -->
-                    <?php if(count($this->associatedProducts) !== 0): ?>
-                        <?php 
-                        foreach ($this->associatedProducts as $productId){
-                        $productModel = new ProductModel();
-                        $productEntity = $productModel->getProductById($productId);
-                        $firstImage = $productEntity->getFirstImage();
-                        $imageSrc = $firstImage !== null ? htmlspecialchars($firstImage, ENT_QUOTES, 'UTF-8') : '';?>
-                            <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950 relative group">
-                                <a href="/produit/<?= $productEntity->getProductId() ?>">
-                                    <img src="<?= $imageSrc ?>" alt="<?= $productEntity->getProduct() ?>" class="object-cover w-full h-full">
-                                    <!-- Overlay avec les détails du produit -->
-                                    <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <h3 class="font-semibold text-sm md:text-base font-supreme truncate text-white"><?= $productEntity->getProduct() ?></h3>
-                                        <p class="text-xs md:text-sm font-supreme line-clamp-2 my-1 text-white"><?= $productEntity->getDescription() ?></p>
-                                        <p class="font-bold text-sm md:text-base font-supreme text-white"><?= $productEntity->getPrice() ?> €</p>
-                                    </div>
+                <!-- Contenu principal -->
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Article -->
+                    <div class="md:w-2/3">
+                        <div class="bg-white rounded-xl shadow-md p-8">
+                            <!-- Contenu (description) -->
+                            <div class="prose prose-lg max-w-none">
+                                <?= html_entity_decode($this->article->getContent()) ?>
+                            </div>
+                            
+                            <!-- Actions article -->
+                            <div class="mt-10 pt-6 border-t border-gray-200 flex flex-wrap gap-4">
+                               
+                                <a href="/diy" class="flex items-center gap-2 px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                    Retour aux tutoriels
                                 </a>
                             </div>
-                        <?php } ?>
-                    <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar -->
+                    <div class="md:w-1/3">
+                        <!-- Produits liés à l'article -->
+                        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+                                </svg>
+                                Produits associés
+                            </h2>
+                            <?php if(count($this->associatedProducts) !== 0): ?>
+                                <div class="space-y-4">
+                                    <?php 
+                                    foreach ($this->associatedProducts as $productId){
+                                        $productModel = new ProductModel();
+                                        $productEntity = $productModel->getProductById($productId);
+                                    ?>
+                                        <div class="group flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer" 
+                                             onclick="window.location.href='/produit/<?= $productEntity->getProductId() ?>'">
+                                            <img src="<?= htmlspecialchars($productEntity->getFirstImage()) ?>" 
+                                                alt="<?= htmlspecialchars($productEntity->getProduct()) ?>" 
+                                                class="w-16 h-16 object-cover rounded-md shadow-sm">
+                                            <div class="flex-1 min-w-0">
+                                                <h3 class="text-sm font-medium text-gray-900 truncate group-hover:text-green-600 transition-colors">
+                                                    <?= htmlspecialchars($productEntity->getProduct()) ?>
+                                                </h3>
+                                                <p class="mt-1 text-xs text-gray-500 truncate">
+                                                    <?= number_format($productEntity->getPrice(), 2, ',', ' ') ?> €
+                                                </p>
+                                            </div>
+                                            <div class="flex-shrink-0">
+                                                <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            <?php else: ?>
+                                <p class="text-gray-500 text-sm">Aucun produit associé à cet article.</p>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Tutoriels similaires (suggestion) -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                                </svg>
+                                À découvrir aussi
+                            </h2>
+                            <div class="space-y-4">
+                                <p class="text-gray-500 text-sm">D'autres tutoriels qui pourraient vous intéresser.</p>
+                                <a href="/diy" class="inline-block w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition-colors">
+                                    Voir tous les tutoriels
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </main>
         </div>
-
-
-        <!-- Section Tuto -->
-        <div class="mt-8">
-            <!-- <h3 class="text-xl font-semibold">Tuto : Comment utiliser cet article ?</h3> -->
-            <?= htmlspecialchars_decode($this->article->getContent()) ?>
-        </div>
-
-<script>
-    document.getElementById('quantity').addEventListener('change', function() {
-        let basePrice = 10;
-        let quantity = this.value;
-        document.getElementById('price').textContent = (basePrice * quantity) + '€';
-    });
-</script>
-
     <?php
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog']))->show();
