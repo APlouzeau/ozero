@@ -23,7 +23,7 @@ class OrderView extends View
                     </svg>
                     <h3 class="text-lg font-medium text-gray-900 mb-2">Aucune commande pour le moment</h3>
                     <p class="text-gray-600 mb-4">Vous n'avez pas encore effectué de commande.</p>
-                    <a href="/products" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    <a href="/catalogue" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                         Découvrir nos produits
                     </a>
                 </div>

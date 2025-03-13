@@ -109,6 +109,10 @@ class BackProductView extends View {
                         $firstImage = $product->getFirstImage();
                         // Correction de l'erreur - Vérification explicite que l'image n'est pas null
                         $imageSrc = $firstImage !== null ? htmlspecialchars($firstImage, ENT_QUOTES, 'UTF-8') : '';
+                        // Récupérer la catégorie du produit
+                        $categoryId = $productModel->getIdCategoryByProduct($product->getProductId());
+                        // Récupérer toutes les images du produit pour les mettre en JSON
+                        $imagesJson = json_encode($product->getImages());
                         ?>
                         <tr class="border-t border-gray-100 hover:bg-gray-50">
                             <td class="px-4 py-3"><?= htmlspecialchars($product->getProductId()) ?></td>
@@ -142,13 +146,20 @@ class BackProductView extends View {
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex gap-2">
-                                    <a href="/admin/products/edit/<?= $product->getProductId() ?>" 
-                                       class="btn btn-sm btn-outline text-blue-600 border-blue-600 hover:bg-blue-600 hover:border-blue-600 hover:text-white group">
+                                    <label for="edit-product-modal" 
+                                       class="btn btn-sm btn-info btn-outline text-blue-600 border-blue-600 hover:bg-blue-600 hover:border-blue-600 hover:text-white group cursor-pointer"
+                                       data-product-id="<?= $product->getProductId() ?>"
+                                       data-product="<?= htmlspecialchars($product->getProduct()) ?>"
+                                       data-description="<?= htmlspecialchars($product->getDescription()) ?>"
+                                       data-price="<?= htmlspecialchars($product->getPrice()) ?>"
+                                       data-stock="<?= htmlspecialchars($product->getStock()) ?>"
+                                       data-category-id="<?= $categoryId ?? '' ?>"
+                                       data-images='<?= $imagesJson ?>'>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
-                                    </a>
-                                    <button class="btn btn-sm btn-outline text-red-600 border-red-600 hover:bg-red-600 hover:border-red-600 hover:text-white group"
+                                    </label>
+                                    <button class="btn btn-sm btn-error btn-outline text-red-600 border-red-600 hover:bg-red-600 hover:border-red-600 hover:text-white group"
                                             data-product-id="<?= $product->getProductId() ?>"
                                             onclick="confirmDelete(<?= $product->getProductId() ?>)">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -169,9 +180,20 @@ class BackProductView extends View {
         <?php $this->renderEditModal(); ?>
         <?php $this->renderDeleteModal(); ?>
 
+        <script>
+            // Fonction pour confirmer la suppression d'un produit
+            function confirmDelete(productId) {
+                document.getElementById('delete-product-id').value = productId;
+                document.getElementById('delete-product-modal').checked = true;
+            }
+        </script>
+        
+        <!-- Inclusion du script externe -->
+        <script src="/public/scripts/productsback.js"></script>
+
         <?php
         $contentPage = ob_get_clean();
-        (new BackOfficePageView($contentPage, 'Gestion des Produits', "Ceci est la page de gestion des produits.", ['backoffice', 'adminProducts', 'deleteProduct']))->show();
+        (new BackOfficePageView($contentPage, 'Gestion des Produits', "Ceci est la page de gestion des produits.", ['backoffice', 'adminProducts', 'deleteProduct', 'productsback']))->show();
     }
 
     private function renderAddModal() {
@@ -241,6 +263,10 @@ class BackProductView extends View {
                                         <p class="pl-1">ou glisser-déposer</p>
                                     </div>
                                     <p class="text-xs text-gray-500">PNG, JPG, GIF jusqu'à 10MB</p>
+                                    <!-- Ajout du conteneur de prévisualisation -->
+                                    <div id="add-image-preview-container" class="flex flex-wrap gap-4 mt-4 p-4 border border-gray-200 rounded-md hidden">
+                                        <!-- Les prévisualisations des images sélectionnées seront ajoutées ici -->
+                                    </div>
                                 </div>
                             </div>
                         </div>

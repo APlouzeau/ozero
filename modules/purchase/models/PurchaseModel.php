@@ -70,4 +70,54 @@ class PurchaseModel
         $result = $stmt->fetch();
         return $result ? new PurchaseEntity($result) : null;
     }
+
+    public function getTotalSales()
+    {
+        $query = "SELECT COALESCE(SUM(totalAmount), 0) as totalAmount 
+                 FROM purchases 
+                 WHERE status != 'panier'";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch()['totalAmount'];
+    }
+
+    public function getCurrentMonthSales()
+    {
+        $query = "SELECT COALESCE(SUM(totalAmount), 0) as totalAmount 
+                 FROM purchases 
+                 WHERE status != 'panier'
+                 AND MONTH(NOW()) = MONTH(NOW())";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch()['totalAmount'];
+    }
+
+    public function getAverageOrderValue()
+    {
+        $query = "SELECT COALESCE(AVG(totalAmount), 0) as average 
+                 FROM purchases 
+                 WHERE status != 'panier'";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch()['average'];
+    }
+
+    public function getRecentOrders($limit = 5)
+    {
+        $query = "SELECT 
+                    p.purchaseId as id, 
+                    p.totalAmount as total, 
+                    p.status,
+                    p.purchaseDate as created_at,
+                    CONCAT(u.firstName, ' ', u.lastName) as customer_name 
+                 FROM purchases p 
+                 JOIN users u ON p.userId = u.userId 
+                 WHERE p.status != 'panier'
+                 ORDER BY p.purchaseDate DESC 
+                 LIMIT :limit";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }

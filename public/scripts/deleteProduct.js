@@ -4,8 +4,8 @@ function confirmDelete(productId) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Ajouter des écouteurs d'événements à tous les boutons de suppression
-    const deleteButtons = document.querySelectorAll('[data-product-id]');
+    // Ajouter des écouteurs d'événements uniquement aux boutons de suppression (classe btn-error)
+    const deleteButtons = document.querySelectorAll('.btn-error[data-product-id]');
     deleteButtons.forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.getAttribute('data-product-id');

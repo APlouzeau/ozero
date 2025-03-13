@@ -42,7 +42,7 @@ class BackOfficePageView
             <div class="w-full md:w-64"></div>
             <aside id="sidebar" class="w-full md:w-64 bg-gray-100 text-gray-800 p-5 flex flex-col justify-between md:h-full transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out border-r border-gray-200">
                 <div>
-                    <h2 class="text-3xl font-bold font-chillax mb-6 text-primary">Dashboard</h2>
+                    <a href="/admin"><h2 class="text-3xl font-bold font-chillax mb-6 text-primary">Dashboard</h2></a>
                     <nav class="space-y-2">
                         <a href="/admin/users" class="block p-3 rounded bg-primary text-white hover:bg-primary/80 font-bold">Utilisateurs</a>
                         <a href="/admin/products" class="block p-3 rounded bg-primary text-white hover:bg-primary/80 font-bold">Produits</a>
