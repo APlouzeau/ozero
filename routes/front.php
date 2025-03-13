@@ -22,6 +22,7 @@ $router->addRoute('GET', '/admin/articles',  'BackArticleController#execute');
 $router->addRoute('GET', '/admin/articles/create',  'BackArticleController#create');
 $router->addRoute('GET', '/admin/articles/edit/{id}',  'BackArticleController#edit');
 $router->addRoute('GET', '/admin/commandes',  'BackOrderController#showAllOrders');
+$router->addRoute('GET', '/admin/commandes/{id}',  'BackOrderController#showOrderDetail');
 
 //Basket
 $router->addRoute('GET', '/panier',  'BasketController#execute');

@@ -9,6 +9,9 @@ class PurchaseEntity
     private string $status;
     private int $addressId;
     private string $paymentMethod;
+    private $user;
+    private $address;
+    private $products;
 
     public function __construct(array $data)
     {
@@ -21,6 +24,8 @@ class PurchaseEntity
             $method = "set" . ucfirst($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
+            } else {
+                $this->$key = $value;
             }
         }
     }
@@ -86,6 +91,39 @@ class PurchaseEntity
     public function setPaymentMethod(string $paymentMethod): self
     {
         $this->paymentMethod = $paymentMethod;
+        return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser($user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function setAddress($address): self
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    public function setProducts($products): self
+    {
+        $this->products = $products;
         return $this;
     }
 }

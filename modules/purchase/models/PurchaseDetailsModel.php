@@ -22,10 +22,25 @@ class PurchaseDetailsModel
     public function getPurchaseDetailsByPurchaseId($purchaseId): array
     {
         $stmt = $this->db->prepare('
-        SELECT * 
-        FROM purchaseDetails 
-        INNER JOIN products p ON p.productId = purchaseDetails.productId 
-        WHERE purchaseId = :purchaseId');
+        SELECT pd.*, 
+               p.product as name,
+               p.description,
+               p.price,
+               CASE 
+                   WHEN p.img LIKE "http%" THEN p.img
+                   WHEN p.img LIKE "https%" THEN p.img
+                   WHEN p.img IS NOT NULL THEN CONCAT("/uploads/products/", p.img)
+                   ELSE NULL
+               END as image_path,
+               CASE 
+                   WHEN p.img LIKE "http%" THEN p.img
+                   WHEN p.img LIKE "https%" THEN p.img
+                   WHEN p.img IS NOT NULL THEN CONCAT("/uploads/products/", p.img)
+                   ELSE NULL
+               END as images
+        FROM purchaseDetails pd
+        INNER JOIN products p ON p.productId = pd.productId 
+        WHERE pd.purchaseId = :purchaseId');
         $stmt->bindValue(':purchaseId', $purchaseId, PDO::PARAM_INT);
         $stmt->execute();
         $datas = $stmt->fetchAll();
