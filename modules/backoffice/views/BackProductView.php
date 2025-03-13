@@ -171,7 +171,7 @@ class BackProductView extends View {
 
         <?php
         $contentPage = ob_get_clean();
-        (new BackOfficePageView($contentPage, 'Gestion des Produits', "Ceci est la page de gestion des produits.", ['backoffice', 'adminProducts']))->show();
+        (new BackOfficePageView($contentPage, 'Gestion des Produits', "Ceci est la page de gestion des produits.", ['backoffice', 'adminProducts', 'deleteProduct']))->show();
     }
 
     private function renderAddModal() {

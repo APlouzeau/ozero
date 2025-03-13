@@ -152,7 +152,7 @@ class BackCategoryView extends View {
 
         <?php
         $contentPage = ob_get_clean();
-        (new BackOfficePageView($contentPage, 'Gestion des Catégories', "Ceci est la page de gestion des catégories.", ['backoffice','category']))->show();
+        (new BackOfficePageView($contentPage, 'Gestion des Catégories', "Ceci est la page de gestion des catégories.", ['backoffice','category', 'deleteCategory']))->show();
     }
 
     private function renderAddModal() {
@@ -257,5 +257,6 @@ class BackCategoryView extends View {
             </div>
         </div>
         <?php
-    }}
+    }
+}
 ?>
