@@ -57,12 +57,14 @@ class NavbarView extends View
                                     </div>
                                 </div>
                                 <ul tabindex="0" class="menu menu-sm dropdown-content bg-white color-black rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                                    <li>
-                                        <h4 class="font-supreme">Bonjour, <span class="font-bold"><?= ucfirst($user->getFirstName()) ?></span></h4>
-                                    </li>
-                                    <li><a href="/profile" class="font-supreme font-semibold">Profile</a></li>
+                                    <div class="px-3 py-2">
+                                        <span class="font-supreme">Bonjour, <span class="font-bold"><?= ucfirst($user->getFirstName()) ?></span></span>
+                                    </div>
+                                    <li><a href="/profile" class="font-supreme font-semibold">Profil</a></li>
                                     <li><a href="/commandes" class="font-supreme font-semibold">Commandes</a></li>
-                                    <li><a href="/admin/users" class="font-supreme font-semibold">Liste Utilisateurs</a></li>
+                                    <?php if ($user->getRole() > 1): ?>
+                                    <li><a href="/admin" class="font-supreme font-semibold">Panel Admin</a></li>
+                                    <?php endif; ?>
                                     <li>
                                         <form id="logoutForm" action="/logout" method="POST" style="display: inline;">
                                             <button type="submit" class="w-full text-left font-supreme font-semibold">Se déconnecter</button>

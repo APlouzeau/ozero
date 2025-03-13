@@ -8,20 +8,21 @@ $router->addRoute('GET', '/articles/{id}',  'ArticleController#execute');
 $router->addRoute('GET', '/products/search',  'ProductController#getAllProducts');
 $router->addRoute('GET', '/login',  'AuthController#showLoginForm', '');
 $router->addRoute('GET', '/register',  'AuthController#showRegisterForm', '');
-$router->addRoute('GET', '/profile',  'UserController#Profile', '');
+$router->addRoute('GET', '/profile',  'UserController#Profile', 'AuthMiddleware');
 $router->addRoute('GET', '/catalogue',  'ProductController#showCatalog', '');
 
 
 // BackOffice
-$router->addRoute('GET', '/admin',  'BackOfficeController#execute');
-$router->addRoute('GET', '/admin/users',  'BackUserController#execute');
-$router->addRoute('GET', '/admin/users/{id}', 'BackUserEditProfileController#execute',);
-$router->addRoute('GET', '/admin/categories',  'BackCategoryController#execute');
-$router->addRoute('GET', '/admin/products',  'BackProductController#execute');
-$router->addRoute('GET', '/admin/articles',  'BackArticleController#execute');
-$router->addRoute('GET', '/admin/articles/create',  'BackArticleController#create');
-$router->addRoute('GET', '/admin/articles/edit/{id}',  'BackArticleController#edit');
-$router->addRoute('GET', '/admin/commandes',  'BackOrderController#showAllOrders');
+$router->addRoute('GET', '/admin',  'BackOfficeController#execute', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/users',  'BackUserController#execute', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/users/{id}', 'BackUserEditProfileController#execute', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/categories',  'BackCategoryController#execute', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/products',  'BackProductController#execute', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/articles',  'BackArticleController#execute', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/articles/create',  'BackArticleController#create', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/articles/edit/{id}',  'BackArticleController#edit', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/commandes',  'BackOrderController#showAllOrders', 'RoleMiddleware');
+$router->addRoute('GET', '/admin/commandes/{id}',  'BackOrderController#showOrderDetail', 'RoleMiddleware');
 
 //Basket
 $router->addRoute('GET', '/panier',  'BasketController#execute');
