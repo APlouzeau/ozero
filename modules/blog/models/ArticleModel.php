@@ -188,7 +188,7 @@ class ArticleModel
             return false;
         }
     }
-    
+
 
     /**
      * Récupère les produits associés à un article
@@ -285,7 +285,7 @@ class ArticleModel
      */
     public function getCategoriesByArticleId(int $articleId): array
     {
-        $sql = "SELECT DISTINCT c.name 
+        $sql = "SELECT DISTINCT c.name, c.categoryId 
                 FROM categories c
                 INNER JOIN productCategory pc ON c.categoryId = pc.categoryId
                 INNER JOIN products p ON pc.productId = p.productId
@@ -296,7 +296,7 @@ class ArticleModel
         $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $data;
     }
-
 }
