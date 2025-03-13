@@ -6,50 +6,207 @@ class ProductView extends View
     {
         ob_start();
 ?>
-        <div class="items-center justify-center mx-auto p-10">
-            <h1 class="text-5xl font-bold text-center pb-6">Fiche produit</h1>
-            <div class="flex justify-center items-center gap-4">
-                <!-- image du produit -->
-                <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="w-80 mx-auto">
-                <!-- description -->
-                <div class="items-center justify-center w-1/3">
-                    <p class=""><?= htmlspecialchars_decode($product->getDescription()) ?></p>
-                </div>
-                <!-- note, titre, prix, stock -->
-                <div class="flex flex-col items-center w-1/3 gap-4">
-                    <div class="flex flex-row items-center justify-center gap-4">
-                        <p>5,0</p>
-                        <div class="flex flex-row gap-0">
-                            <?php for ($i = 0; $i < 5; $i++): ?>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 0l2.928 6.028L20 6.972 14.828 11.072l1.172 5.928L10 14.828l-6 2.172L5.172 11.072 0 6.972l7.072-.944L10 0z" clip-rule="evenodd" />
-                                </svg>
-                            <?php endfor; ?>
-                        </div>
-                        <p>(10 avis)</p>
-                    </div>
-                    <h2 class="text-4xl font-bold text-center"><?= $product->getProduct() ?></h2>
-                    <p class="text-center">Prix : <?= $product->getPrice() ?> €</p>
-                    <p class="text-center"><?= $product->getStock() ?> en stock</p>
-                    <!-- bouton ajout panier -->
-                    <div class="justify-center">
-                        <form action="/panier/add" method="post">
-                            <input type="hidden" name="product[]" value="<?= $product->getProduct() ?>">
-                            <input type="hidden" name="price[]" value="<?= $product->getPrice() ?>">
-                            <input type="hidden" name="productId[]" value="<?= $product->getProductId() ?>">
-                            <input type="hidden" name="quantity[]" value="1">
-                            <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-                        </form>
-                    </div>
-                </div>
-                
+        <div class="bg-white min-h-screen py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Fil d'Ariane -->
+                <nav class="flex mb-8 text-sm text-gray-500">
+                    <a href="/" class="hover:text-green-600">Accueil</a>
+                    <span class="mx-2">/</span>
+                    <a href="/catalogue?highlight=<?= $product->getProductId() ?>" class="hover:text-green-600">Catalogue</a>
+                    <span class="mx-2">/</span>
+                    <span class="text-gray-700 font-medium"><?= $product->getProduct() ?></span>
+                </nav>
 
-                
+                <!-- Contenu principal -->
+                <div class="flex flex-col md:flex-row -mx-4">
+                    <!-- Colonne gauche: Images -->
+                    <div class="md:flex-1 px-4 mb-8 md:mb-0">
+                        <div class="sticky top-6">
+                            <div class="rounded-lg overflow-hidden bg-gray-50 mb-4 border border-gray-200">
+                                <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="w-full h-96 object-contain">
+                            </div>
+                            
+                            <?php if (count($product->getImages()) > 1): ?>
+                            <div class="flex -mx-2 mb-4">
+                                <?php foreach($product->getImages() as $index => $image): ?>
+                                <div class="px-2 w-1/4">
+                                    <div class="rounded-md overflow-hidden border-2 <?= $index === 0 ? 'border-green-500' : 'border-gray-200 hover:border-green-300' ?> cursor-pointer">
+                                        <img src="<?= $image ?>" alt="<?= $product->getProduct() ?>" class="w-full h-20 object-cover">
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Colonne droite: Informations produit -->
+                    <div class="md:flex-1 px-4">
+                        <h1 class="text-3xl font-bold text-gray-900 mb-2"><?= $product->getProduct() ?></h1>
+                        
+                        <!-- Évaluations -->
+                        <div class="flex items-center mb-6">
+                            <div class="flex items-center">
+                                <?php for ($i = 0; $i < 5; $i++): ?>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 <?= $i < 5 ? 'text-yellow-400' : 'text-gray-300' ?>" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <?php endfor; ?>
+                            </div>
+                            <span class="text-gray-600 ml-3">(10 avis)</span>
+                        </div>
+                        
+                        <!-- Prix et stock -->
+                        <div class="mb-8">
+                            <div class="flex items-center mb-4">
+                                <span class="text-3xl font-bold text-gray-900"><?= $product->getPrice() ?> €</span>
+                                <?php if ($product->getStock() > 0): ?>
+                                <span class="ml-4 px-2.5 py-0.5 bg-green-100 text-green-800 text-xs font-medium rounded-full">En stock</span>
+                                <?php else: ?>
+                                <span class="ml-4 px-2.5 py-0.5 bg-red-100 text-red-800 text-xs font-medium rounded-full">Rupture de stock</span>
+                                <?php endif; ?>
+                            </div>
+                            <p class="text-sm text-gray-500">
+                                <?php if ($product->getStock() > 10): ?>
+                                Plus de 10 unités disponibles
+                                <?php else: ?>
+                                Plus que <?= $product->getStock() ?> en stock!
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                        
+                        <!-- Options d'achat -->
+                        <div class="mb-8">
+                            <div class="flex items-center mb-4">
+                                <div class="mr-4">
+                                    <label for="quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantité</label>
+                                    <div class="custom-number-input h-10 w-32">
+                                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent">
+                                            <button data-action="decrement" class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:bg-gray-200 h-full w-20 rounded-l cursor-pointer outline-none">
+                                                <span class="m-auto text-xl font-thin">−</span>
+                                            </button>
+                                            <input type="number" id="quantity" class="focus:outline-none text-center w-full bg-gray-50 font-semibold text-md hover:text-black focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none" name="quantity" value="1" min="1" max="<?= $product->getStock() ?>">
+                                            <button data-action="increment" class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:bg-gray-200 h-full w-20 rounded-r cursor-pointer">
+                                                <span class="m-auto text-xl font-thin">+</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bouton d'ajout au panier -->
+                            <form action="/panier/add" method="post" class="mb-4">
+                                <input type="hidden" name="product[]" value="<?= $product->getProduct() ?>">
+                                <input type="hidden" name="price[]" value="<?= $product->getPrice() ?>">
+                                <input type="hidden" name="productId[]" value="<?= $product->getProductId() ?>">
+                                <input type="hidden" name="quantity[]" id="form-quantity" value="1">
+                                <div class="flex space-x-3">
+                                    <button type="submit" class="flex-1 min-w-0 bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                                        </svg>
+                                        Ajouter au panier
+                                    </button>
+                                    <button type="button" class="p-3 rounded-lg bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="border-t border-gray-200 pt-6">
+                            <h2 class="text-xl font-bold text-gray-900 mb-4">Description</h2>
+                            <div class="prose prose-green max-w-none">
+                                <p class="text-gray-700"><?= htmlspecialchars_decode($product->getDescription()) ?></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Livraison -->
+                        <div class="border-t border-gray-200 pt-6 mt-6">
+                            <h2 class="text-xl font-bold text-gray-900 mb-4">Livraison</h2>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-gray-700">Livraison gratuite à partir de 50€ d'achat</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-gray-700">Expédition sous 24h pour toute commande passée avant 15h</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="text-gray-700">Retours gratuits pendant 30 jours</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Script pour le sélecteur de quantité -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Gestion des boutons d'incrémentation/décrémentation
+                const decrementButtons = document.querySelectorAll('[data-action="decrement"]');
+                const incrementButtons = document.querySelectorAll('[data-action="increment"]');
+                const quantityInput = document.getElementById('quantity');
+                const formQuantityInput = document.getElementById('form-quantity');
+                
+                // Stocker l'ID du produit consulté dans le localStorage
+                localStorage.setItem('lastViewedProductId', '<?= $product->getProductId() ?>');
+                
+                // Decrement
+                decrementButtons.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const target = quantityInput;
+                        let value = parseInt(target.value);
+                        value = isNaN(value) ? 1 : value;
+                        value--;
+                        if (value < 1) value = 1;
+                        target.value = value;
+                        formQuantityInput.value = value;
+                    });
+                });
+                
+                // Increment
+                incrementButtons.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const target = quantityInput;
+                        let value = parseInt(target.value);
+                        value = isNaN(value) ? 1 : value;
+                        value++;
+                        if (value > <?= $product->getStock() ?>) value = <?= $product->getStock() ?>;
+                        target.value = value;
+                        formQuantityInput.value = value;
+                    });
+                });
+                
+                // Mise à jour manuelle
+                quantityInput.addEventListener('change', function() {
+                    let value = parseInt(this.value);
+                    value = isNaN(value) ? 1 : value;
+                    if (value < 1) value = 1;
+                    if (value > <?= $product->getStock() ?>) value = <?= $product->getStock() ?>;
+                    this.value = value;
+                    formQuantityInput.value = value;
+                });
+            });
+        </script>
     <?php
         $contentPage = ob_get_clean();
-        (new FrontPageView($contentPage, 'Panier', "Votre panier", ['debug',]))->show();
+        (new FrontPageView($contentPage, 'Produit | ' . $product->getProduct(), "Détails du produit " . $product->getProduct(), ['debug']))->show();
     }
 
     public function showCatalog($products, $categories, $productsByCategorys)
@@ -165,6 +322,7 @@ class ProductView extends View
                                 <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1" 
                                     data-category="<?= $product['categoryId'] ?>" 
                                     data-price="<?= $product['price'] ?>" 
+                                    data-productid="<?= $product['productId'] ?>"
                                     data-name="<?= strtolower($product['product']) ?>">
                                     <div class="relative h-48 bg-gray-200">
                                         <?php if (!empty($product['image_path'])) { ?>
@@ -246,6 +404,42 @@ class ProductView extends View
                 
                 let maxPrice = <?= getMaxPrice($productsByCategorys) ?>;
                 let currentView = 'grid';
+                
+                // Mise en évidence du produit précédemment consulté
+                function highlightLastViewedProduct() {
+                    // Vérifier les paramètres d'URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    let productIdToHighlight = urlParams.get('highlight');
+                    
+                    // Si non présent dans l'URL, vérifier le localStorage
+                    if (!productIdToHighlight) {
+                        productIdToHighlight = localStorage.getItem('lastViewedProductId');
+                    }
+                    
+                    if (productIdToHighlight) {
+                        const productCard = document.querySelector(`.product-card[data-productid="${productIdToHighlight}"]`);
+                        if (productCard) {
+                            // Ajouter une classe pour la mise en évidence
+                            productCard.classList.add('ring-4', 'ring-green-500', 'ring-opacity-70');
+                            
+                            // Ajouter le libellé "vu à l'instant"
+                            const badgeElement = document.createElement('span');
+                            badgeElement.className = 'absolute top-2 left-2 bg-green-600 text-white text-xs font-medium px-2.5 py-1 rounded-full shadow-sm';
+                            badgeElement.textContent = 'Vu à l\'instant';
+                            
+                            // Ajouter le badge à la div relative contenant l'image
+                            const imageContainer = productCard.querySelector('.relative');
+                            if (imageContainer) {
+                                imageContainer.appendChild(badgeElement);
+                            }
+                            
+                            // Faire défiler jusqu'au produit après un court délai
+                            setTimeout(() => {
+                                productCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 300);
+                        }
+                    }
+                }
                 
                 // Mise à jour de l'affichage du prix en fonction du curseur
                 priceFilter.addEventListener('input', function() {
@@ -433,6 +627,9 @@ class ProductView extends View
                 
                 // Effectuer un filtrage initial pour s'assurer que tout est affiché correctement
                 filterProducts();
+                
+                // Mettre en évidence le dernier produit consulté
+                highlightLastViewedProduct();
             });
         </script>
 
