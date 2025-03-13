@@ -236,7 +236,7 @@ class ArticleView
                             $categories = $articleData[1];
                         ?>
                             <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1"
-                                data-category="<?= !empty($categories) ? $categories[0] : '' ?>"
+                                data-category="<?= !empty($categories) ? $categories[0]['categoryId'] : '' ?>"
                                 data-name="<?= strtolower($article->getTitle()) ?>">
                                 <div class="relative h-48 bg-gray-200">
                                     <?php if (!empty($article->getImg())): ?>
@@ -251,15 +251,15 @@ class ArticleView
                                     <?php if (!empty($categories)):
                                         foreach ($categories as $category): ?>
                                             <span class="absolute top-2 right-2 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                                                <?= htmlspecialchars($category['name']) ?>
+                                                <?= htmlspecialchars($category['categoryId']) ?>
                                             </span>
                                     <?php break; // Show only the first category
                                         endforeach;
                                     endif; ?>
                                 </div>
                                 <div class="p-4">
-                                    <h3 class="text-lg font-semibold text-gray-900 mb-2"><?= htmlspecialchars($article->getTitle()) ?></h3>
-                                    <p class="text-sm text-gray-600 mb-4 line-clamp-2"><?= htmlspecialchars(substr($article->getContent(), 0, 100)) ?>...</p>
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2"><?= $article->getTitle() ?></h3>
+                                    <p class="text-sm text-gray-600 mb-4 line-clamp-2"><?= (substr($article->getContent(), 0, 100)) ?>...</p>
                                     <div class="flex justify-between items-center">
                                         <div class="flex space-x-2">
                                             <a href="/articles/<?= $article->getArticleId() ?>" class="inline-flex items-center px-3 py-1.5 border border-green-600 text-xs font-medium rounded text-green-600 bg-white hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
@@ -269,12 +269,7 @@ class ArticleView
                                                 <input type="hidden" name="product[]" value="<?= htmlspecialchars($article->getTitle()) ?>">
                                                 <input type="hidden" name="articleId[]" value="<?= $article->getArticleId() ?>">
                                                 <input type="hidden" name="quantity[]" value="1">
-                                                <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-white" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-                                                    </svg>
-                                                    Ajouter
-                                                </button>
+
                                             </form>
                                         </div>
                                     </div>

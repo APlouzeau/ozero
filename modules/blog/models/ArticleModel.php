@@ -285,7 +285,7 @@ class ArticleModel
      */
     public function getCategoriesByArticleId(int $articleId): array
     {
-        $sql = "SELECT DISTINCT c.name 
+        $sql = "SELECT DISTINCT c.name, c.categoryId 
                 FROM categories c
                 INNER JOIN productCategory pc ON c.categoryId = pc.categoryId
                 INNER JOIN products p ON pc.productId = p.productId
