@@ -180,4 +180,11 @@ class UserModel
 
         return $userEntities;
     }
+
+    public function getTotalUsers() {
+        $query = "SELECT COUNT(*) as total FROM users";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch()['total'];
+    }
 }

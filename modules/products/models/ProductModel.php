@@ -342,4 +342,29 @@ class ProductModel
         $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $data;
     }
+
+    public function getTotalProducts() {
+        $query = "SELECT COUNT(*) as total FROM products";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetch()['total'];
+    }
+
+    public function getBestSellingProducts($limit = 5) {
+        $query = "SELECT 
+                    p.product as name,
+                    COUNT(pd.productId) as sales_count,
+                    SUM(pd.unitPrice * pd.quantity) as revenue
+                 FROM products p
+                 JOIN purchaseDetails pd ON p.productId = pd.productId
+                 JOIN purchases pu ON pd.purchaseId = pu.purchaseId
+                 WHERE pu.status != 'panier'
+                 GROUP BY p.productId, p.product
+                 ORDER BY sales_count DESC
+                 LIMIT :limit";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
