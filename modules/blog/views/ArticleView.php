@@ -4,7 +4,9 @@ class ArticleView
 {
 
     private ?ArticleEntity $article;
-    public function __construct(?ArticleEntity $article = null)
+    private ?array $associatedProducts;
+
+    public function __construct(?ArticleEntity $article = null, array $associatedProducts = [])
     {
         if ($article) {
             $this->article = $article;
