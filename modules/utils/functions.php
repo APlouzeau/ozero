@@ -1,9 +1,15 @@
 <?php
-function getMaxPrice(array $products)
-{
-    $prices = [];
+/**
+ * Récupère le prix maximum parmi tous les produits
+ * @param array $products Tableau des produits
+ * @return int Prix maximum
+ */
+function getMaxPrice($products) {
+    $maxPrice = 0;
     foreach ($products as $product) {
-        $prices[] = $product['price'];
+        if (isset($product['price']) && $product['price'] > $maxPrice) {
+            $maxPrice = $product['price'];
+        }
     }
-    return !empty($prices) ? max($prices) : 0;
+    return $maxPrice;
 }
