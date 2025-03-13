@@ -49,10 +49,10 @@ class ArticleView
                             <div class="prose prose-lg max-w-none">
                                 <?= html_entity_decode($this->article->getContent()) ?>
                             </div>
-                            
+
                             <!-- Actions article -->
                             <div class="mt-10 pt-6 border-t border-gray-200 flex flex-wrap gap-4">
-                               
+
                                 <a href="/diy" class="flex items-center gap-2 px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
@@ -62,7 +62,7 @@ class ArticleView
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Sidebar -->
                     <div class="md:w-1/3">
                         <!-- Produits liés à l'article -->
@@ -73,17 +73,17 @@ class ArticleView
                                 </svg>
                                 Produits associés
                             </h2>
-                            <?php if(count($this->associatedProducts) !== 0): ?>
+                            <?php if (count($this->associatedProducts) !== 0): ?>
                                 <div class="space-y-4">
-                                    <?php 
-                                    foreach ($this->associatedProducts as $productId){
+                                    <?php
+                                    foreach ($this->associatedProducts as $productId) {
                                         $productModel = new ProductModel();
                                         $productEntity = $productModel->getProductById($productId);
                                     ?>
-                                        <div class="group flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer" 
-                                             onclick="window.location.href='/produit/<?= $productEntity->getProductId() ?>'">
-                                            <img src="<?= htmlspecialchars($productEntity->getFirstImage()) ?>" 
-                                                alt="<?= htmlspecialchars($productEntity->getProduct()) ?>" 
+                                        <div class="group flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                                            onclick="window.location.href='/produit/<?= $productEntity->getProductId() ?>'">
+                                            <img src="<?= htmlspecialchars($productEntity->getFirstImage()) ?>"
+                                                alt="<?= htmlspecialchars($productEntity->getProduct()) ?>"
                                                 class="w-16 h-16 object-cover rounded-md shadow-sm">
                                             <div class="flex-1 min-w-0">
                                                 <h3 class="text-sm font-medium text-gray-900 truncate group-hover:text-green-600 transition-colors">
@@ -107,7 +107,7 @@ class ArticleView
                                 <p class="text-gray-500 text-sm">Aucun produit associé à cet article.</p>
                             <?php endif; ?>
                         </div>
-                        
+
                         <!-- Tutoriels similaires (suggestion) -->
                         <div class="bg-white rounded-xl shadow-md p-6">
                             <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
@@ -127,6 +127,15 @@ class ArticleView
                 </div>
             </main>
         </div>
+
+        <script>
+            document.getElementById('quantity').addEventListener('change', function() {
+                let basePrice = 10;
+                let quantity = this.value;
+                document.getElementById('price').textContent = (basePrice * quantity) + '€';
+            });
+        </script>
+
     <?php
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog']))->show();
@@ -158,8 +167,8 @@ class ArticleView
             <div class="p-8 pt-0 bg-base-100 shadow-xl rounded-lg">
                 <div class="">
                     <h1 class="text-2xl font-bold"><?= htmlspecialchars($articleBlog->getTitle()) ?></h1>
-                    <img src="<?= htmlspecialchars($articleBlog->getImg()) ?>" alt="<?= htmlspecialchars($articleBlog->getTitle()) ?>" 
-                    class="w-full h-64 mt-6 mb-6 object-cover rounded-lg">
+                    <img src="<?= htmlspecialchars($articleBlog->getImg()) ?>" alt="<?= htmlspecialchars($articleBlog->getTitle()) ?>"
+                        class="w-full h-64 mt-6 mb-6 object-cover rounded-lg">
                     <div id="blog-content"><?= htmlspecialchars_decode($articleBlog->getContent()) ?></div>
 
                 </div>
@@ -171,26 +180,16 @@ class ArticleView
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog']))->show();
     }
 
-    public function showDiy($articles)
+    public function showDiy($articles, $categories)
     {
 
-        $categories = [
-            'all' => 'Tous les Tutos',
-            'jardin' => 'Jardin & Nature',
-            'cosmetiques' => 'Cosmétiques Naturels',
-            'entretien' => 'Maison & Entretien',
-            'energie' => 'Énergie & Upcycling',
-            'alimentation' => 'Alimentation & Cuisine',
-            'mode' => 'Mode & Accessoires'
-        ];
-
         ob_start();
-?>
+    ?>
         <div class="bg-white min-h-screen">
             <!-- Section: Qu'est-ce que le DIY -->
             <div class="max-w-6xl mx-auto my-8 md:my-12 px-4">
                 <h1 class="text-2xl md:text-3xl font-semibold text-primary mb-6 text-center font-supreme">Le DIY, qu'est ce que c'est ?</h1>
-                
+
                 <div class="bg-white p-6 rounded-lg shadow-lg shadow-black-950 mb-12">
                     <div class="max-w-3xl mx-auto">
                         <p class="text-sm md:text-base mb-4 font-supreme">
@@ -213,109 +212,120 @@ class ArticleView
                         </a>
                     </div>
                 </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
-                    <?php foreach ($categories as $key => $category): ?>
-                        <?php if ($key !== 'all'): ?>
-                            <a href="?category=<?= $key ?>" class="bg-white p-4 rounded-lg shadow-box text-center hover:shadow-lg transition-shadow">
-                                <div class="h-32 bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
-                                    <?php 
-                                    // Utiliser les images correspondantes aux catégories
-                                    $imageName = $key;
-                                    // Correction pour "cosmetiques" car le fichier s'appelle "cosmetique.png"
-                                    if ($key === 'cosmetiques') {
-                                        $imageName = 'cosmetique';
-                                    }
-                                    ?>
-                                    <img src="/assets/png/<?= $imageName ?>.png" alt="<?= $category ?>" class="h-full object-contain p-2">
-                                </div>
-                                <h3 class="font-semibold font-supreme"><?= $category ?></h3>
-                            </a>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </div>
-            </div>
 
-            <!-- Section: Tutoriels -->
-            <div class="max-w-6xl mx-auto my-8 px-4">
-                <?php 
-                $selectedCategory = isset($_GET['category']) ? $_GET['category'] : 'all';
-                $viewMode = isset($_GET['view']) ? $_GET['view'] : 'grid';
-                
-                // Filtrer les tutoriels par catégorie
-                $filteredTutorials = array_filter($articles, function($tutorial) use ($selectedCategory) {
-                    return $selectedCategory === 'all' || $tutorial['category'] === $selectedCategory;
-                });
-                ?>
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl md:text-2xl font-semibold font-supreme">
-                        <?= $selectedCategory === 'all' ? 'Tous les Tutos' : $categories[$selectedCategory] ?>
-                    </h2>
-                    <div class="flex items-center">
-                        <span class="mr-2 font-supreme">Trier les Tutos :</span>
-                        <div class="flex space-x-2">
-                            <button type="button" class="bg-gray-200 p-2 rounded" id="gridView">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="14" width="7" height="7"></rect>
-                                    <rect x="3" y="14" width="7" height="7"></rect>
+                <div class="mb-6">
+                    <h3 class="text-sm font-medium text-gray-900 mb-2">Catégories</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input id="category-all" name="category" type="radio" value="all" class="h-4 w-4 text-green-600 focus:ring-green-500" checked>
+                            <label for="category-all" class="ml-2 text-sm text-gray-700">Toutes les catégories</label>
+                        </div>
+                        <?php foreach ($categories as $category) { ?>
+                            <div class="flex items-center">
+                                <input id="category-<?= $category->getCategoryId() ?>" name="category" type="radio" value="<?= $category->getCategoryId() ?>" class="h-4 w-4 text-green-600 focus:ring-green-500 category-filter">
+                                <label for="category-<?= $category->getCategoryId() ?>" class="ml-2 text-sm text-gray-700"><?= $category->getName() ?></label>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <button id="apply-filters" class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
+                        Appliquer les filtres
+                    </button>
+                </div>
+
+                <!-- Section: Tutoriels -->
+                <div class="lg:w-3/4">
+                    <!-- Contrôles de tri et d'affichage -->
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-6 flex flex-col sm:flex-row justify-between items-center">
+                        <div class="flex items-center mb-4 sm:mb-0">
+                            <span class="text-gray-700 mr-2">Trier par:</span>
+                            <select id="sort-options" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 p-2">
+                                <option value="default">Pertinence</option>
+                                <option value="price-asc">Prix croissant</option>
+                                <option value="price-desc">Prix décroissant</option>
+                                <option value="name-asc">Nom (A-Z)</option>
+                                <option value="name-desc">Nom (Z-A)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button id="grid-view" class="p-2 rounded-md bg-green-100 text-green-600 hover:bg-green-200 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                 </svg>
                             </button>
-                            <button type="button" class="p-2 rounded" id="listView">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="8" y1="6" x2="21" y2="6"></line>
-                                    <line x1="8" y1="12" x2="21" y2="12"></line>
-                                    <line x1="8" y1="18" x2="21" y2="18"></line>
-                                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            <button id="list-view" class="p-2 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="listButton h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
                                 </svg>
                             </button>
                         </div>
                     </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12" id="conteneur-grid">
-                    <?php foreach ($filteredTutorials as $tutorial): ?>
-                        <div class="bg-white rounded-lg shadow-xl overflow-hidden flex transform transition-transform hover:scale-105 hover:cursor-pointer"
-                        onclick="window.location.href='/articles/<?= $tutorial->getArticleId() ?>'">
-                            <div class="w-1/3 bg-gray-200">
-                                <?php if (!empty($tutorial->getImg())): ?>
-                                    <img src="<?= $tutorial->getImg() ?>" alt="<?= $tutorial->getTitle() ?>" 
-                                    class="w-48 h-48 object-cover">
-                                <?php endif; ?>
+
+                    <!-- Grille de produits -->
+                    <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <?php foreach ($articles as $articleData):
+                            $article = $articleData[0]; // Get the article entity
+                            $categories = $articleData[1];
+                        ?>
+                            <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1"
+                                data-category="<?= !empty($categories) ? $categories[0]['categoryId'] : '' ?>"
+                                data-name="<?= strtolower($article->getTitle()) ?>">
+                                <div class="relative h-48 bg-gray-200">
+                                    <?php if (!empty($article->getImg())): ?>
+                                        <img src="<?= htmlspecialchars($article->getImg()) ?>" alt="<?= htmlspecialchars($article->getTitle()) ?>" class="w-full h-full object-cover">
+                                    <?php else: ?>
+                                        <div class="flex items-center justify-center h-full bg-gray-200">
+                                            <svg class="h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($categories)):
+                                        foreach ($categories as $category): ?>
+                                            <span class="absolute top-2 right-2 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                                <?= htmlspecialchars($category['categoryId']) ?>
+                                            </span>
+                                    <?php break; // Show only the first category
+                                        endforeach;
+                                    endif; ?>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2"><?= $article->getTitle() ?></h3>
+                                    <p class="text-sm text-gray-600 mb-4 line-clamp-2"><?= (substr($article->getContent(), 0, 100)) ?>...</p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex space-x-2">
+                                            <a href="/articles/<?= $article->getArticleId() ?>" class="inline-flex items-center px-3 py-1.5 border border-green-600 text-xs font-medium rounded text-green-600 bg-white hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                                Détails
+                                            </a>
+                                            <form action="/panier/add" method="post" class="inline-block">
+                                                <input type="hidden" name="product[]" value="<?= htmlspecialchars($article->getTitle()) ?>">
+                                                <input type="hidden" name="articleId[]" value="<?= $article->getArticleId() ?>">
+                                                <input type="hidden" name="quantity[]" value="1">
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="w-2/3 p-4">
-                                <h3 class="text-xl font-semibold mb-2 font-supreme"><?= $tutorial->getTitle() ?></h3>
-                                <p class="text-sm text-gray-600 mb-4 font-supreme"><?= substr($tutorial->getContent(), 0, 100) . '...' ?></p> <!-- substr pour limiter le nb de caracteres -->
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="mb-12" id="conteneur-list" style="display: none;">
-                    <?php foreach ($filteredTutorials as $tutorial): ?>
-                        <div class="bg-white rounded-lg shadow-xl overflow-hidden flex mb-6 transform transition-transform hover:scale-105 hover:cursor-pointer"
-                        onclick="window.location.href='/articles/<?= $tutorial->getArticleId() ?>'">
-                            <div class="w-1/6 bg-gray-200">
-                                <?php if (!empty($tutorial->getImg())): ?>
-                                    <img src="<?= $tutorial->getImg() ?>" alt="<?= $tutorial->getTitle() ?>" 
-                                    class="w-48 h-48 object-cover">
-                                <?php endif; ?>
-                            </div>
-                            <div class="w-4/6 p-4">
-                                <h3 class="text-xl font-semibold mb-2 font-supreme"><?= $tutorial->getTitle() ?></h3>
-                                <p class="text-sm text-gray-600 mb-4 font-supreme"><?= substr($tutorial->getContent(), 0, 200) . '...' ?></p> <!-- substr pour limiter le nb de caracteres -->
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <!-- Message "Aucun produit trouvé" (caché par défaut) -->
+                    <div id="no-products-message" class="hidden bg-white rounded-lg shadow-md p-8 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun produit ne correspond à vos critères</h3>
+                        <p class="text-gray-600 mb-4">Essayez de modifier vos filtres pour voir plus de produits.</p>
+                        <button id="reset-filters" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Réinitialiser les filtres
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php
+    <?php
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['diy']))->show();
     }
 }
 
-?>
+    ?>
