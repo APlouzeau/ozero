@@ -5,20 +5,48 @@ class FooterView extends View {
     public function show() {
         ob_start();
         ?>
+<div class="flex flex-row px-5 justify-center items-center">
+    <footer class=" w-[95%] p-4 bg-primary text-black shadow-md rounded-tl-[10px] rounded-tr-[10px] flex flex-col justify-center items-center text-xs space-y-1"> <!-- Réduire l'espacement vertical -->
 
-        <div class="flex flex-row px-5 justify-center items-center">
-            <footer class="footer w-[95%] p-8 bg-primary shadow-lg shadow-black-950 text-base-content rounded-tl-[10px] rounded-tr-[10px] flex justify-between items-center font-supreme">
-                <aside class="flex items-center gap-5">
-                    <img src="/assets/png/Logo1.png" alt="Logo Ozero Footer" width="150" height="150">
-                </aside>
-                <nav class="flex gap-10 items-center justify-center flex-grow text-center">
-                    <a id="contact-link" class="text-lg font-supreme font-semibold cursor-pointer hover:text-opacity-80 transition-colors uppercase text-black no-underline">Contact</a>
-                    <a class="text-lg font-supreme font-semibold hover:text-opacity-80 transition-colors uppercase text-black no-underline">À propos</a>
-                </nav>
-            </footer>
+        <!-- Section principale avec logo, liens et réseaux sociaux -->
+        <div class="flex flex-col md:flex-row justify-between items-center w-full space-y-1 md:space-y-0"> <!-- Réduire l'espacement vertical -->
+            <!-- Logo -->
+            <aside class="flex justify-center items-center">
+                <img src="/assets/png/Logo1.png" alt="Logo Ozero Footer" width="80" height="80">
+            </aside>
+
+            <!-- Liens de navigation -->
+            <nav class="flex gap-4 items-center border-l border-r border-gray-500 px-4">
+                <a href="#" class="hover:text-gray-800 transition">À propos</a>
+                <a href="#" id="contact-link" class="hover:text-gray-800 transition">Contact</a>
+                <a href="#" class="hover:text-gray-800 transition">Mentions légales</a>
+            </nav>
+
+            <!-- Réseaux sociaux -->
+            <div class="flex gap-3 justify-center items-center">
+                <a href="#" class="hover:opacity-80 transition">
+                    <img src="/assets/icons/facebook-icon.svg" alt="Facebook" width="20" height="20" class="filter grayscale">
+                </a>
+                <a href="#" class="hover:opacity-80 transition">
+                    <img src="/assets/icons/linkedin-icon.svg" alt="LinkedIn" width="20" height="20" class="filter grayscale">
+                </a>
+                <a href="#" class="hover:opacity-80 transition">
+                    <img src="/assets/icons/instagram-icon.svg" alt="Instagram" width="20" height="20" class="filter grayscale">
+                </a>
+            </div>
         </div>
 
-        <!-- Modal de contact -->
+        <!-- Copyright en bas du footer -->
+        <div class="flex justify-center items-center w-full mt-2">
+            <p class="text-gray-600">&copy; 2025 Ozero. Tous droits réservés.</p>
+        </div>
+
+    </footer>
+</div>
+
+
+
+       <!-- Modal de contact -->
         <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-0 z-50 flex items-center justify-center hidden transition-all duration-300 ease-in-out">
             <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4 relative transform scale-95 opacity-0 transition-all duration-300 ease-in-out">
                 <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
