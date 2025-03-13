@@ -67,6 +67,7 @@ class BackProductView extends View {
                 </tbody>
             </table>
         </div>
+        <!-- Intégration de CKEditor 5 avec l'adaptateur d'upload d'image -->
 
         <!-- Modals -->
         <?php $this->renderAddModal(); ?>
@@ -95,10 +96,12 @@ class BackProductView extends View {
                     </div>
 
                     <div class="form-control">
-                        <label class="label">
+                        <!-- <label class="label">
                             <span class="label-text">Description</span>
                         </label>
-                        <textarea name="description" class="textarea textarea-bordered" required></textarea>
+                        <textarea name="description" class="textarea textarea-bordered" required></textarea> -->
+                        <label class="block text-gray-700 mb-2" for="description">Contenu</label>
+                        <textarea name="description" id="description" nameJS="txtAreaAdd" class="textarea textarea-bordered w-full" rows="10" formnovalidate></textarea>
                     </div>
 
                     <div class="form-control">
@@ -163,10 +166,14 @@ class BackProductView extends View {
                     </div>
 
                     <div class="form-control">
-                        <label class="label">
+                        <!-- <label class="label">
                             <span class="label-text">Description</span>
                         </label>
-                        <textarea name="description" id="edit-description" class="textarea textarea-bordered" required></textarea>
+                        <textarea name="description" id="edit-description" class="textarea textarea-bordered" required></textarea> -->
+                        <!-- <div class="mb-4"> -->
+                        <label class="block text-gray-700 mb-2" for="description">Contenu</label>
+                        <textarea name="description" id="edit-description" class="textarea textarea-bordered w-full" rows="10"></textarea>
+                        <!-- </div> -->
                     </div>
 
                     <div class="form-control">
@@ -207,11 +214,12 @@ class BackProductView extends View {
 
                     <div class="modal-action">
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
-                        <label for="edit-product-modal" class="btn">Annuler</label>
+                        <label for="edit-product-modal" id="annuler-edit" class="btn">Annuler</label>
                     </div>
                 </form>
             </div>
         </div>
+        
         <?php
     }
 

@@ -1,20 +1,39 @@
 class ProductManager {
+  editorAdd;
+  editorEdit;
+
   constructor() {
     this.bindEvents();
+    // this.initializeEditor();
   }
 
-  bindEvents() {
-    document.addEventListener('DOMContentLoaded', () => {
-      this.initializeEditButtons();
+  async bindEvents() {
+    document.addEventListener('DOMContentLoaded', async () => {
       this.initializeDeleteButtons();
-      this.initializeFormHandlers();
+      await this.initializeFormHandlers();
       this.initializeImageDeleteHandlers();
+
+      const script = document.createElement('script');
+      script.src = 'https://cdn.ckeditor.com/ckeditor5/29.0.0/classic/ckeditor.js';
+      script.onload = () => {
+        console.log('CKEditor loaded successfully');
+        this.initializeEditor();
+      };
+      script.onerror = () => console.error('Failed to load CKEditor');
+      document.head.appendChild(script);
+      this.initializeEditButtons();
     });
   }
 
   initializeEditButtons() {
     document.querySelectorAll('.btn-info').forEach(button => {
-      button.addEventListener('click', () => this.handleEditProduct(button));
+      button.addEventListener('click', () => { 
+        this.handleEditProduct(button);
+        this.initializeEditorUpdate();
+      });
+    });
+    document.getElementById("annuler-edit").addEventListener('click', () => {
+      this.destroyEditor();
     });
   }
 
@@ -24,16 +43,16 @@ class ProductManager {
     });
   }
 
-  initializeFormHandlers() {
+  async initializeFormHandlers() {
     const addForm = document.getElementById('productForm');
     const editForm = document.getElementById('edit-product-form');
     const deleteForm = document.getElementById('delete-form');
 
     if (addForm) {
-      addForm.addEventListener('submit', (e) => this.handleAddProduct(e));
+      addForm.addEventListener('submit', async (e) => this.handleAddProduct(e));
     }
     if (editForm) {
-      editForm.addEventListener('submit', (e) => this.handleUpdateProduct(e));
+      editForm.addEventListener('submit', async (e) => this.handleUpdateProduct(e));
     }
     if (deleteForm) {
       deleteForm.addEventListener('submit', (e) => this.handleDeleteProduct(e));
@@ -55,7 +74,6 @@ class ProductManager {
       images: button.getAttribute('data-images'),
       category: button.getAttribute('data-category')
     };
-    console.log(button.getAttribute('data-category'));
     
     this.populateEditForm(productData);
   }
@@ -112,6 +130,9 @@ class ProductManager {
   async handleAddProduct(event) {
     event.preventDefault();
     try {
+      const textarea = document.getElementById("description");
+      const dataTextArea = this.editorAdd.getData();
+      textarea.value = dataTextArea;
       const formData = new FormData(event.target);
       const response = await ApiService.postFormData(API_ENDPOINTS.ADD_PRODUCT, formData);
 
@@ -133,9 +154,25 @@ class ProductManager {
     }
   }
 
+  destroyEditor() {
+    if (this.editorEdit) {
+      this.editorEdit.destroy()
+        .then(() => {
+          this.editorEdit = null;
+          console.log('Editor destroyed');
+        })
+        .catch(error => {
+          console.error('Error destroying editor', error);
+        });
+    }
+  }
+
   async handleUpdateProduct(event) {
     event.preventDefault();
     try {
+      const textarea = document.getElementById("edit-description");
+      const dataTextArea = this.editorEdit.getData();
+      textarea.value = dataTextArea;
       const formData = new FormData(event.target);
       const response = await ApiService.postFormData(API_ENDPOINTS.UPDATE_PRODUCT, formData);
 
@@ -156,6 +193,8 @@ class ProductManager {
       });
     }
   }
+
+  
 
   async handleDeleteProduct(event) {
     event.preventDefault();
@@ -217,6 +256,103 @@ class ProductManager {
     const productId = button.getAttribute('data-product-id');
     document.getElementById('delete-product-id').value = productId;
     document.getElementById('delete-product-modal').checked = true;
+  }
+
+  initializeEditor() {
+    const addTextarea = document.getElementById("description");
+    const editTextarea = document.getElementById("edit-description");
+
+    if (addTextarea) {
+      ClassicEditor.create(addTextarea, {
+        image: {
+          styles: {
+            options: ["alignLeft", "alignCenter", "alignRight"],
+          },
+          toolbar: [
+            "imageStyle:alignLeft",
+            "imageStyle:alignCenter",
+            "imageStyle:alignRight",
+            "|",
+            "imageTextAlternative",
+          ],
+        },
+        toolbar: {
+          items: [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "uploadImage",
+            "blockQuote",
+            "insertTable",
+            "|",
+            "undo",
+            "redo",
+          ],
+          shouldNotGroupWhenFull: true,
+        },
+      })
+        .then((editor) => {
+          console.log("Éditeur initialisé avec succès", editor);
+          this.editorAdd = editor;
+        })
+        .catch((error) => {
+          console.error("Erreur lors de l'initialisation:", error);
+        });
+    }
+  }
+
+  initializeEditorUpdate() {
+    const editTextarea = document.getElementById("edit-description");
+    console.log(":" + editTextarea.value + ":");
+    if (editTextarea && editTextarea.value !== '') {
+      ClassicEditor.create(editTextarea, {
+        image: {
+          styles: {
+            options: ["alignLeft", "alignCenter", "alignRight"],
+          },
+          toolbar: [
+            "imageStyle:alignLeft",
+            "imageStyle:alignCenter",
+            "imageStyle:alignRight",
+            "|",
+            "imageTextAlternative",
+          ],
+        },
+        toolbar: {
+          items: [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "uploadImage",
+            "blockQuote",
+            "insertTable",
+            "|",
+            "undo",
+            "redo",
+          ],
+          shouldNotGroupWhenFull: true,
+        },
+      })
+        .then((editor) => {
+          console.log("Éditeur initialisé avec succès", editor);
+          this.editorEdit = editor;
+        })
+        .catch((error) => {
+          console.error("Erreur lors de l'initialisation:", error);
+        });
+    }
   }
 }
 

@@ -75,7 +75,7 @@ class ProductController
             }
 
             $product = $_POST['product'];
-            $description = $_POST['description'] ?? null;
+            $description = $_POST['description'];
             $price = (float)$_POST['price'];
             $stock = (int)$_POST['stock'];
             $imagePaths = [];
@@ -151,12 +151,13 @@ class ProductController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Récupérer les données du formulaire
-            $productId = $_POST['productId'] ?? null;
-            $product = $_POST['product'] ?? null;
-            $description = $_POST['description'] ?? null;
+            $productId = $_POST['productId'];
+            $product = $_POST['product'];
+            $description = $_POST['description'];
             $price = isset($_POST['price']) ? (float)$_POST['price'] : null;
             $stock = isset($_POST['stock']) ? (int)$_POST['stock'] : null;
             $categoryId = isset($_POST['categoryId']) ? (int)$_POST['categoryId'] : null;
+            
 
             // Vérifier que l'ID et le nom du produit sont bien envoyés
             if (!$productId || !$product) {
