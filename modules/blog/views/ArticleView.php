@@ -71,10 +71,12 @@ class ArticleView
                         <?php 
                         foreach ($this->associatedProducts as $productId){
                         $productModel = new ProductModel();
-                        $productEntity = $productModel->getProductById($productId);?>
+                        $productEntity = $productModel->getProductById($productId);
+                        $firstImage = $productEntity->getFirstImage();
+                        $imageSrc = $firstImage !== null ? htmlspecialchars($firstImage, ENT_QUOTES, 'UTF-8') : '';?>
                             <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950 relative group">
                                 <a href="/produit/<?= $productEntity->getProductId() ?>">
-                                    <img src="<?= $productEntity->getFirstImage() ?>" alt="<?= $productEntity->getProduct() ?>" class="object-cover w-full h-full">
+                                    <img src="<?= $imageSrc ?>" alt="<?= $productEntity->getProduct() ?>" class="object-cover w-full h-full">
                                     <!-- Overlay avec les détails du produit -->
                                     <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                         <h3 class="font-semibold text-sm md:text-base font-supreme truncate text-white"><?= $productEntity->getProduct() ?></h3>
