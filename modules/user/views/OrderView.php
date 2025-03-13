@@ -243,37 +243,48 @@ class OrderView extends View
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produit</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image Produit</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix unitaire</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantité</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <?php foreach ($purchaseDetails as $product) { ?>
-                                    <tr class="hover:bg-gray-50" id="<?= $product['productId'] ?>">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= $product['product'] ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"><?= $product['price'] ?> €</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"><?= $product['quantity'] ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            <?php 
-                                                // Vérifier si la clé 'total' existe, sinon calculer le total
-                                                if (isset($product['total'])) {
-                                                    echo $product['total'];
-                                                } else {
-                                                    // Calculer le total à partir du prix unitaire et de la quantité
-                                                    echo number_format($product['price'] * $product['quantity'], 2);
-                                                }
-                                            ?> €
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
+<tbody class="bg-white divide-y divide-gray-200">
+    <?php foreach ($purchaseDetails as $product) {
+        $productModel = new ProductModel();
+        $productImage = $productModel->getProductById($product['productId']);
+        $image = $productImage->getFirstImage();
+    ?>
+        <tr class="hover:bg-gray-50 cursor-pointer" id="<?= $product['productId'] ?>" onclick="window.location.href='/produit/<?= $product['productId'] ?>'">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= $product['product'] ?></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <div class="w-16 h-16 bg-white shadow-md rounded flex items-center justify-center">
+                    <img src="<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($product['product']) ?>" class="w-full h-full object-cover rounded">
+                </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"><?= $product['price'] ?> €</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"><?= $product['quantity'] ?></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <?php 
+                    // Vérifier si la clé 'total' existe, sinon calculer le total
+                    if (isset($product['total'])) {
+                        echo $product['total'];
+                    } else {
+                        // Calculer le total à partir du prix unitaire et de la quantité
+                        echo number_format($product['price'] * $product['quantity'], 2);
+                    }
+                ?> €
+            </td>
+        </tr>
+    <?php } ?>
+</tbody>
                             <tfoot class="bg-gray-50">
-                                <tr>
-                                    <th scope="row" colspan="3" class="px-6 py-3 text-left text-sm font-medium text-gray-900">Total commande</th>
-                                    <td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900"><?= $purchase->getTotalAmount() ?> €</td>
-                                </tr>
-                            </tfoot>
+                            <tr>
+        <th scope="row" colspan="4" class="px-6 py-3 text-left text-sm font-medium text-gray-900">Total commande</th>
+        <td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900"><?= $purchase->getTotalAmount() ?> €</td>
+    </tr>
+</tfoot>
+
                         </table>
                     </div>
                     <div class="px-6 py-4 border-t border-gray-200">
