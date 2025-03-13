@@ -119,19 +119,18 @@ class BackCategoryView extends View {
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex gap-2">
-                                    <label for="edit-category-modal"
-                                           class="btn btn-sm btn-outline text-blue-600 border-blue-600 hover:bg-blue-600 hover:border-blue-600 hover:text-white group"
+                                    <button type="button"
+                                           class="btn btn-sm btn-outline text-blue-600 border-blue-600 hover:bg-blue-600 hover:border-blue-600 hover:text-white group edit-category-btn"
                                            data-category-id="<?= $category->getCategoryId() ?>"
                                            data-name="<?= htmlspecialchars($category->getName()) ?>"
                                            data-parent-category-id="<?= $category->getParentCategoryId() ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
-                                    </label>
+                                    </button>
 
-                                    <button class="btn btn-sm btn-outline text-red-600 border-red-600 hover:bg-red-600 hover:border-red-600 hover:text-white group"
-                                            data-category-id="<?= $category->getCategoryId() ?>"
-                                            onclick="confirmDelete(<?= $category->getCategoryId() ?>)">
+                                    <button type="button" class="btn btn-sm btn-outline text-red-600 border-red-600 hover:bg-red-600 hover:border-red-600 hover:text-white group delete-category-btn"
+                                            data-category-id="<?= $category->getCategoryId() ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
@@ -149,6 +148,143 @@ class BackCategoryView extends View {
         <?php $this->renderAddModal(); ?>
         <?php $this->renderEditModal(); ?>
         <?php $this->renderDeleteModal(); ?>
+
+        <!-- Script JavaScript pour gérer les modals -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Sélection des modals complets (pas juste les checkboxes)
+                const editModalCheckbox = document.getElementById('edit-category-modal');
+                const deleteModalCheckbox = document.getElementById('delete-category-modal');
+                
+                // Sélection des éléments modals complets
+                const editModalElement = editModalCheckbox.nextElementSibling;
+                const deleteModalElement = deleteModalCheckbox.nextElementSibling;
+                
+                // Sélection des éléments de formulaire
+                const editCategoryId = document.getElementById('edit-category-id');
+                const editName = document.getElementById('edit-name');
+                const editParentCategoryId = document.getElementById('edit-parent-category-id');
+                const deleteCategoryId = document.getElementById('delete-category-id');
+                
+                // Sélection des boutons
+                const editButtons = document.querySelectorAll('.edit-category-btn');
+                const deleteButtons = document.querySelectorAll('.delete-category-btn');
+                const closeEditModalButtons = document.querySelectorAll('.close-edit-modal');
+                const closeDeleteModalButtons = document.querySelectorAll('.close-delete-modal');
+                
+                // Fonction pour masquer tous les modals
+                function hideAllModals() {
+                    // Désélectionner les checkboxes
+                    editModalCheckbox.checked = false;
+                    deleteModalCheckbox.checked = false;
+                    
+                    // Cacher les modals via CSS
+                    editModalElement.style.opacity = '0';
+                    editModalElement.style.pointerEvents = 'none';
+                    deleteModalElement.style.opacity = '0';
+                    deleteModalElement.style.pointerEvents = 'none';
+                }
+                
+                // Fonction pour afficher le modal d'édition
+                function showEditModal() {
+                    hideAllModals();
+                    setTimeout(() => {
+                        editModalCheckbox.checked = true;
+                        editModalElement.style.opacity = '1';
+                        editModalElement.style.pointerEvents = 'auto';
+                    }, 100);
+                }
+                
+                // Fonction pour afficher le modal de suppression
+                function showDeleteModal() {
+                    hideAllModals();
+                    setTimeout(() => {
+                        deleteModalCheckbox.checked = true;
+                        deleteModalElement.style.opacity = '1';
+                        deleteModalElement.style.pointerEvents = 'auto';
+                    }, 100);
+                }
+                
+                // Fonction pour gérer le clic sur bouton d'édition
+                function handleEditClick(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Récupérer les données
+                    const categoryId = this.getAttribute('data-category-id');
+                    const name = this.getAttribute('data-name');
+                    const parentCategoryId = this.getAttribute('data-parent-category-id');
+                    
+                    // Remplir les champs du formulaire
+                    editCategoryId.value = categoryId;
+                    editName.value = name;
+                    editParentCategoryId.value = parentCategoryId || '';
+                    
+                    // Afficher le modal d'édition
+                    showEditModal();
+                    
+                    console.log('Bouton Éditer cliqué pour catégorie ID:', categoryId);
+                }
+                
+                // Fonction pour gérer le clic sur bouton de suppression
+                function handleDeleteClick(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Récupérer l'ID
+                    const categoryId = this.getAttribute('data-category-id');
+                    deleteCategoryId.value = categoryId;
+                    
+                    // Afficher le modal de suppression
+                    showDeleteModal();
+                    
+                    console.log('Bouton Supprimer cliqué pour catégorie ID:', categoryId);
+                }
+                
+                // Nettoyage des événements existants
+                editButtons.forEach(button => {
+                    const clone = button.cloneNode(true);
+                    button.parentNode.replaceChild(clone, button);
+                });
+                
+                deleteButtons.forEach(button => {
+                    const clone = button.cloneNode(true);
+                    button.parentNode.replaceChild(clone, button);
+                });
+                
+                // Ajout des nouveaux écouteurs d'événements
+                document.querySelectorAll('.edit-category-btn').forEach(button => {
+                    button.addEventListener('click', handleEditClick);
+                });
+                
+                document.querySelectorAll('.delete-category-btn').forEach(button => {
+                    button.addEventListener('click', handleDeleteClick);
+                });
+                
+                // Fermeture des modals
+                closeEditModalButtons.forEach(button => {
+                    button.addEventListener('click', hideAllModals);
+                });
+                
+                closeDeleteModalButtons.forEach(button => {
+                    button.addEventListener('click', hideAllModals);
+                });
+                
+                // Initialiser les modals comme fermés
+                hideAllModals();
+                
+                // Empêcher les clics sur les modals de se propager aux boutons
+                editModalElement.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+                
+                deleteModalElement.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+                
+                console.log('Script de gestion des modals initialisé');
+            });
+        </script>
 
         <?php
         $contentPage = ob_get_clean();
@@ -227,7 +363,7 @@ class BackCategoryView extends View {
                     </div>
 
                     <div class="flex justify-end space-x-3 mt-8">
-                        <label for="edit-category-modal" class="btn btn-outline btn-sm px-6">Annuler</label>
+                        <button type="button" class="btn btn-outline btn-sm px-6 close-edit-modal">Annuler</button>
                         <button type="submit" class="btn btn-primary btn-sm px-6">Enregistrer les modifications</button>
                     </div>
                 </form>
@@ -250,7 +386,7 @@ class BackCategoryView extends View {
                 <form method="POST" action="/admin/categories/delete" id="delete-form">
                     <input type="hidden" name="categoryId" id="delete-category-id">
                     <div class="flex justify-center space-x-3 mt-4">
-                        <label for="delete-category-modal" class="btn btn-outline btn-sm px-6">Annuler</label>
+                        <button type="button" class="btn btn-outline btn-sm px-6 close-delete-modal">Annuler</button>
                         <button type="submit" class="btn bg-red-600 hover:bg-red-700 text-white border-none btn-sm px-6">Supprimer</button>
                     </div>
                 </form>

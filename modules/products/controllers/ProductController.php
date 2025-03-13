@@ -157,6 +157,7 @@ class ProductController
             $price = isset($_POST['price']) ? (float)$_POST['price'] : null;
             $stock = isset($_POST['stock']) ? (int)$_POST['stock'] : null;
             $categoryId = isset($_POST['categoryId']) ? (int)$_POST['categoryId'] : null;
+            $deleteImages = $_POST['delete_images'] ?? [];
 
             // Vérifier que l'ID et le nom du produit sont bien envoyés
             if (!$productId || !$product) {
@@ -182,6 +183,25 @@ class ProductController
                     $this->productModel->updateProductCategory($productId, $categoryId);
                 } else {
                     $this->productModel->addProductCategory($productId, $categoryId);
+                }
+
+                // Gestion de la suppression d'images si nécessaire
+                if (!empty($deleteImages)) {
+                    foreach ($deleteImages as $imagePath) {
+                        // Vérifier si l'image est bien associée au produit pour éviter les suppressions malveillantes
+                        if ($this->productModel->isImageAssociatedWithProduct($productId, $imagePath)) {
+                            // Supprimer l'image de la base de données
+                            $deleted = $this->productModel->deleteProductImage($productId, $imagePath);
+                            
+                            // Si la suppression de la DB est réussie, on peut supprimer le fichier physique
+                            if ($deleted) {
+                                $imageFullPath = $_SERVER['DOCUMENT_ROOT'] . $imagePath;
+                                if (file_exists($imageFullPath)) {
+                                    unlink($imageFullPath);  // Supprime le fichier image
+                                }
+                            }
+                        }
+                    }
                 }
 
                 // Gestion des images si une nouvelle est envoyée
