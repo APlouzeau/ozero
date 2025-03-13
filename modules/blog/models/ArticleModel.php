@@ -66,17 +66,30 @@ class ArticleModel
     }
 
     /**
-     * Récupère tous les articles
+     * Récupère tous les articles, en filtrant si des types sont fournis
      *
+     * @param string[]|null $types
      * @return ArticleEntity[]
      */
-    public function getArticles(): array
+    public function getArticles(array $types = []): array
     {
-        $stmt = $this->db->prepare("
-        SELECT a.*, u.firstName, u.lastName 
+        $sql = "
+        SELECT a.*, u.firstName, u.lastName, CONCAT(u.firstName, ' ', u.lastName) AS authorName 
         FROM articles a
-        LEFT JOIN users u ON a.authorId = u.userId
-    ");
+        LEFT JOIN users u ON a.authorId = u.userId";
+
+        if (!empty($types)) {
+            $placeholders = implode(',', array_fill(0, count($types), '?'));
+            $sql .= " WHERE a.type IN ($placeholders)";
+        }
+
+        $stmt = $this->db->prepare($sql);
+
+        if (!empty($types)) {
+            foreach ($types as $key => $type) {
+                $stmt->bindValue($key + 1, $type, PDO::PARAM_STR);
+            }
+        }
         $stmt->execute();
 
         $articles = $stmt->fetchAll(\PDO::FETCH_ASSOC);
