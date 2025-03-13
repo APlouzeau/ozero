@@ -356,22 +356,27 @@ class ProductView extends View
                 function setView(view) {
                     currentView = view;
                     
-                    // Réinitialiser toutes les classes avant d'appliquer la vue spécifique
-                    productsContainer.classList.remove('grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3');
+                    // Réinitialiser toutes les classes de grille du conteneur
+                    productsContainer.className = 'grid gap-6';
                     
-                    // Réinitialiser les styles des boutons
-                    gridViewBtn.classList.remove('bg-green-100', 'text-green-600', 'text-gray-500');
-                    listViewBtn.classList.remove('bg-green-100', 'text-green-600', 'text-gray-500');
+                    // Réinitialiser les styles des boutons de vue
+                    gridViewBtn.className = 'p-2 rounded-md hover:bg-gray-100 focus:outline-none';
+                    listViewBtn.className = 'p-2 rounded-md hover:bg-gray-100 focus:outline-none';
                     
                     // Réinitialiser les styles des cartes produit
                     document.querySelectorAll('.product-card').forEach(card => {
-                        card.classList.remove('flex', 'flex-col', 'md:flex-row');
+                        // Retirer toutes les classes flex et dimensions spécifiques
+                        card.className = 'product-card bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1';
+                        
                         const imageDiv = card.querySelector('.relative');
                         const contentDiv = card.querySelector('.p-4');
                         
-                        if (imageDiv && contentDiv) {
-                            imageDiv.classList.remove('md:w-1/3');
-                            contentDiv.classList.remove('md:w-2/3');
+                        if (imageDiv) {
+                            imageDiv.className = 'relative h-48 bg-gray-200';
+                        }
+                        
+                        if (contentDiv) {
+                            contentDiv.className = 'p-4';
                         }
                     });
                     
@@ -392,13 +397,17 @@ class ProductView extends View
                         
                         // Modifier l'affichage des cartes pour la vue en liste
                         document.querySelectorAll('.product-card').forEach(card => {
-                            card.classList.add('flex', 'flex-col', 'md:flex-row');
+                            card.classList.add('md:flex', 'md:flex-row');
+                            
                             const imageDiv = card.querySelector('.relative');
                             const contentDiv = card.querySelector('.p-4');
                             
-                            if (imageDiv && contentDiv) {
-                                imageDiv.classList.add('md:w-1/3');
-                                contentDiv.classList.add('md:w-2/3');
+                            if (imageDiv) {
+                                imageDiv.className = 'relative h-48 md:h-auto md:w-1/3 bg-gray-200';
+                            }
+                            
+                            if (contentDiv) {
+                                contentDiv.className = 'p-4 md:w-2/3';
                             }
                         });
                     }
