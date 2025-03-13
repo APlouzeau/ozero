@@ -18,7 +18,7 @@ class NavbarView extends View
         ob_start(); // Commence la mise en mémoire tampon du contenu
 ?>
 
-        <nav class="bg-white border-gray-200 w-[95%] mx-auto rounded-bl-[10px] shadow-lg shadow-black-950 rounded-br-[10px] font-supreme">
+        <nav class="bg-white border-gray-200 w-[95%] mx-auto rounded-bl-[10px] shadow-lg shadow-black-950 rounded-br-[10px] font-supreme z-index-10">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse pb-2">
                     <img src="/assets/png/Logo.png" alt="Logo" class="w-32 h-15">
