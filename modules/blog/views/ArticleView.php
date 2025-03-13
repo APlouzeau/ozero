@@ -4,7 +4,9 @@ class ArticleView
 {
 
     private ?ArticleEntity $article;
-    public function __construct(?ArticleEntity $article = null)
+    private ?array $associatedProducts;
+
+    public function __construct(?ArticleEntity $article = null, array $associatedProducts = [])
     {
         if ($article) {
             $this->article = $article;
@@ -17,158 +19,83 @@ class ArticleView
             return "<p class='text-center text-error text-xl'>Article non trouvé.</p>";
         }
         ob_start();
-        
-
 ?>
 
-<div class="max-w-4xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg flex gap-6">
-    <!-- Bloc images -->
-    <div class="flex gap-4">
-        <div class="flex flex-col gap-2 h-72"> <!-- Assure que la hauteur de la colonne est égale à la grande image -->
-            <div class="w-24 h-24 bg-gray-300"></div>
-            <div class="w-24 h-24 bg-gray-300"></div>
-            <div class="w-24 h-24 bg-gray-300"></div>
+        <div class="max-w-4xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg flex gap-6">
+            <!-- Bloc images -->
+            <div class="flex gap-4">
+                <div class="flex flex-col gap-2 h-72"> <!-- Assure que la hauteur de la colonne est égale à la grande image -->
+                    <div class="w-24 h-24 bg-gray-300"></div>
+                    <div class="w-24 h-24 bg-gray-300"></div>
+                    <div class="w-24 h-24 bg-gray-300"></div>
+                </div>
+                <div class="w-72 h-72 bg-gray-300">
+                    <img src="<?= htmlspecialchars($this->article->getImg()) ?>" alt="<?= htmlspecialchars($this->article->getTitle()) ?>" class="w-full h-full object-cover">
+                </div> <!-- Image principale carrée -->
+            </div>
+
+            <!-- Contenu article -->
+            <div class="flex-1 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold"><?= htmlspecialchars($this->article->getTitle()) ?></h2>
+                    <p class="text-gray-600 mt-2"><?= substr($this->article->getContent(), 0, 50) . '...' ?></p>
+                </div>
+
+                <!-- Section avec quantité, prix et bouton alignés à droite -->
+                <div class="flex justify-end items-center gap-4 mt-4">
+                    <!-- Sélection quantité -->
+                    <select id="quantity" class="select select-bordered w-20">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    
+                    <!-- Prix -->
+                    <span id="price" class="text-green-600 text-xl font-bold">10€</span>
+                    
+                    <!-- Bouton lien -->
+                    <button class="btn btn-primary text-white w-32">Lien vers l'article</button>
+                </div>
+            </div>
         </div>
-        <div class="w-72 h-72 bg-gray-300"></div> <!-- Image principale carrée -->
-    </div>
 
-    <!-- Contenu article -->
-    <div class="flex-1 flex flex-col justify-between">
-        <div>
-            <h2 class="text-2xl font-bold">Titre de l'Article</h2>
-            <p class="text-gray-600 mt-2">Description courte de l'article qui résume son contenu et attire l'intérêt du lecteur.</p>
+
+        <!-- Section Articles associés -->
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold">Produits associés :</h3>
+            <div class="flex flex-wrap gap-4 mt-4">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    <!-- Produit -->
+                    <?php if(count($this->associatedProducts) !== 0): ?>
+                        <?php 
+                        foreach ($this->associatedProducts as $productId){
+                        $productModel = new ProductModel();
+                        $productEntity = $productModel->getProductById($productId);?>
+                            <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950 relative group">
+                                <a href="/produit/<?= $productEntity->getProductId() ?>">
+                                    <img src="<?= $productEntity->getFirstImage() ?>" alt="<?= $productEntity->getProduct() ?>" class="object-cover w-full h-full">
+                                    <!-- Overlay avec les détails du produit -->
+                                    <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <h3 class="font-semibold text-sm md:text-base font-supreme truncate text-white"><?= $productEntity->getProduct() ?></h3>
+                                        <p class="text-xs md:text-sm font-supreme line-clamp-2 my-1 text-white"><?= $productEntity->getDescription() ?></p>
+                                        <p class="font-bold text-sm md:text-base font-supreme text-white"><?= $productEntity->getPrice() ?> €</p>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php } ?>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
 
-        <!-- Section avec quantité, prix et bouton alignés à droite -->
-        <div class="flex justify-end items-center gap-4 mt-4">
-            <!-- Sélection quantité -->
-            <select id="quantity" class="select select-bordered w-20">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            
-            <!-- Prix -->
-            <span id="price" class="text-green-600 text-xl font-bold">10€</span>
-            
-            <!-- Bouton lien -->
-            <button class="btn btn-primary text-white w-32">Lien vers l'article</button>
+
+        <!-- Section Tuto -->
+        <div class="mt-8">
+            <!-- <h3 class="text-xl font-semibold">Tuto : Comment utiliser cet article ?</h3> -->
+            <?= htmlspecialchars_decode($this->article->getContent()) ?>
         </div>
-    </div>
-</div>
-
-<!-- Espace texte -->
-<div class="mt-8">
-    <p class="text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur 
-fugiat, temporibus enim commodi iusto libero magni deleniti quod quam 
-consequuntur! Commodi minima excepturi repudiandae velit hic maxime
-doloremque. Quaerat provident commodi consectetur veniam similique ad 
-earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo 
-fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore 
-suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium
-modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam 
-totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam 
-quasi aliquam eligendi, placeat qui corporis!</p>
-</div>
-
-<!-- Section Articles associés -->
-<div class="mt-8">
-    <h3 class="text-xl font-semibold">Articles associés :</h3>
-    <div class="flex flex-wrap gap-4 mt-4">
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-        <div class="w-24 h-24 bg-gray-300"></div>
-    </div>
-</div>
-
-<!-- Section Tuto -->
-<div class="mt-8">
-    <h3 class="text-xl font-semibold">Tuto : Comment utiliser cet article ?</h3>
-    <ol class="list-decimal pl-6 mt-4">
-        <li>Étape 1 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-quibusdam sed amet tempora.</li>
-        <li>Étape 2 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-quibusdam sed amet tempora.</li>
-        <li>Étape 3 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-quibusdam sed amet tempora.</li>
-        <li>Étape 4 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-quibusdam sed amet tempora.</li>
-        <li>Étape 5 : Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-quibusdam sed amet tempora.</li>
-    </ol>
-</div>
 
 <script>
     document.getElementById('quantity').addEventListener('change', function() {
@@ -262,7 +189,6 @@ quibusdam sed amet tempora.</li>
                             <a href="/articles/<?= $article->getArticleId() ?>" class="btn btn-primary">Lire plus</a>
                         </div>
                     </div>
-                <?php endforeach; ?>
             </div>
         </div>
 
