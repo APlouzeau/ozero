@@ -251,7 +251,7 @@ class OrderView extends View
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <?php foreach ($purchaseDetails as $product) { ?>
                                     <tr class="hover:bg-gray-50" id="<?= $product['productId'] ?>">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= $product['product'] ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= $product['name'] ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"><?= $product['price'] ?> €</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"><?= $product['quantity'] ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -270,7 +270,7 @@ class OrderView extends View
                             </tbody>
                             <tfoot class="bg-gray-50">
                                 <tr>
-                                    <th scope="row" colspan="3" class="px-6 py-3 text-left text-sm font-medium text-gray-900">Total commande</th>
+                                    <th scope="row" colspan="3" class="px-6 font py-3 text-left text-sm font-bold text-gray-900">Total commande</th>
                                     <td class="px-6 py-3 whitespace-nowrap text-sm font-bold text-gray-900"><?= $purchase->getTotalAmount() ?> €</td>
                                 </tr>
                             </tfoot>
