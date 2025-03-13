@@ -25,6 +25,7 @@ $router->addRoute('POST', '/admin/users/add', 'UserController#addUser', 'RoleMid
 $router->addRoute('POST', '/admin/users/update', 'BackUserEditProfileController#updateUserGeneralInfo', 'RoleMiddleware');
 $router->addRoute('POST', '/admin/users/updateAddresse', 'BackUserEditProfileController#updateUserAdresse', 'RoleMiddleware');
 $router->addRoute('POST', '/admin/users/create', 'BackUserController#createUser', 'RoleMiddleware');
+$router->addRoute('POST', '/admin/users/delete', 'BackUserController#deleteUser', 'RoleMiddleware');
 
 // Articles
 $router->addRoute('POST', '/admin/articles/uploadimage', 'ArticleController#uploadImage', 'RoleMiddleware');

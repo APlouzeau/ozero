@@ -38,4 +38,29 @@ class BackUserController
         $userModel->addUser($user);
         header('Location: /admin/users');
     }
+    
+    /**
+     * Supprime un utilisateur de la base de données (suppression logique)
+     * 
+     * @return void
+     */
+    public function deleteUser()
+    {
+        if (!isset($_POST['userId']) || empty($_POST['userId'])) {
+            $_SESSION['error'] = "ID utilisateur manquant ou invalide.";
+            header('Location: /admin/users');
+            return;
+        }
+        
+        $userId = (int)$_POST['userId'];
+        $userModel = new UserModel();
+        
+        if ($userModel->softDeleteUser($userId)) {
+            $_SESSION['success'] = "L'utilisateur a été supprimé avec succès.";
+        } else {
+            $_SESSION['error'] = "Erreur lors de la suppression de l'utilisateur.";
+        }
+        
+        header('Location: /admin/users');
+    }
 }

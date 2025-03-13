@@ -384,5 +384,6 @@ class BackProductView extends View {
         </div>
         <?php
     }
+    
 }
 ?>
