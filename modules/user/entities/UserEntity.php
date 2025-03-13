@@ -72,6 +72,11 @@ class UserEntity {
         return $this->roleId;
     }
 
+    public function getRole(): int
+    {
+        return $this->role;
+    }
+
     // Setters avec return $this pour chaînage
     public function setUserId(?int $userId): self {
         $this->userId = $userId;
@@ -121,6 +126,12 @@ class UserEntity {
         return $this;
     }
 
+    public function setRole(int $role): self
+    {
+        $this->role = $role;
+        return $this;
+    }
+
     // Méthode pour convertir l'objet en tableau
     public function toArray(): array {
         return [
@@ -132,7 +143,18 @@ class UserEntity {
             'password' => $this->password,
             'verified' => $this->verified,
             'createdAt' => $this->createdAt ? $this->createdAt->format('Y-m-d H:i:s') : null,
-            'roleId' => $this->roleId
+            'roleId' => $this->roleId,
+            'role' => $this->role
         ];
+    }
+
+    public function hydrate(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $method = "set" . ucfirst($key);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
     }
 }
