@@ -38,3 +38,7 @@ $router->addRoute('GET', '/order/details/{purchaseId}', 'UserController#getOrder
 
 //Products
 $router->addRoute('GET', '/produit/{id}',  'ProductController#showProduct');
+
+//Checkout
+$router->addRoute('GET', '/panier/checkoutsession', 'CheckoutController#getCheckoutSession');
+$router->addRoute('GET', '/panier/checkoutsessionsuccess', 'CheckoutController#getCheckoutSuccess');

@@ -20,20 +20,22 @@ class BasketController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             for ($i = 0; $i < count($_POST['productId']); $i++) {
                 $productId = $_POST['productId'][$i];
-                $product = $_POST['product'][$i];
-                $price = $_POST['price'][$i];
-                $quantity = $_POST['quantity'][$i];
-                $image = $productsModel->getProductById($productId);
-                if (isset($_SESSION['cart'][$productId])) {
-                    $_SESSION['cart'][$productId]['quantity'] += $quantity;
-                } else {
-                    $_SESSION['cart'][$productId] = [
-                        'productId' => $productId,
-                        'product' => $product,
-                        'price' => $price,
-                        'quantity' => $quantity,
-                        'image' => $image->getImages()[0]
-                    ];
+                
+                // Récupérer le produit complet via l'entité
+                $productEntity = $productsModel->getProductById($productId);
+                
+                if ($productEntity) {
+                    if (isset($_SESSION['cart'][$productId])) {
+                        $_SESSION['cart'][$productId]['quantity'] += (int)$_POST['quantity'][$i];
+                    } else {
+                        $_SESSION['cart'][$productId] = [
+                            'productId' => $productId,
+                            'product' => $productEntity->getProduct(),
+                            'price' => $productEntity->getPrice(),
+                            'quantity' => (int)$_POST['quantity'][$i],
+                            'images' => $productEntity->getImages() ?? []
+                        ];
+                    }
                 }
             }
             $view = new BasketView();
@@ -46,72 +48,102 @@ class BasketController
 
     public function addOneToCart()
     {
-
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
         $jsonData = json_decode(file_get_contents('php://input'), true);
-
-        $product = $jsonData['product'] ?? null;
         $productId = $jsonData['productId'] ?? null;
-        $quantity = $jsonData['quantity'] ?? null;
-        $price = $jsonData['price'] ?? 0;
+        $quantity = max(0, (int)($jsonData['quantity'] ?? 0));
 
-        if (isset($_SESSION['cart'][$productId])) {
-            $_SESSION['cart'][$productId]['quantity'] = $quantity; // Ou += 1 pour incrémenter
-        } else {
-            $_SESSION['cart'][$productId] = [
-                'productId' => $productId,
-                'product' => $product,
-                'price' => $price,
-                'quantity' => $quantity
-            ];
+        if ($productId) {
+            $productsModel = new ProductModel();
+            $productEntity = $productsModel->getProductById($productId);
+
+            if ($productEntity) {
+                if (isset($_SESSION['cart'][$productId])) {
+                    $_SESSION['cart'][$productId]['quantity'] = $quantity;
+                } else {
+                    $_SESSION['cart'][$productId] = [
+                        'productId' => $productId,
+                        'product' => $productEntity->getProduct(),
+                        'price' => $productEntity->getPrice(),
+                        'quantity' => $quantity,
+                        'images' => $productEntity->getImages() ?? []
+                    ];
+                }
+
+                // Calculer le nouveau total
+                $totalAmount = $this->calculateCartTotal();
+
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => true,
+                    'session' => $_SESSION['cart'],
+                    'totalAmount' => $totalAmount,
+                    'message' => 'Quantité mise à jour'
+                ]);
+                exit;
+            }
         }
 
         header('Content-Type: application/json');
         echo json_encode([
-            'success' => true,
-            'session' => $_SESSION,
-            'product' => $product,
-            'quantity' => $quantity
+            'success' => false,
+            'message' => 'Produit non trouvé'
         ]);
         exit;
     }
 
     public function removeOneToCart()
     {
-
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
         $jsonData = json_decode(file_get_contents('php://input'), true);
-
-        $product = $jsonData['product'] ?? null;
         $productId = $jsonData['productId'] ?? null;
-        $quantity = $jsonData['quantity'] ?? null;
-        $price = $jsonData['price'] ?? 0;
+        $quantity = max(0, (int)($jsonData['quantity'] ?? 0));
 
-        if (isset($_SESSION['cart'][$productId])) {
-            $_SESSION['cart'][$productId]['quantity'] = $quantity; // Ou += 1 pour incrémenter
-        } else {
-            $_SESSION['cart'][$productId] = [
-                'productId' => $productId,
-                'product' => $product,
-                'price' => $price,
-                'quantity' => $quantity
-            ];
+        if ($productId) {
+            if ($quantity <= 0) {
+                if (isset($_SESSION['cart'][$productId])) {
+                    unset($_SESSION['cart'][$productId]);
+                }
+            } else {
+                if (isset($_SESSION['cart'][$productId])) {
+                    $_SESSION['cart'][$productId]['quantity'] = $quantity;
+                }
+            }
+
+            // Calculer le nouveau total
+            $totalAmount = $this->calculateCartTotal();
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => true,
+                'session' => $_SESSION['cart'],
+                'totalAmount' => $totalAmount,
+                'message' => $quantity <= 0 ? 'Produit supprimé du panier' : 'Quantité mise à jour'
+            ]);
+            exit;
         }
 
         header('Content-Type: application/json');
         echo json_encode([
-            'success' => true,
-            'session' => $_SESSION,
-            'product' => $product,
-            'quantity' => $quantity
+            'success' => false,
+            'message' => 'Produit non trouvé'
         ]);
         exit;
+    }
+
+    private function calculateCartTotal()
+    {
+        $totalAmount = 0;
+        foreach ($_SESSION['cart'] as $item) {
+            $totalAmount += (float)$item['price'] * (int)$item['quantity'];
+        }
+        return round($totalAmount, 2);
     }
 
     public function testPanier()
