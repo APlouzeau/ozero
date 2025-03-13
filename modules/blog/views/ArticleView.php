@@ -162,20 +162,21 @@ class ArticleView
         ];
 
         ob_start();
-    ?>
-
-        <!-- Hero Section -->
-        <div class="max-w-5xl mx-auto my-8 md:my-16 px-4 hero min-h-lg">
-            <div class="hero-content flex-col lg:flex-row">
-                <img
-                    src="https://source.unsplash.com/600x400/?eco,nature"
-                    class="max-w-sm rounded-lg shadow-2xl" />
-                <div>
-                    <h1 class="text-5xl font-bold">DIY Écologiques</h1>
-                    <p class="py-6">
-                        Découvrez nos guides pour fabriquer vous-même des objets écologiques et réduire votre impact environnemental !
-                    </p>
-                    <button class="btn btn-primary">Explorer</button>
+?>
+        <div class="bg-white min-h-screen">
+            <!-- Section: Qu'est-ce que le DIY -->
+            <div class="max-w-6xl mx-auto my-8 md:my-12 px-4">
+                <h1 class="text-2xl md:text-3xl font-semibold text-primary mb-6 text-center font-supreme">Le DIY, qu'est ce que c'est ?</h1>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg shadow-black-950 mb-12">
+                    <div class="max-w-3xl mx-auto">
+                        <p class="text-sm md:text-base mb-4 font-supreme">
+                            Ici, nous vous proposons des <span class="font-bold text-primary">kits DIY</span> (conçus pour vous aider à fabriquer vos propres solutions écologiques), réduire votre empreinte carbone et adopter un <span class="font-bold">mode de vie plus responsable</span>.
+                        </p>
+                        <p class="text-sm md:text-base mb-4 font-supreme">
+                            Nos coffrets contiennent tout le matériel et les instructions nécessaires pour vous guider dans la <span class="font-bold">fabrication de vos produits du quotidien</span>, tout en privilégiant des matériaux <span class="font-bold">durables et respectueux</span> de l'environnement.
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -230,15 +231,15 @@ class ArticleView
                     <div class="flex items-center">
                         <span class="mr-2 font-supreme">Trier les Tutos :</span>
                         <div class="flex space-x-2">
-                            <a href="?category=<?= $selectedCategory ?>&view=grid" class="<?= (!isset($_GET['view']) || $_GET['view'] === 'grid') ? 'bg-gray-200' : '' ?> p-2 rounded">
+                            <button type="button" class="bg-gray-200 p-2 rounded" id="gridView">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="3" width="7" height="7"></rect>
                                     <rect x="14" y="3" width="7" height="7"></rect>
                                     <rect x="14" y="14" width="7" height="7"></rect>
                                     <rect x="3" y="14" width="7" height="7"></rect>
                                 </svg>
-                            </a>
-                            <a href="?category=<?= $selectedCategory ?>&view=list" class="<?= (isset($_GET['view']) && $_GET['view'] === 'list') ? 'bg-gray-200' : '' ?> p-2 rounded">
+                            </button>
+                            <button type="button" class="p-2 rounded" id="listView">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="8" y1="6" x2="21" y2="6"></line>
                                     <line x1="8" y1="12" x2="21" y2="12"></line>
@@ -247,15 +248,50 @@ class ArticleView
                                     <line x1="3" y1="12" x2="3.01" y2="12"></line>
                                     <line x1="3" y1="18" x2="3.01" y2="18"></line>
                                 </svg>
-                            </a>
+                            </button>
                         </div>
                     </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12" id="conteneur-grid">
+                    <?php foreach ($filteredTutorials as $tutorial): ?>
+                        <div class="bg-white rounded-lg shadow-xl overflow-hidden flex transform transition-transform hover:scale-105 hover:cursor-pointer"
+                        onclick="window.location.href='/articles/<?= $tutorial->getArticleId() ?>'">
+                            <div class="w-1/3 bg-gray-200">
+                                <?php if (!empty($tutorial->getImg())): ?>
+                                    <img src="<?= $tutorial->getImg() ?>" alt="<?= $tutorial->getTitle() ?>" 
+                                    class="w-48 h-48 object-cover">
+                                <?php endif; ?>
+                            </div>
+                            <div class="w-2/3 p-4">
+                                <h3 class="text-xl font-semibold mb-2 font-supreme"><?= $tutorial->getTitle() ?></h3>
+                                <p class="text-sm text-gray-600 mb-4 font-supreme"><?= substr($tutorial->getContent(), 0, 100) . '...' ?></p> <!-- substr pour limiter le nb de caracteres -->
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-12" id="conteneur-list" style="display: none;">
+                    <?php foreach ($filteredTutorials as $tutorial): ?>
+                        <div class="bg-white rounded-lg shadow-xl overflow-hidden flex mb-6 transform transition-transform hover:scale-105 hover:cursor-pointer"
+                        onclick="window.location.href='/articles/<?= $tutorial->getArticleId() ?>'">
+                            <div class="w-1/6 bg-gray-200">
+                                <?php if (!empty($tutorial->getImg())): ?>
+                                    <img src="<?= $tutorial->getImg() ?>" alt="<?= $tutorial->getTitle() ?>" 
+                                    class="w-48 h-48 object-cover">
+                                <?php endif; ?>
+                            </div>
+                            <div class="w-4/6 p-4">
+                                <h3 class="text-xl font-semibold mb-2 font-supreme"><?= $tutorial->getTitle() ?></h3>
+                                <p class="text-sm text-gray-600 mb-4 font-supreme"><?= substr($tutorial->getContent(), 0, 200) . '...' ?></p> <!-- substr pour limiter le nb de caracteres -->
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
-
-<?php
+        <?php
         $contentPage = ob_get_clean();
-        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", []))->show();
+        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['diy']))->show();
     }
 }
 
