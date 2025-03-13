@@ -230,15 +230,15 @@ class ArticleView
                     <div class="flex items-center">
                         <span class="mr-2 font-supreme">Trier les Tutos :</span>
                         <div class="flex space-x-2">
-                            <a href="?category=<?= $selectedCategory ?>&view=grid" class="<?= (!isset($_GET['view']) || $_GET['view'] === 'grid') ? 'bg-gray-200' : '' ?> p-2 rounded">
+                            <button type="button" class="bg-gray-200 p-2 rounded" id="gridView">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="3" width="7" height="7"></rect>
                                     <rect x="14" y="3" width="7" height="7"></rect>
                                     <rect x="14" y="14" width="7" height="7"></rect>
                                     <rect x="3" y="14" width="7" height="7"></rect>
                                 </svg>
-                            </a>
-                            <a href="?category=<?= $selectedCategory ?>&view=list" class="<?= (isset($_GET['view']) && $_GET['view'] === 'list') ? 'bg-gray-200' : '' ?> p-2 rounded">
+                            </button>
+                            <button type="button" class="p-2 rounded" id="listView">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="8" y1="6" x2="21" y2="6"></line>
                                     <line x1="8" y1="12" x2="21" y2="12"></line>
@@ -247,15 +247,51 @@ class ArticleView
                                     <line x1="3" y1="12" x2="3.01" y2="12"></line>
                                     <line x1="3" y1="18" x2="3.01" y2="18"></line>
                                 </svg>
-                            </a>
+                            </button>
                         </div>
                     </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12" id="conteneur-grid">
+                    <?php foreach ($filteredTutorials as $tutorial): ?>
+                        <div class="bg-white rounded-lg shadow-xl overflow-hidden flex transform transition-transform hover:scale-105 hover:cursor-pointer"
+                        onclick="window.location.href='/articles/<?= $tutorial->getArticleId() ?>'">
+                            <div class="w-1/3 bg-gray-200">
+                                <?php if (!empty($tutorial->getImg())): ?>
+                                    <img src="<?= $tutorial->getImg() ?>" alt="<?= $tutorial->getTitle() ?>" 
+                                    class="w-48 h-48 object-cover">
+                                <?php endif; ?>
+                            </div>
+                            <div class="w-2/3 p-4">
+                                <h3 class="text-xl font-semibold mb-2 font-supreme"><?= $tutorial->getTitle() ?></h3>
+                                <p class="text-sm text-gray-600 mb-4 font-supreme"><?= substr($tutorial->getContent(), 0, 100) . '...' ?></p> <!-- substr pour limiter le nb de caracteres -->
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-12" id="conteneur-list" style="display: none;">
+                    <?php foreach ($filteredTutorials as $tutorial): ?>
+                        <div class="bg-white rounded-lg shadow-xl overflow-hidden flex mb-6 transform transition-transform hover:scale-105 hover:cursor-pointer"
+                        onclick="window.location.href='/articles/<?= $tutorial->getArticleId() ?>'">
+                            <div class="w-1/6 bg-gray-200">
+                                <?php if (!empty($tutorial->getImg())): ?>
+                                    <img src="<?= $tutorial->getImg() ?>" alt="<?= $tutorial->getTitle() ?>" 
+                                    class="w-48 h-48 object-cover">
+                                <?php endif; ?>
+                            </div>
+                            <div class="w-4/6 p-4">
+                                <h3 class="text-xl font-semibold mb-2 font-supreme"><?= $tutorial->getTitle() ?></h3>
+                                <p class="text-sm text-gray-600 mb-4 font-supreme"><?= substr($tutorial->getContent(), 0, 200) . '...' ?></p> <!-- substr pour limiter le nb de caracteres -->
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
 
 <?php
         $contentPage = ob_get_clean();
-        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", []))->show();
+        (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['diy']))->show();
     }
 }
 

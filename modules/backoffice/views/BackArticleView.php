@@ -4,7 +4,8 @@ class BackArticleView extends View {
 
     public function show() {
         $articleModel = new ArticleModel();
-        $articles = $articleModel->getArticles();
+        $types = ['blog', 'diy'];
+        $articles = $articleModel->getArticles($types);
 
         ob_start();
         ?>
