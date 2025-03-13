@@ -7,17 +7,19 @@ class ProductView extends View
         ob_start();
 ?>
         <div>
-            <h1 class="text-5xl font-bold text-center">Produit</h1>
+            <h1 class="text-5xl font-bold text-center">Fiche produit</h1>
             <div class="flex justify-center">
+                <!-- image du produit -->
+                <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="w-80 mx-auto">
+                <p class="text-center"><?= $product->getDescription() ?></p>
+
                 <div class="card w-96 bg-base-100 shadow-xl">
                     <div class="card-body">
                         <h2 class="card-title
                 text-2xl font-bold text-center"><?= $product->getProduct() ?></h2>
-                        <p class="text-center"><?= $product->getDescription() ?></p>
                         <p class="text-center"><?= $product->getPrice() ?> €</p>
                         <p class="text-center"><?= $product->getStock() ?> en stock</p>
 
-                        <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="w-80 h-80 mx-auto">
                         <div class="card-actions justify-center">
                             <form action="/panier/add" method="post">
                                 <input type="hidden" name="product[]" value="<?= $product->getProduct() ?>">
