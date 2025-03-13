@@ -60,9 +60,9 @@ class NavbarView extends View
                                     <li>
                                         <h4 class="font-supreme">Bonjour, <span class="font-bold"><?= ucfirst($user->getFirstName()) ?></span></h4>
                                     </li>
-                                    <li><a href="/profile" class="font-supreme font-semibold">Profile</a></li>
-                                    <li><a href="/commandes" class="font-supreme font-semibold">Commandes</a></li>
-                                    <li><a href="/admin/users" class="font-supreme font-semibold">Liste Utilisateurs</a></li>
+                                    <li><a href="/profile" class="font-supreme font-semibold">Profil</a></li>
+                                    <li><a href="/commandes" class="font-supreme font-semibold">Mes Commandes</a></li>
+                                    <li><a href="/admin/users" class="font-supreme font-semibold">Dashboard</a></li>
                                     <li>
                                         <form id="logoutForm" action="/logout" method="POST" style="display: inline;">
                                             <button type="submit" class="w-full text-left font-supreme font-semibold">Se déconnecter</button>
