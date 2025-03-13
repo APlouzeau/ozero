@@ -4,7 +4,13 @@ class ArticleView
 {
 
     private ?ArticleEntity $article;
+<<<<<<< HEAD
     public function __construct(?ArticleEntity $article = null)
+=======
+    private ?array $associatedProducts;
+
+    public function __construct(?ArticleEntity $article = null, array $associatedProducts = [])
+>>>>>>> dc178e3529dd2e12b5df96b5bc00a1132a7664f1
     {
         if ($article) {
             $this->article = $article;
@@ -103,8 +109,11 @@ class ArticleView
     });
 </script>
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> dc178e3529dd2e12b5df96b5bc00a1132a7664f1
     <?php
         $contentPage = ob_get_clean();
         (new FrontPageView($contentPage, 'Articles de Blog', "Découvrez nos articles de blog pour un mode de vie plus écologique", ['blog']))->show();
@@ -287,4 +296,7 @@ class ArticleView
 }
 
 ?>
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc178e3529dd2e12b5df96b5bc00a1132a7664f1
