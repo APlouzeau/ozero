@@ -63,9 +63,9 @@ class ProductView extends View
                 <div class="relative mb-2">
                     <h2 class="text-xl md:text-2xl font-semibold text-center mb-4 font-supreme">Catégories</h2>
                     <div class="text-center mb-8">
-                        <a href="?category=all" class="inline-block bg-primary text-white px-4 py-2 rounded-lg font-supreme font-semibold hover:bg-primary/80 transition-colors">
+                        <div class="fullCategoryBtn inline-block bg-primary text-white px-4 py-2 rounded-lg font-supreme font-semibold hover:bg-primary/80 transition-colors">
                             Voir toutes les catégories
-                        </a>
+                        </div>
                     </div>
                 </div>
 
@@ -73,12 +73,12 @@ class ProductView extends View
                     <?php
                     foreach ($categories as $categorie) {
                     ?>
-                        <a href="?category=<?= $categorie->getCategoryId() ?>" class="bg-white p-4 rounded-lg shadow-box text-center hover:shadow-lg transition-shadow">
+                        <div class="bg-white p-4 rounded-lg shadow-box text-center hover:shadow-lg transition-shadow category" id="<?= $categorie->getCategoryId() ?>">
                             <div class="h-32 bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
                                 <!-- Placeholder pour l'image de catégorie -->
                             </div>
                             <h3 class="font-semibold font-supreme"><?= $categorie->getName() ?></h3>
-                        </a>
+                        </div>
                     <?php }; ?>
                 </div>
             </div>
@@ -149,23 +149,23 @@ class ProductView extends View
                 <div class="view grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
                     <?php
                     foreach ($productsByCategorys as $product) {
-                        if ($product['categoryId'] == $selectedCategory) {
+                        /* if ($product['categoryId'] == $selectedCategory || $selectedCategory == 'all') { */
                     ?>
-                            <div class="bg-white rounded-lg shadow-box overflow-hidden flex mb-4">
-                                <div class="w-1/6 bg-gray-200">
-                                    <?php if (!empty($product['image_path'])) { ?>
-                                        <img src="<?= $product['image_path'] ?>" alt="<?= $product['product'] ?>" class="w-full h-full object-cover">
-                                    <?php } ?>
-                                </div>
-                                <div class="w-4/6 p-4">
-                                    <h3 class="text-lg font-semibold mb-2 font-supreme"><?= $product['product'] ?></h3>
-                                    <p class="text-sm text-gray-600 font-supreme"><?= $product['description'] ?></p>
-                                    <p class=""><?= $product['price'] ?> €</p>
-                                </div>
-                                <a href="/produit/<?= $product['productId'] ?>" class="btn btn-primary">Lire plus</a>
+                        <div class="bg-white rounded-lg shadow-box overflow-hidden flex mb-4 filters filteredCategory<?= $product['categoryId']      ?>">
+                            <div class="w-1/6 bg-gray-200">
+                                <?php if (!empty($product['image_path'])) { ?>
+                                    <img src="<?= $product['image_path'] ?>" alt="<?= $product['product'] ?>" class="w-full h-full object-cover">
+                                <?php } ?>
                             </div>
-                    <?php }
-                    }; ?>
+                            <div class="w-4/6 p-4">
+                                <h3 class="text-lg font-semibold mb-2 font-supreme"><?= $product['product'] ?></h3>
+                                <p class="text-sm text-gray-600 font-supreme"><?= $product['description'] ?></p>
+                                <p class=""><?= $product['price'] ?> €</p>
+                            </div>
+                            <a href="/produit/<?= $product['productId'] ?>" class="btn btn-primary">Lire plus</a>
+                        </div>
+                    <?php } ?>
+
                 </div>
             </div>
             <div class="mb-12">
