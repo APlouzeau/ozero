@@ -1,20 +1,27 @@
-const conteneurGrid = document.getElementById('conteneur-grid');
-const conteneurList = document.getElementById('conteneur-list');
-const grid = document.getElementById('gridView');
-const list = document.getElementById('listView');
+const view = document.querySelector(".view");
+const grid = document.querySelector(".gridButton");
+const list = document.querySelector(".listButton");
+let selectedCategory = [];
+const category = document.querySelectorAll(".category");
+let productsByCategory = document.querySelectorAll(".categoryId");
+let filterCategory = document.querySelectorAll(".filters");
 
-grid.addEventListener('click', function() {
-    conteneurGrid.style.display = '';
-    conteneurList.style.display = 'none';
-    grid.classList.add('bg-gray-200');
-    list.classList.remove('bg-gray-200');
-}
-);
+grid.addEventListener("click", () => {
+    view.classList.add("grid");
+    view.classList.remove("list");
+});
 
-list.addEventListener('click', function() {
-    conteneurGrid.style.display = 'none';
-    conteneurList.style.display = 'block';
-    list.classList.add('bg-gray-200');
-    grid.classList.remove('bg-gray-200');
-}
-);
+list.addEventListener("click", () => {
+    view.classList.add("list");
+    view.classList.remove("grid");
+});
+
+category.forEach((item) => {
+    item.addEventListener("click", () => {
+        filterCategory.forEach((product) => {
+            if (product.classList.contains("filteredCategory" + item.id)) {
+                product.classList.remove("hidden");
+            } else product.classList.add("hidden");
+        });
+    });
+});

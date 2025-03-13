@@ -188,7 +188,7 @@ class ArticleModel
             return false;
         }
     }
-    
+
 
     /**
      * Récupère les produits associés à un article
@@ -296,7 +296,7 @@ class ArticleModel
         $stmt->bindParam(':articleId', $articleId, \PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $data;
     }
-
 }

@@ -38,9 +38,19 @@ class ArticleController
     {
         $articleModel = new ArticleModel();
         $types = ['diy'];
-        $articles = $articleModel->getArticles($types);
+        $articlesList = $articleModel->getArticles($types);
+        $articles = [];
+        foreach ($articlesList as $article) {
+            $articleArray = [];
+            $data = $articleModel->getCategoriesByArticleId($article->getArticleId());
+            $articleArray[] = $article;
+            $articleArray[] = $data;
+            $articles[] = $articleArray;
+        }
+        $categoriesModel = new CategoryModel();
+        $categories = $categoriesModel->getAllCategories();
         $view = new ArticleView();
-        $view->showDiy($articles);
+        $view->showDiy($articles, $categories);
     }
 
 
@@ -75,7 +85,7 @@ class ArticleController
             if ($articleId) {
                 // Association des produits à l'article
                 if (isset($_POST['selectedProducts'])) {
-                    $productIds = json_decode($_POST['selectedProducts'],true);
+                    $productIds = json_decode($_POST['selectedProducts'], true);
                     $this->articleModel->associateProductsToArticle($articleId, $productIds);
                 }
                 Utils::sendResponse('success', 'Article créé avec succès', $article);
@@ -111,7 +121,7 @@ class ArticleController
         if ($this->articleModel->updateArticle($article)) {
             //Mise à jour des produits associés
             if (isset($_POST['selectedProducts'])) {
-                $productIds = json_decode($_POST['selectedProducts'],true);
+                $productIds = json_decode($_POST['selectedProducts'], true);
                 $this->articleModel->updateAssociationProductsToArticle($this->articleId, $productIds);
             }
             Utils::sendResponse('success', "Article mis à jour avec succès", $article);
