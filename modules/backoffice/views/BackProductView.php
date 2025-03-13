@@ -263,6 +263,10 @@ class BackProductView extends View {
                                         <p class="pl-1">ou glisser-déposer</p>
                                     </div>
                                     <p class="text-xs text-gray-500">PNG, JPG, GIF jusqu'à 10MB</p>
+                                    <!-- Ajout du conteneur de prévisualisation -->
+                                    <div id="add-image-preview-container" class="flex flex-wrap gap-4 mt-4 p-4 border border-gray-200 rounded-md hidden">
+                                        <!-- Les prévisualisations des images sélectionnées seront ajoutées ici -->
+                                    </div>
                                 </div>
                             </div>
                         </div>

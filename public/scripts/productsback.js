@@ -242,5 +242,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
+  // Gestion de la prévisualisation des images pour la modal d'ajout
+  const addImagesInput = document.getElementById('add-images');
+  if (addImagesInput) {
+    addImagesInput.addEventListener('change', function() {
+      const previewContainer = document.getElementById('add-image-preview-container');
+      if (!previewContainer) {
+        console.error("Le conteneur de prévisualisation n'existe pas");
+        return;
+      }
+      
+      // Vider le conteneur
+      previewContainer.innerHTML = '';
+      
+      // Vérifier si des fichiers ont été sélectionnés
+      if (this.files && this.files.length > 0) {
+        previewContainer.classList.remove('hidden');
+        
+        // Afficher chaque image sélectionnée
+        Array.from(this.files).forEach(file => {
+          if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const div = document.createElement('div');
+              div.className = 'relative group';
+              
+              div.innerHTML = `
+                <div class="relative overflow-hidden rounded-md">
+                  <img src="${e.target.result}" alt="Prévisualisation" class="h-24 w-24 object-cover rounded-md border border-gray-200 transition-transform duration-300 group-hover:scale-105" />
+                </div>
+              `;
+              
+              previewContainer.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      } else {
+        previewContainer.classList.add('hidden');
+      }
+    });
+  }
+  
+  document.getElementById('add-product-modal').addEventListener('change', function() {
+    if (this.checked) {
+      console.log("Modal d'ajout ouverte, fermeture des autres modals");
+      document.getElementById('edit-product-modal').checked = false;
+      document.getElementById('delete-product-modal').checked = false;
+    }
+  });
+  
   console.log("Configuration des écouteurs d'événements terminée!");
 });
