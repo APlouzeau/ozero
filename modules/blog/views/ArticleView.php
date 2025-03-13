@@ -261,7 +261,6 @@ class ArticleView
                     </div>
 
                     <!-- Grille de produits -->
-                    <!-- Grille de produits -->
                     <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <?php foreach ($articles as $articleData):
                             $article = $articleData[0]; // Get the article entity
