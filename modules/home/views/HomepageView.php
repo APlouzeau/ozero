@@ -24,7 +24,7 @@ class HomepageView extends View
                                     L'objectif est de limiter le gaspillage universel des ressources et de réduire la pollution. Cette démarche s'applique à des gestes simples comme acheter en vrac, utiliser des contenants réutilisables, etc.
                                     C'est une approche progressive et accessible à tous.
                                 </p>
-                                <a href="#" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
+                                <a href="/blog" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
                             </div>
                             <div class="absolute top-6 right-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
@@ -49,7 +49,7 @@ class HomepageView extends View
                                 <p class="text-sm md:text-base mb-4 font-supreme">
                                     Cette démarche encourage une consommation plus responsable, tout en permettant de réaliser des économies significatives. En fabriquant nos propres produits, nous transformons des matériaux existants en ne recourant qu'à des recettes spécifiques de manière personnalisée.
                                 </p>
-                                <a href="#" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
+                                <a href="/blog" class="text-primary font-semibold hover:underline font-supreme">Lire plus</a>
                             </div>
                             <div class="absolute top-6 right-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="Black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
@@ -107,10 +107,10 @@ class HomepageView extends View
                     $startIndex = $productNumber;
                     $remainingProducts = count($products) - $startIndex;
                     $promoCount = min($remainingProducts, 4);
-                    
+
                     // Promotions en dur
                     $promotions = [15, 20, 25, 30];
-                    
+
                     for ($i = 0; $i < $promoCount; $i++) {
                         $productIndex = $startIndex + $i;
                         if ($productIndex < count($products)) {
@@ -119,34 +119,34 @@ class HomepageView extends View
                             $originalPrice = $product->getPrice();
                             $promoPrice = $originalPrice * (1 - $promotion / 100);
                     ?>
-                        <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950 relative group">
-                            <a href="/produit/<?= $product->getProductId() ?>">
-                                <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="object-cover w-full h-full">
-                                <!-- Badge promotion -->
-                                <div class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-bold">
-                                    -<?= $promotion ?>%
-                                </div>
-                                <!-- Overlay avec les détails du produit -->
-                                <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <h3 class="font-semibold text-sm md:text-base font-supreme truncate text-white"><?= $product->getProduct() ?></h3>
-                                    <p class="text-xs md:text-sm font-supreme line-clamp-2 my-1 text-white"><?= $product->getDescription() ?></p>
-                                    <div class="flex items-center gap-2">
-                                        <p class="text-sm font-supreme line-through text-white opacity-70"><?= number_format($originalPrice, 2) ?> €</p>
-                                        <p class="font-bold text-sm md:text-base font-supreme text-red-600"><?= number_format($promoPrice, 2) ?> €</p>
+                            <div class="overflow-hidden border h-40 border-gray-200 rounded-lg shadow-lg shadow-black-950 relative group">
+                                <a href="/produit/<?= $product->getProductId() ?>">
+                                    <img src="<?= $product->getImages()[0] ?>" alt="<?= $product->getProduct() ?>" class="object-cover w-full h-full">
+                                    <!-- Badge promotion -->
+                                    <div class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full font-bold">
+                                        -<?= $promotion ?>%
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    <?php
+                                    <!-- Overlay avec les détails du produit -->
+                                    <div class="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <h3 class="font-semibold text-sm md:text-base font-supreme truncate text-white"><?= $product->getProduct() ?></h3>
+                                        <p class="text-xs md:text-sm font-supreme line-clamp-2 my-1 text-white"><?= $product->getDescription() ?></p>
+                                        <div class="flex items-center gap-2">
+                                            <p class="text-sm font-supreme line-through text-white opacity-70"><?= number_format($originalPrice, 2) ?> €</p>
+                                            <p class="font-bold text-sm md:text-base font-supreme text-red-600"><?= number_format($promoPrice, 2) ?> €</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php
                         }
                     }
-                    
+
                     // Si on n'a pas assez de produits, on affiche des placeholders
                     for ($i = $promoCount; $i < 4; $i++) {
                         $randomPromo = rand(10, 50);
                         $originalPrice = rand(15, 50);
                         $promoPrice = $originalPrice * (1 - $randomPromo / 100);
-                    ?>
+                        ?>
                         <div class="bg-white rounded-lg shadow-lg shadow-black-950 overflow-hidden relative group">
                             <div class="h-40 bg-gray-200 flex items-center justify-center">
                                 <!-- Image placeholder -->
